@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>fLINK | Frontend Developer Portfolio</title>
+<!-- Google Fonts: Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<!-- Tailwind CSS v3 with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script data-purpose="tailwind-config">
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            crimson: {
+              50: '#fff1f2',
+              100: '#ffe4e6',
+              500: '#f43f5e',
+              600: '#e11d48',
+              700: '#be123c',
+              800: '#9f1239',
+              900: '#881337',
+              950: '#4c0519',
+            },
+            darkBg: '#0b0406',
+            panelBg: '#16080b',
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Styles: Radial Backgrounds and Animations -->
+<style data-purpose="theme-layout">
+    body {
+      background-color: #0b0406;
+      color: #f3f4f6;
+      overflow-x: hidden;
+    }
+    
+    .hero-glow-bg {
+      background: radial-gradient(circle at 50% 30%, rgba(225, 29, 72, 0.18) 0%, rgba(11, 4, 6, 0) 70%),
+                  radial-gradient(circle at 85% 80%, rgba(190, 18, 60, 0.12) 0%, rgba(11, 4, 6, 0) 60%);
+    }
+
+    .concentric-ring-1 {
+      box-shadow: 0 0 0 2px rgba(225, 29, 72, 0.25), 0 0 35px rgba(225, 29, 72, 0.2);
+    }
+    .concentric-ring-2 {
+      box-shadow: 0 0 0 1px rgba(225, 29, 72, 0.15);
+    }
+
+    /* Circular SVG Gauges */
+    .gauge-circle {
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1s ease-in-out;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+    }
+  </style>
+<!-- Custom Scrollbar -->
+<style data-purpose="scrollbar">
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b0406;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #3b0e17;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #e11d48;
+    }
+  </style>
+</head>
+<body class="hero-glow-bg antialiased selection:bg-rose-600 selection:text-white pb-32">
+<!-- BEGIN: SiteHeader -->
+<header class="w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between" data-purpose="main-header">
+<a class="flex items-center gap-3 group" href="#home">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-rose-600 to-red-500 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-rose-600/30 group-hover:scale-105 transition-transform duration-300">
+        f
+      </div>
+<div class="flex flex-col">
+<span class="font-bold text-lg tracking-wider text-white">fLINK<span class="text-rose-500">.dev</span></span>
+<span class="text-[10px] text-zinc-400 -mt-1 uppercase tracking-widest">Charlotte Edition</span>
+</div>
+</a>
+<div class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-300">
+<a class="hover:text-rose-400 transition-colors" href="#home">Home</a>
+<a class="hover:text-rose-400 transition-colors" href="#about">About</a>
+<a class="hover:text-rose-400 transition-colors" href="#skills">Skills</a>
+<a class="hover:text-rose-400 transition-colors" href="#certificates">Certifications</a>
+<a class="hover:text-rose-400 transition-colors" href="#projects">Projects</a>
+<a class="hover:text-rose-400 transition-colors" href="#contact">Contact</a>
+</div>
+<div class="flex items-center gap-3">
+<a class="px-5 py-2 rounded-full text-xs font-semibold bg-rose-600/10 text-rose-400 border border-rose-600/30 hover:bg-rose-600 hover:text-white transition-all duration-300" href="#contact">
+        Get In Touch
+      </a>
+</div>
+</header>
+<!-- END: SiteHeader -->
+<!-- BEGIN: MainContent -->
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-28 mt-4">
+<!-- BEGIN: HeroSection -->
+<section class="pt-8 md:pt-16 pb-12" data-purpose="hero-section" id="home">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<!-- Hero Visual / 3D Avatar with Red Concentric Rings -->
+<div class="lg:col-span-5 flex justify-center order-2 lg:order-1">
+<div class="relative w-72 h-72 sm:w-88 sm:h-88 md:w-96 md:h-96 flex items-center justify-center">
+<!-- Concentric Outer Ring -->
+<div class="absolute inset-0 rounded-full concentric-ring-2 scale-110 pointer-events-none"></div>
+<!-- Concentric Inner Ring with Glow -->
+<div class="absolute inset-3 rounded-full concentric-ring-1 pointer-events-none"></div>
+<!-- Avatar Frame -->
+<div class="relative w-64 h-64 sm:w-80 sm:h-80 rounded-full bg-gradient-to-b from-[#240c12] to-[#120407] border border-rose-500/20 overflow-hidden shadow-2xl flex items-center justify-center p-2">
+<img alt="Charlotte - fLINK 3D Developer Avatar" class="w-full h-full object-cover rounded-full transform hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCK2zBBCXbK85Nz29lofSJ6Qvmbgcrga1igfxQ9lwGsZqgnIRuan7YNy_dereWT0PFYDyjUK6gB7MMSYUqPuaNTs8i_7aOf2kdEHDT-9Kj-2Dqs0MwMrV86bB6rTtxn2Z6mivFZKUAbt6hZcrIA64DHzJv0izvv0AH6yBoy2Av3uTVYfMIolj9I--OMkWnJu6ORuNAwZZK2iVVeDvfaB5L1A_ApBmaR49bMNflukwBZ-3Y31bmkQEBJnQ"/>
+</div>
+<!-- Small floating status badge -->
+<div class="absolute bottom-2 bg-[#1b080d]/90 backdrop-blur-md border border-rose-500/30 px-4 py-1.5 rounded-full text-xs font-medium text-rose-300 flex items-center gap-2 shadow-lg">
+<span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+<span>Online &amp; Coding</span>
+</div>
+</div>
+</div>
+<!-- Hero Content / Introduction -->
+<div class="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left order-1 lg:order-2 space-y-5">
+<!-- Availability Tag -->
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-950/40 border border-rose-800/40 text-rose-300 text-xs tracking-wide">
+<span class="w-2 h-2 rounded-full bg-rose-500"></span>
+<span>Available for work</span>
+</div>
+<!-- Main Title -->
+<div class="space-y-1">
+<h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
+              Hi, I'm <span class="bg-gradient-to-r from-rose-400 via-rose-500 to-red-600 bg-clip-text text-transparent">Charlotte</span>
+</h1>
+<p class="text-lg md:text-xl font-mono font-medium text-rose-400/90 pt-1">
+              &lt;Frontend Developer /&gt;
+            </p>
+</div>
+<!-- Bio -->
+<p class="text-zinc-300 max-w-xl text-base sm:text-lg leading-relaxed font-normal">
+            I craft beautiful and responsive web experiences with modern technologies. Turning complex technical challenges into pixel-perfect, highly scalable interfaces.
+          </p>
+<!-- Quick Stats Bar -->
+<div class="flex items-center gap-8 py-2 text-zinc-300 border-y border-rose-900/20 w-full max-w-md justify-center lg:justify-start">
+<div>
+<div class="text-2xl font-bold text-white">2+</div>
+<div class="text-xs text-zinc-400 uppercase tracking-wider">Years Experience</div>
+</div>
+<div class="w-px h-8 bg-rose-900/40"></div>
+<div>
+<div class="text-2xl font-bold text-white">15+</div>
+<div class="text-xs text-zinc-400 uppercase tracking-wider">Projects Done</div>
+</div>
+<div class="w-px h-8 bg-rose-900/40"></div>
+<div>
+<div class="text-2xl font-bold text-white">10+</div>
+<div class="text-xs text-zinc-400 uppercase tracking-wider">Happy Clients</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+<a class="px-8 py-3 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-rose-600/30 flex items-center gap-2 transform hover:-translate-y-0.5" href="#contact">
+<i class="fa-solid fa-download"></i>
+<span>Download CV</span>
+</a>
+<a class="px-8 py-3 rounded-full bg-transparent border border-rose-500/60 hover:border-rose-500 hover:bg-rose-500/10 text-rose-200 font-semibold text-sm transition-all duration-300 flex items-center gap-2 transform hover:-translate-y-0.5" href="#contact">
+<i class="fa-regular fa-envelope"></i>
+<span>Hire Me</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- END: HeroSection -->
+<!-- BEGIN: AboutMeSection -->
+<section class="py-12 border-t border-rose-950/50" data-purpose="about-section" id="about">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<!-- Left Column: Details & Socials -->
+<div class="lg:col-span-7 space-y-6">
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-950/40 border border-rose-800/40 text-rose-300 text-xs font-semibold tracking-wider">
+<span class="w-2 h-2 rounded-full bg-rose-500"></span>
+<span>ABOUT ME</span>
+</div>
+<h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight">
+            Turning Ideas Into <br/>
+<span class="bg-gradient-to-r from-rose-400 to-red-500 bg-clip-text text-transparent">Digital Reality</span>
+</h2>
+<p class="text-zinc-300 text-base sm:text-lg leading-relaxed">
+            I'm a passionate Frontend Developer dedicated to creating exceptional digital experiences. With a keen eye for design and a love for clean code, I transform complex problems into elegant, user-friendly solutions.
+          </p>
+<!-- Social Icon Links -->
+<div class="flex items-center gap-3 pt-2">
+<a class="w-11 h-11 rounded-full bg-[#18080c] border border-rose-900/40 flex items-center justify-center text-zinc-300 hover:text-white hover:border-rose-500 hover:bg-rose-600/20 transition-all duration-300" href="https://instagram.com" rel="noreferrer" target="_blank">
+<i class="fa-brands fa-instagram"></i>
+</a>
+<a class="w-11 h-11 rounded-full bg-[#18080c] border border-rose-900/40 flex items-center justify-center text-zinc-300 hover:text-white hover:border-rose-500 hover:bg-rose-600/20 transition-all duration-300" href="https://tiktok.com" rel="noreferrer" target="_blank">
+<i class="fa-brands fa-tiktok"></i>
+</a>
+<a class="w-11 h-11 rounded-full bg-[#18080c] border border-rose-900/40 flex items-center justify-center text-zinc-300 hover:text-white hover:border-rose-500 hover:bg-rose-600/20 transition-all duration-300" href="https://github.com" rel="noreferrer" target="_blank">
+<i class="fa-brands fa-github"></i>
+</a>
+<a class="w-11 h-11 rounded-full bg-[#18080c] border border-rose-900/40 flex items-center justify-center text-zinc-300 hover:text-white hover:border-rose-500 hover:bg-rose-600/20 transition-all duration-300" href="https://youtube.com" rel="noreferrer" target="_blank">
+<i class="fa-brands fa-youtube"></i>
+</a>
+</div>
+<!-- CTA Button -->
+<div class="pt-3">
+<a class="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-medium text-sm transition-all duration-300 shadow-md shadow-rose-600/20 group" href="#contact">
+<span>Let's Talk</span>
+<i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+</a>
+</div>
+</div>
+<!-- Right Column: Blob Graphic Image -->
+<div class="lg:col-span-5 flex justify-center">
+<div class="relative w-full max-w-md aspect-square rounded-[2.5rem] bg-gradient-to-tr from-rose-900/40 via-red-900/20 to-transparent p-3 border border-rose-800/30 overflow-hidden shadow-2xl flex items-center justify-center">
+<img alt="Charlotte with laptop turning ideas into reality" class="w-full h-full object-cover rounded-3xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhmgsw9GTwXS4M6iE7VACyrhyC7x8CXipBeJFw0Vl-hlrhBrNlmwByT3Ija756zusR8eur7HQh1pq70cMkPA3848fpSBAyxZtqZzh8gGJUrc9EBSQ8rmW_JBSpi0wZXCnev8z6apZilXrdh6VFN6nZQnPXNbavGYmEMkj7Myv9ZOwPV5XlMkaP4wpFU4bSCsJrAzCNy-cDh5Qu6I291iXwToHww7RdOmXBMAYGTdt0FKusNkMIPllZSA"/>
+</div>
+</div>
+</div>
+</section>
+<!-- END: AboutMeSection -->
+<!-- BEGIN: SkillsSection -->
+<section class="py-12 border-t border-rose-950/50 text-center" data-purpose="skills-section" id="skills">
+<!-- Section Tag & Heading -->
+<div class="space-y-3 max-w-2xl mx-auto mb-16">
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-950/40 border border-rose-800/40 text-rose-300 text-xs font-semibold tracking-wider">
+<span class="w-2 h-2 rounded-full bg-rose-500"></span>
+<span>EXPERTISE</span>
+</div>
+<h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white">
+          My <span class="bg-gradient-to-r from-rose-400 to-red-500 bg-clip-text text-transparent">Skills</span>
+</h2>
+<p class="text-zinc-400 text-sm sm:text-base">
+          Technologies and tools I work with to build amazing digital experiences
+        </p>
+</div>
+<!-- 4 Circular SVG Gauges -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
+<!-- Skill 1: React JS 90% -->
+<div class="flex flex-col items-center bg-[#15070a]/70 border border-rose-900/30 rounded-2xl p-6 transition-transform hover:-translate-y-1">
+<div class="relative w-28 h-28 flex items-center justify-center">
+<svg class="w-full h-full" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="40" stroke="#251015" stroke-width="8"></circle>
+<circle class="gauge-circle" cx="50" cy="50" fill="none" r="40" stroke="#00d8ff" stroke-dasharray="251.2" stroke-dashoffset="25.12" stroke-width="8"></circle>
+</svg>
+<span class="absolute text-xl font-extrabold text-white">90%</span>
+</div>
+<span class="mt-4 font-semibold text-white tracking-wide text-base">React JS</span>
+</div>
+<!-- Skill 2: Tailwind CSS 85% -->
+<div class="flex flex-col items-center bg-[#15070a]/70 border border-rose-900/30 rounded-2xl p-6 transition-transform hover:-translate-y-1">
+<div class="relative w-28 h-28 flex items-center justify-center">
+<svg class="w-full h-full" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="40" stroke="#251015" stroke-width="8"></circle>
+<circle class="gauge-circle" cx="50" cy="50" fill="none" r="40" stroke="#38bdf8" stroke-dasharray="251.2" stroke-dashoffset="37.68" stroke-width="8"></circle>
+</svg>
+<span class="absolute text-xl font-extrabold text-white">85%</span>
+</div>
+<span class="mt-4 font-semibold text-white tracking-wide text-base">Tailwind CSS</span>
+</div>
+<!-- Skill 3: Vue JS 75% -->
+<div class="flex flex-col items-center bg-[#15070a]/70 border border-rose-900/30 rounded-2xl p-6 transition-transform hover:-translate-y-1">
+<div class="relative w-28 h-28 flex items-center justify-center">
+<svg class="w-full h-full" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="40" stroke="#251015" stroke-width="8"></circle>
+<circle class="gauge-circle" cx="50" cy="50" fill="none" r="40" stroke="#10b981" stroke-dasharray="251.2" stroke-dashoffset="62.8" stroke-width="8"></circle>
+</svg>
+<span class="absolute text-xl font-extrabold text-white">75%</span>
+</div>
+<span class="mt-4 font-semibold text-white tracking-wide text-base">Vue JS</span>
+</div>
+<!-- Skill 4: JavaScript 88% -->
+<div class="flex flex-col items-center bg-[#15070a]/70 border border-rose-900/30 rounded-2xl p-6 transition-transform hover:-translate-y-1">
+<div class="relative w-28 h-28 flex items-center justify-center">
+<svg class="w-full h-full" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="40" stroke="#251015" stroke-width="8"></circle>
+<circle class="gauge-circle" cx="50" cy="50" fill="none" r="40" stroke="#facc15" stroke-dasharray="251.2" stroke-dashoffset="30.14" stroke-width="8"></circle>
+</svg>
+<span class="absolute text-xl font-extrabold text-white">88%</span>
+</div>
+<span class="mt-4 font-semibold text-white tracking-wide text-base">JavaScript</span>
+</div>
+</div>
+<!-- Pill Chips for Secondary Stack -->
+<div class="flex flex-wrap items-center justify-center gap-2.5 max-w-3xl mx-auto mt-10">
+<span class="px-4 py-1.5 rounded-full text-xs font-medium bg-[#1e0a0f] text-rose-300 border border-rose-900/40">Laravel &amp; PHP</span>
+<span class="px-4 py-1.5 rounded-full text-xs font-medium bg-[#1e0a0f] text-rose-300 border border-rose-900/40">Flutter &amp; Dart</span>
+<span class="px-4 py-1.5 rounded-full text-xs font-medium bg-[#1e0a0f] text-rose-300 border border-rose-900/40">MySQL / PostgreSQL</span>
+<span class="px-4 py-1.5 rounded-full text-xs font-medium bg-[#1e0a0f] text-rose-300 border border-rose-900/40">RESTful APIs</span>
+<span class="px-4 py-1.5 rounded-full text-xs font-medium bg-[#1e0a0f] text-rose-300 border border-rose-900/40">Figma UI/UX</span>
+<span class="px-4 py-1.5 rounded-full text-xs font-medium bg-[#1e0a0f] text-rose-300 border border-rose-900/40">Git &amp; GitHub Actions</span>
+</div>
+</section>
+<!-- END: SkillsSection -->
+<!-- BEGIN: CertificatesSection -->
+<section class="py-12 border-t border-rose-950/50" data-purpose="certificates-section" id="certificates">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<!-- Left Column: Graduation Character / Image -->
+<div class="lg:col-span-5 flex justify-center">
+<div class="relative w-72 h-72 sm:w-88 sm:h-88 rounded-full bg-gradient-to-tr from-rose-950/60 to-black p-2 border border-rose-900/40 concentric-ring-1 flex items-center justify-center">
+<img alt="Certificates Showcase Charlotte" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDs-HaO5R860iSqsj2siJdo__yn9FrPO_AsW0zH0bpk3ojVowiqpkELiTSHhQ_kn9wykxO7PbcFKzh81vhfV6gp_Y-hVpZIrErKyVqVpHt_3D7LJvx8TtgNhZlfPf55GFjW-bY2yjXDbbrvG_LQc-ON9B3pQGJ1a2A054mH83kjY-doiyDHaPynedDyCEyuYmMmVAknXrAMPBAM0fIVvH82o5_1a_Qw3a5AUuDOI2xc87itAMng5lIEnA"/>
+</div>
+</div>
+<!-- Right Column: Certification List -->
+<div class="lg:col-span-7 space-y-6">
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-950/40 border border-rose-800/40 text-rose-300 text-xs font-semibold tracking-wider">
+<span class="w-2 h-2 rounded-full bg-rose-500"></span>
+<span>CERTIFICATIONS</span>
+</div>
+<h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight">
+            My <span class="bg-gradient-to-r from-rose-400 to-red-500 bg-clip-text text-transparent">Certificates</span>
+</h2>
+<!-- Certificate Items Stack -->
+<div class="space-y-4 pt-2">
+<!-- Certificate 1 -->
+<div class="p-4 rounded-xl bg-[#17080b]/80 border border-rose-900/30 flex items-center justify-between hover:border-rose-600/50 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-rose-950/60 text-rose-500 flex items-center justify-center text-lg">
+<i class="fa-solid fa-ribbon"></i>
+</div>
+<div>
+<h4 class="font-bold text-white text-base">Frontend Development</h4>
+<p class="text-xs text-zinc-400">Meta Professional Program</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-xs text-zinc-400 flex items-center gap-1 justify-end"><i class="fa-regular fa-calendar"></i> 2024</span>
+<span class="text-xs font-semibold text-emerald-400 flex items-center gap-1 mt-0.5">Verify <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></span>
+</div>
+</div>
+<!-- Certificate 2 -->
+<div class="p-4 rounded-xl bg-[#17080b]/80 border border-rose-900/30 flex items-center justify-between hover:border-rose-600/50 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-rose-950/60 text-rose-500 flex items-center justify-center text-lg">
+<i class="fa-solid fa-ribbon"></i>
+</div>
+<div>
+<h4 class="font-bold text-white text-base">React Advanced &amp; Architecture</h4>
+<p class="text-xs text-zinc-400">Google Developer Certification</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-xs text-zinc-400 flex items-center gap-1 justify-end"><i class="fa-regular fa-calendar"></i> 2023</span>
+<span class="text-xs font-semibold text-emerald-400 flex items-center gap-1 mt-0.5">Verify <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></span>
+</div>
+</div>
+<!-- Certificate 3 -->
+<div class="p-4 rounded-xl bg-[#17080b]/80 border border-rose-900/30 flex items-center justify-between hover:border-rose-600/50 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-rose-950/60 text-rose-500 flex items-center justify-center text-lg">
+<i class="fa-solid fa-ribbon"></i>
+</div>
+<div>
+<h4 class="font-bold text-white text-base">UI/UX Design Specialist</h4>
+<p class="text-xs text-zinc-400">Adobe Creative Suite</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-xs text-zinc-400 flex items-center gap-1 justify-end"><i class="fa-regular fa-calendar"></i> 2023</span>
+<span class="text-xs font-semibold text-emerald-400 flex items-center gap-1 mt-0.5">Verify <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></span>
+</div>
+</div>
+<!-- Certificate 4 -->
+<div class="p-4 rounded-xl bg-[#17080b]/80 border border-rose-900/30 flex items-center justify-between hover:border-rose-600/50 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-rose-950/60 text-rose-500 flex items-center justify-center text-lg">
+<i class="fa-solid fa-ribbon"></i>
+</div>
+<div>
+<h4 class="font-bold text-white text-base">JavaScript Mastery</h4>
+<p class="text-xs text-zinc-400">Microsoft Academy</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-xs text-zinc-400 flex items-center gap-1 justify-end"><i class="fa-regular fa-calendar"></i> 2022</span>
+<span class="text-xs font-semibold text-emerald-400 flex items-center gap-1 mt-0.5">Verify <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: CertificatesSection -->
+<!-- BEGIN: ProjectsSection -->
+<section class="py-12 border-t border-rose-950/50" data-purpose="projects-showcase" id="projects">
+<!-- Section Header with carousel arrows -->
+<div class="flex items-center justify-between mb-10">
+<div>
+<h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white">
+            My Creative <span class="bg-gradient-to-r from-rose-400 to-red-500 bg-clip-text text-transparent">Projects</span>
+</h2>
+<p class="text-zinc-400 text-sm mt-1">Highlighted work crafted with attention to performance &amp; design</p>
+</div>
+<div class="flex items-center gap-3">
+<button aria-label="Previous Projects" class="w-10 h-10 rounded-full border border-rose-800/40 bg-[#16080b] flex items-center justify-center text-zinc-300 hover:text-white hover:border-rose-500 transition-colors">
+<i class="fa-solid fa-chevron-left text-xs"></i>
+</button>
+<button aria-label="Next Projects" class="w-10 h-10 rounded-full border border-rose-800/40 bg-[#16080b] flex items-center justify-center text-zinc-300 hover:text-white hover:border-rose-500 transition-colors">
+<i class="fa-solid fa-chevron-right text-xs"></i>
+</button>
+</div>
+</div>
+<!-- Project Showcase Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Project Card 1 -->
+<div class="bg-[#15070a]/90 border border-rose-900/30 rounded-2xl overflow-hidden group hover:border-rose-600/50 transition-all duration-300 flex flex-col justify-between">
+<div>
+<div class="h-48 overflow-hidden bg-black/50 relative">
+<img alt="3D Portfolio Website" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpNQO6-9JwaXPggIP-hXRJFKc15qhn8FfVqKjn2Vb1QLEcPuNxmC5YaFjGOyTupTdts6a0KWmbGcT3i_Jq_WN11ngEwk6Q5nQ5KltO6DZ7rywW7UWj4nvczWSwpFIt4kOn-2HML-tTIiis1SME5Si6QfhCtKRFod0W_01FuwmCN29hzzEgmtWSm2U_SPfA1gqvpBs-3JDXzs_4U84SdGFh7r27nCd_x1k5PfIrfYTdLfnN8fC1sk3l_g"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#15070a] to-transparent opacity-60"></div>
+</div>
+<div class="p-6 space-y-3">
+<h3 class="text-xl font-bold text-white group-hover:text-rose-400 transition-colors">3D Portfolio Website</h3>
+<p class="text-zinc-400 text-sm leading-relaxed line-clamp-2">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Smooth interaction, dark crimson theme.
+              </p>
+<!-- Badges -->
+<div class="flex flex-wrap gap-2 pt-1">
+<span class="px-2.5 py-1 rounded-md text-[11px] font-medium bg-rose-950/60 text-rose-300 border border-rose-900/40">React</span>
+<span class="px-2.5 py-1 rounded-md text-[11px] font-medium bg-rose-950/60 text-rose-300 border border-rose-900/40">Tailwind CSS</span>
+<span class="px-2.5 py-1 rounded-md text-[11px] font-medium bg-rose-950/60 text-rose-300 border border-rose-900/40">Framer Motion</span>
+</div>
+</div>
+</div>
+<div class="px-6 pb-6 pt-2 flex items-center gap-4 text-xs font-semibold text-zinc-300">
+<a class="flex items-center gap-1.5 hover:text-rose-400 transition-colors" href="#">
+<i class="fa-brands fa-github"></i> Code
+            </a>
+<a class="flex items-center gap-1.5 hover:text-rose-400 transition-colors" href="#">
+<i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo
+            </a>
+</div>
+</div>
+<!-- Project Card 2 -->
+<div class="bg-[#15070a]/90 border border-rose-900/30 rounded-2xl overflow-hidden group hover:border-rose-600/50 transition-all duration-300 flex flex-col justify-between">
+<div>
+<div class="h-48 overflow-hidden bg-black/50 relative">
+<img alt="Light &amp; Dark System Portal" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCnmtFzmB8D_UOzXlZKGFhCKJ28-TJgv2pLigxE-iVUfltOQUbXgj5a7bHxWN3vECGCE_wGiNAXA6b57egQP7_fSE0xfCvoHxBI09J4JiycDaD9uU90S8T7VXTLYrkxfCDf1Da96qoOFxEyVGRAN4Z9aJBNNnQ_Q3N2KqK3BuZY_hygsXJTToNeZFROnLV3-9Hii_zHjl40rzTNy5TcUx1OY_fwLi1zRinJBepMVHTaJtVR5hIXfCp7Q"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#15070a] to-transparent opacity-60"></div>
+</div>
+<div class="p-6 space-y-3">
+<h3 class="text-xl font-bold text-white group-hover:text-rose-400 transition-colors">Dark/Light Mode Hub</h3>
+<p class="text-zinc-400 text-sm leading-relaxed line-clamp-2">
+                Responsive dashboard system with adaptive theme switching and dynamic user configurations.
+              </p>
+<!-- Badges -->
+<div class="flex flex-wrap gap-2 pt-1">
+<span class="px-2.5 py-1 rounded-md text-[11px] font-medium bg-rose-950/60 text-rose-300 border border-rose-900/40">Vue JS</span>
+<span class="px-2.5 py-1 rounded-md text-[11px] font-medium bg-rose-950/60 text-rose-300 border border-rose-900/40">Tailwind CSS</span>
+<span class="px-2.5 py-1 rounded-md text-[11px] font-medium bg-rose-950/60 text-rose-300 border border-rose-900/40">Pinia</span>
+</div>
+</div>
+</div>
+<div class="px-6 pb-6 pt-2 flex items-center gap-4 text-xs font-semibold text-zinc-300">
+<a class="flex items-center gap-1.5 hover:text-rose-400 transition-colors" href="#">
+<i class="fa-brands fa-github"></i> Code
+            </a>
+<a class="flex items-center gap-1.5 hover:text-rose-400 transition-colors" href="#">
+<i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo
+            </a>
+</div>
+</div>
+<!-- Project Card 3 -->
+<div class="bg-[#15070a]/90 border border-rose-900/30 rounded-2xl overflow-hidden group hover:border-rose-600/50 transition-all duration-300 flex flex-col justify-between">
+<div>
+<div class="h-48 overflow-hidden bg-black/50 relative">
+<img alt="Full Stack Enterprise App" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbSzg-H6ZsEBT9vWAljM-SVYfO6cT93Vm10V59xdneEtrT9q-19oPoLZpS1LOGpkjGBg5985IksehvkTYgx1_zUXkz-ixcuvmYOrzFv1wFLy3_eL3g5pELDHy7BNqeo4zASJFBKNakT3LSckYt6l_JxoWB9k0eInu0XX8PdMPqqjgpNdk90IEgv43iOkO53VGOdTcIvrVJPVn8xnle9Z-fGBNvU3FUDvTpItU99COCaTVzP380kZXk9A"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#15070a] to-transparent opacity-60"></div>
+</div>
+<div class="p-6 space-y-3">
+<h3 class="text-xl font-bold text-white group-hover:text-rose-400 transition-colors">Enterprise Portal Suite</h3>
+<p class="text-zinc-400 text-sm leading-relaxed line-clamp-2">
+                Scalable cloud platform for enterprise document verification and administrative workflow.
+              </p>
+<!-- Badges -->
+<div class="flex flex-wrap gap-2 pt-1">
+<span class="px-2.5 py-1 rounded-md text-[11px] font-medium bg-rose-950/60 text-rose-300 border border-rose-900/40">React</span>
+<span class="px-2.5 py-1 rounded-md text-[11px] font-medium bg-rose-950/60 text-rose-300 border border-rose-900/40">REST APIs</span>
+<span class="px-2.5 py-1 rounded-md text-[11px] font-medium bg-rose-950/60 text-rose-300 border border-rose-900/40">PostgreSQL</span>
+</div>
+</div>
+</div>
+<div class="px-6 pb-6 pt-2 flex items-center gap-4 text-xs font-semibold text-zinc-300">
+<a class="flex items-center gap-1.5 hover:text-rose-400 transition-colors" href="#">
+<i class="fa-brands fa-github"></i> Code
+            </a>
+<a class="flex items-center gap-1.5 hover:text-rose-400 transition-colors" href="#">
+<i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo
+            </a>
+</div>
+</div>
+</div>
+</section>
+<!-- END: ProjectsSection -->
+<!-- BEGIN: ContactSection -->
+<section class="py-12 border-t border-rose-950/50" data-purpose="contact-section" id="contact">
+<div class="text-center space-y-3 mb-12">
+<h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white">
+          Get In <span class="bg-gradient-to-r from-rose-400 to-red-500 bg-clip-text text-transparent">Touch</span>
+</h2>
+<p class="text-zinc-400 text-sm sm:text-base">Have a project in mind or want to collaborate? Feel free to reach out!</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center bg-[#140609]/80 border border-rose-900/30 rounded-3xl p-6 sm:p-10 shadow-2xl">
+<!-- Contact Form -->
+<div class="lg:col-span-7">
+<form class="space-y-5" onsubmit="event.preventDefault();">
+<div>
+<input class="w-full px-5 py-3.5 rounded-xl bg-[#0c0406] border border-rose-900/40 text-white placeholder-zinc-500 focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors" placeholder="Name" required="" type="text"/>
+</div>
+<div>
+<input class="w-full px-5 py-3.5 rounded-xl bg-[#0c0406] border border-rose-900/40 text-white placeholder-zinc-500 focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors" placeholder="Email" required="" type="email"/>
+</div>
+<div>
+<textarea class="w-full px-5 py-3.5 rounded-xl bg-[#0c0406] border border-rose-900/40 text-white placeholder-zinc-500 focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors resize-none" placeholder="Message" required="" rows="4"></textarea>
+</div>
+<button class="px-8 py-3.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-semibold text-sm transition-all duration-300 flex items-center gap-2 shadow-lg shadow-rose-600/30 group" type="submit">
+<i class="fa-solid fa-paper-plane group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform"></i>
+<span>Send Message</span>
+</button>
+</form>
+</div>
+<!-- Contact Visual Illustration -->
+<div class="lg:col-span-5 flex flex-col items-center justify-center relative">
+<div class="w-64 h-64 sm:w-72 sm:h-72 rounded-2xl overflow-hidden relative shadow-xl border border-rose-900/30">
+<img alt="Charlotte Contact Portrait" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCPIZ-98_HCoCxjjhUt-ykiLi7EJAbsA7A7haSjlQNsNPRXHL9PfgbFj6Z1RUnppSO63PaAl05ZNwHqwv5UHLc4vGKUDZzHot4TIK7fVFz7s_pf8Wz0IbNeJR-542szpL1kEPPD1t95e8p7VEbNjZ3Xb68QP4fcpJK9BRqWIRwYVw8Dmz1RIiTQI_3xgM8f41Wvo8grmJU4t8V2SGr0jKSJsvYvqa6C93lh2Z0SptghJh2PZGdk1DP-w"/>
+</div>
+<div class="text-center mt-4 space-y-1">
+<p class="text-white font-semibold text-sm">Direct Inquiries:</p>
+<p class="text-rose-400 text-xs font-mono">charlotte.flink@example.com</p>
+<p class="text-zinc-500 text-xs">Pekalongan, Central Java, Indonesia</p>
+</div>
+</div>
+</div>
+</section>
+<!-- END: ContactSection -->
+</main>
+<!-- END: MainContent -->
+<!-- BEGIN: FloatingDockNavigationBar -->
+<!-- Bottom Fixed Navigation Pill Capsule styled exactly as shown in screenshot references -->
+<div class="fixed bottom-4 inset-x-0 z-50 flex justify-center px-4" data-purpose="bottom-floating-dock">
+<nav class="relative flex items-center justify-between px-5 py-2.5 bg-gradient-to-r from-red-600 via-rose-600 to-red-700 text-white rounded-full shadow-2xl shadow-rose-900/50 max-w-xl w-full border border-rose-400/30 backdrop-blur-md">
+<!-- Home Link -->
+<a class="flex flex-col items-center group text-center flex-1" href="#home">
+<i class="fa-solid fa-house text-sm group-hover:scale-110 transition-transform"></i>
+<span class="text-[10px] font-medium tracking-tight mt-0.5 text-white/90">Home</span>
+</a>
+<!-- About Link -->
+<a class="flex flex-col items-center group text-center flex-1" href="#about">
+<i class="fa-solid fa-user text-sm group-hover:scale-110 transition-transform"></i>
+<span class="text-[10px] font-medium tracking-tight mt-0.5 text-white/90">About</span>
+</a>
+<!-- Skills Link -->
+<a class="flex flex-col items-center group text-center flex-1" href="#skills">
+<i class="fa-solid fa-code text-sm group-hover:scale-110 transition-transform"></i>
+<span class="text-[10px] font-medium tracking-tight mt-0.5 text-white/90">Skills</span>
+</a>
+<!-- Carousel / Dots indicator -->
+<div class="hidden sm:flex items-center gap-1 px-1 text-white/60">
+<span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+</div>
+<!-- Certificates Link -->
+<a class="flex flex-col items-center group text-center flex-1" href="#certificates">
+<i class="fa-solid fa-certificate text-sm group-hover:scale-110 transition-transform"></i>
+<span class="text-[10px] font-medium tracking-tight mt-0.5 text-white/90">Certificates</span>
+</a>
+<!-- Projects Link -->
+<a class="flex flex-col items-center group text-center flex-1" href="#projects">
+<i class="fa-solid fa-diagram-project text-sm group-hover:scale-110 transition-transform"></i>
+<span class="text-[10px] font-medium tracking-tight mt-0.5 text-white/90">Projects</span>
+</a>
+<!-- Contact Link -->
+<a class="flex flex-col items-center group text-center flex-1" href="#contact">
+<i class="fa-solid fa-envelope text-sm group-hover:scale-110 transition-transform"></i>
+<span class="text-[10px] font-medium tracking-tight mt-0.5 text-white/90">Contact</span>
+</a>
+<!-- Theme Mode Toggle Bubble in dock -->
+<button aria-label="Toggle Theme Mode" class="w-7 h-7 ml-2 rounded-full bg-white text-rose-700 flex items-center justify-center text-xs shadow hover:rotate-45 transition-transform" id="themeToggleBtn" type="button">
+<i class="fa-solid fa-sun"></i>
+</button>
+</nav>
+</div>
+<!-- END: FloatingDockNavigationBar -->
+<!-- BEGIN: SiteFooter -->
+<footer class="text-center text-xs text-zinc-500 mt-20 pb-16 space-y-1" data-purpose="site-footer">
+<p>© 2025 Charlotte / fLINK. All rights reserved.</p>
+<p class="text-zinc-600">Built with Semantic HTML5, Tailwind CSS v3 &amp; Pure JavaScript.</p>
+</footer>
+<!-- END: SiteFooter -->
+<!-- Interactive JavaScript for Floating Dock & Mode Toggle -->
+<script data-purpose="event-handlers">
+    document.addEventListener('DOMContentLoaded', () => {
+      const themeToggleBtn = document.getElementById('themeToggleBtn');
+      if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+          const icon = themeToggleBtn.querySelector('i');
+          if (icon.classList.contains('fa-sun')) {
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+          } else {
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+          }
+        });
+      }
+    });
+  </script>
+</body></html>

@@ -1,26 +1,58 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0b0406;
+    --foreground: #f3f4f6;
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #0b0406;
+  color: #f3f4f6;
+  overflow-x: hidden;
+  font-family: var(--font-sans), sans-serif;
+}
+
+.hero-glow-bg {
+  background: radial-gradient(circle at 50% 30%, rgba(225, 29, 72, 0.18) 0%, rgba(11, 4, 6, 0) 70%),
+    radial-gradient(circle at 85% 80%, rgba(190, 18, 60, 0.12) 0%, rgba(11, 4, 6, 0) 60%);
+}
+
+.concentric-ring-1 {
+  box-shadow: 0 0 0 2px rgba(225, 29, 72, 0.25), 0 0 35px rgba(225, 29, 72, 0.2);
+}
+
+.concentric-ring-2 {
+  box-shadow: 0 0 0 1px rgba(225, 29, 72, 0.15);
+}
+
+/* Circular SVG Gauges */
+.gauge-circle {
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s ease-in-out;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b0406;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3b0e17;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #e11d48;
 }
