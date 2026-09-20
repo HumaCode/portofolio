@@ -11,21 +11,86 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  password      String
-  role          String    @default("ADMIN")
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id        String   @id
+  name      String?
+  email     String   @unique
+  password  String
+  role      String   @default("ADMIN")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model OtpCode {
-  id        String   @id @default(cuid())
+  id        String   @id
   email     String
   code      String
   expiresAt DateTime
   createdAt DateTime @default(now())
 
   @@index([email])
+}
+
+model ProjectCategory {
+  id          String    @id
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  projects    Project[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Project {
+  id          String           @id
+  title       String
+  description String           @db.Text
+  tags        Json             // Array tag string e.g. ["Laravel 11", "Livewire"]
+  imageUrl    String           @db.Text
+  codeUrl     String?          @db.Text
+  demoUrl     String?          @db.Text
+  isFeatured  Boolean          @default(false)
+  isInternal  Boolean          @default(false)
+  categoryId  String?
+  category    ProjectCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@index([categoryId])
+}
+
+model Skill {
+  id          String   @id
+  name        String
+  percentage  Int      @default(0)
+  category    String?  // e.g. "Frontend", "Backend", "Mobile", "Database"
+  color       String   // e.g. "from-rose-500 to-red-600"
+  strokeColor String   // e.g. "#f43f5e"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Certificate {
+  id         String   @id
+  title      String
+  issuer     String
+  year       String
+  verifyUrl  String?  @db.Text
+  isVerified Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model InboxMessage {
+  id            String   @id
+  senderName    String
+  senderCompany String?
+  email         String
+  subject       String
+  message       String   @db.Text
+  timeAgo       String?
+  isRead        Boolean  @default(false)
+  initials      String
+  accentColor   String?  @default("crimson") // "crimson" | "cyan" | "emerald" | "neutral"
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
