@@ -38,27 +38,27 @@ export const CertificatesAndProjectsSection: React.FC = () => {
 
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                         {/* Cert Left Column: List */}
-                        <div className="lg:col-span-7 space-y-4">
+                        <div className="lg:col-span-7 space-y-2.5">
                             {certificates.map((cert: Certificate) => (
                                 <div
                                     key={cert.id}
-                                    className="bg-[#14060a]/80 border border-rose-900/30 hover:border-rose-500/50 rounded-2xl p-5 sm:p-6 transition-all shadow-lg flex items-start justify-between gap-4 group"
+                                    className="bg-[#14060a]/80 border border-rose-900/30 hover:border-rose-500/50 rounded-xl p-3.5 sm:p-4 transition-all shadow-lg flex items-center justify-between gap-3 group"
                                 >
-                                    <div className="flex items-start gap-4">
-                                        <div className="w-10 h-10 rounded-xl bg-rose-950/90 border border-rose-700/40 flex items-center justify-center text-rose-400 shrink-0 group-hover:scale-105 group-hover:bg-rose-900/50 transition-all">
-                                            <Award className="w-5 h-5" />
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-lg bg-rose-950/90 border border-rose-700/40 flex items-center justify-center text-rose-400 shrink-0 group-hover:scale-105 group-hover:bg-rose-900/50 transition-all">
+                                            <Award className="w-4 h-4" />
                                         </div>
                                         <div>
-                                            <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-rose-300 transition-colors">
+                                            <h3 className="text-sm sm:text-base font-bold text-white group-hover:text-rose-300 transition-colors">
                                                 {cert.title}
                                             </h3>
-                                            <p className="text-sm text-zinc-400 mt-0.5">{cert.issuer}</p>
-                                            <div className="flex items-center gap-2 mt-2 text-xs font-medium text-rose-400/90">
-                                                <span className="px-2 py-0.5 rounded bg-rose-950/60 border border-rose-900/40">
+                                            <p className="text-xs text-zinc-400">{cert.issuer}</p>
+                                            <div className="flex items-center gap-2 mt-1 text-[11px] font-medium text-rose-400/90">
+                                                <span className="px-1.5 py-0.2 rounded bg-rose-950/60 border border-rose-900/40">
                                                     {cert.year}
                                                 </span>
                                                 <span className="flex items-center gap-1 text-emerald-400">
-                                                    <CheckCircle className="w-3.5 h-3.5" /> Verified
+                                                    <CheckCircle className="w-3 h-3" /> Verified
                                                 </span>
                                             </div>
                                         </div>
@@ -66,10 +66,10 @@ export const CertificatesAndProjectsSection: React.FC = () => {
 
                                     <a
                                         href={cert.verifyUrl}
-                                        className="p-2 text-zinc-400 hover:text-white hover:bg-rose-950/80 rounded-lg transition-colors shrink-0"
+                                        className="p-1.5 text-zinc-400 hover:text-white hover:bg-rose-950/80 rounded-lg transition-colors shrink-0"
                                         aria-label={`Verify ${cert.title}`}
                                     >
-                                        <ExternalLink className="w-4 h-4" />
+                                        <ExternalLink className="w-3.5 h-3.5" />
                                     </a>
                                 </div>
                             ))}
@@ -77,18 +77,18 @@ export const CertificatesAndProjectsSection: React.FC = () => {
 
                         {/* Cert Right Column: Visual Persona Badge */}
                         <div className="lg:col-span-5 flex justify-center">
-                            <div className="relative group w-full max-w-sm rounded-3xl overflow-hidden border border-rose-800/40 shadow-2xl bg-[#1b070d]">
+                            <div className="relative group w-full max-w-xs rounded-2xl overflow-hidden border border-rose-800/40 shadow-2xl bg-[#1b070d]">
                                 <img
                                     src={profile.certImageUrl}
                                     alt="Charlotte Certifications"
-                                    className="w-full h-80 sm:h-96 object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                                    className="w-full h-64 sm:h-72 object-cover object-center group-hover:scale-105 transition-transform duration-500"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#0b0406] via-[#0b0406]/20 to-transparent"></div>
-                                <div className="absolute bottom-5 left-5 right-5 p-4 rounded-xl bg-[#0b0406]/85 backdrop-blur-md border border-rose-900/40">
-                                    <p className="text-xs uppercase font-mono tracking-wider text-rose-400 font-bold">
+                                <div className="absolute bottom-3 left-3 right-3 p-3 rounded-xl bg-[#0b0406]/85 backdrop-blur-md border border-rose-900/40">
+                                    <p className="text-[11px] uppercase font-mono tracking-wider text-rose-400 font-bold">
                                         Continuous Learning
                                     </p>
-                                    <p className="text-xs text-zinc-300 mt-1">
+                                    <p className="text-[11px] text-zinc-300 mt-0.5 leading-tight">
                                         Always keeping up with the evolving modern web ecosystem and best engineering standards.
                                     </p>
                                 </div>
@@ -141,7 +141,7 @@ export const CertificatesAndProjectsSection: React.FC = () => {
                                 className="group bg-[#14060a]/90 border border-rose-900/30 hover:border-rose-600/60 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-rose-950/40 transition-all flex flex-col"
                             >
                                 {/* Project Image Preview */}
-                                <div className="relative h-44 w-full overflow-hidden bg-zinc-900">
+                                <div className="relative h-36 w-full overflow-hidden bg-zinc-900">
                                     <img
                                         src={project.imageUrl}
                                         alt={project.title}
@@ -151,23 +151,23 @@ export const CertificatesAndProjectsSection: React.FC = () => {
                                 </div>
 
                                 {/* Project Body */}
-                                <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4">
+                                <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
                                     <div>
-                                        <h3 className="text-lg font-bold text-white group-hover:text-rose-400 transition-colors">
+                                        <h3 className="text-base font-bold text-white group-hover:text-rose-400 transition-colors">
                                             {project.title}
                                         </h3>
-                                        <p className="text-zinc-300 text-xs sm:text-sm mt-2 line-clamp-3 leading-relaxed">
+                                        <p className="text-zinc-300 text-xs mt-1.5 line-clamp-2 leading-relaxed">
                                             {project.description}
                                         </p>
                                     </div>
 
                                     <div>
                                         {/* Tags */}
-                                        <div className="flex flex-wrap gap-1.5 mb-4">
+                                        <div className="flex flex-wrap gap-1 mb-3">
                                             {project.tags.map((tag) => (
                                                 <span
                                                     key={tag}
-                                                    className="px-2.5 py-0.5 rounded-md bg-rose-950/60 border border-rose-800/40 text-[11px] font-medium text-rose-300"
+                                                    className="px-2 py-0.5 rounded-md bg-rose-950/60 border border-rose-800/40 text-[10px] font-medium text-rose-300"
                                                 >
                                                     {tag}
                                                 </span>
@@ -175,21 +175,21 @@ export const CertificatesAndProjectsSection: React.FC = () => {
                                         </div>
 
                                         {/* Action Links */}
-                                        <div className="flex items-center gap-3 pt-2 border-t border-rose-950/60">
+                                        <div className="flex items-center gap-2.5 pt-2 border-t border-rose-950/60">
                                             {project.demoUrl && (
                                                 <a
                                                     href={project.demoUrl}
-                                                    className="flex-1 text-center py-2 px-3 rounded-lg bg-rose-600/80 hover:bg-rose-600 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors"
+                                                    className="flex-1 text-center py-1.5 px-2.5 rounded-lg bg-rose-600/80 hover:bg-rose-600 text-white text-[11px] font-semibold flex items-center justify-center gap-1 transition-colors"
                                                 >
-                                                    <ExternalLink className="w-3.5 h-3.5" /> Demo
+                                                    <ExternalLink className="w-3 h-3" /> Demo
                                                 </a>
                                             )}
                                             {project.codeUrl && (
                                                 <a
                                                     href={project.codeUrl}
-                                                    className="flex-1 text-center py-2 px-3 rounded-lg bg-[#200a10] hover:bg-[#2e0e17] border border-rose-800/40 text-zinc-300 hover:text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors"
+                                                    className="flex-1 text-center py-1.5 px-2.5 rounded-lg bg-[#200a10] hover:bg-[#2e0e17] border border-rose-800/40 text-zinc-300 hover:text-white text-[11px] font-semibold flex items-center justify-center gap-1 transition-colors"
                                                 >
-                                                    <Code2 className="w-3.5 h-3.5" /> Source
+                                                    <Code2 className="w-3 h-3" /> Source
                                                 </a>
                                             )}
                                         </div>

@@ -82,23 +82,23 @@ export const AboutAndSkillsSection: React.FC = () => {
             {/* Skills Section */}
             <section
                 id="skills"
-                className="py-16 sm:py-20 border-b border-rose-950/40 relative scroll-mt-10"
+                className="py-12 sm:py-16 border-b border-rose-950/40 relative scroll-mt-10"
             >
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
-                    <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
+                    <div className="text-center max-w-2xl mx-auto mb-8 space-y-1.5">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-950/50 border border-rose-800/40 text-rose-400 text-xs font-semibold uppercase tracking-wider">
                             <Cpu className="w-3.5 h-3.5" />
                             <span>Core Specializations</span>
                         </div>
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
+                        <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
                             Technical Arsenal & Skills
                         </h2>
-                        <p className="text-zinc-400 text-sm sm:text-base">
+                        <p className="text-zinc-400 text-xs sm:text-sm">
                             Proficiency breakdown across frontend, backend, UI engineering, and modern stacks.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
                         {skillsGauges.map((skill: SkillGauge) => {
                             const radius = 42;
                             const circumference = 2 * Math.PI * radius;
@@ -107,9 +107,9 @@ export const AboutAndSkillsSection: React.FC = () => {
                             return (
                                 <div
                                     key={skill.name}
-                                    className="bg-[#14060a]/80 border border-rose-900/30 hover:border-rose-600/50 rounded-2xl p-6 sm:p-8 text-center shadow-lg transition-all group hover:-translate-y-2 flex flex-col items-center justify-center"
+                                    className="bg-[#14060a]/80 border border-rose-900/30 hover:border-rose-600/50 rounded-2xl p-5 text-center shadow-lg transition-all group hover:-translate-y-1 flex flex-col items-center justify-center"
                                 >
-                                    <div className="relative w-28 h-28 sm:w-32 sm:h-32 mx-auto flex items-center justify-center">
+                                    <div className="relative w-24 h-24 sm:w-26 sm:h-26 mx-auto flex items-center justify-center">
                                         <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
                                             {/* Background track circle */}
                                             <circle
@@ -136,13 +136,13 @@ export const AboutAndSkillsSection: React.FC = () => {
                                         </svg>
                                         {/* Centered Percentage */}
                                         <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                            <span className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                                            <span className="text-lg sm:text-xl font-extrabold text-white tracking-tight">
                                                 {skill.percentage}%
                                             </span>
                                         </div>
                                     </div>
 
-                                    <h3 className="mt-5 font-semibold text-base sm:text-lg text-zinc-100 group-hover:text-rose-400 transition-colors">
+                                    <h3 className="mt-4 font-semibold text-sm sm:text-base text-zinc-100 group-hover:text-rose-400 transition-colors">
                                         {skill.name}
                                     </h3>
                                 </div>

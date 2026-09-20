@@ -17,6 +17,24 @@ import { useSmoothScroll } from "@/components/useSmoothScroll";
 export const FloatingDock: React.FC = () => {
     const { profile } = portfolioData;
     const { scrollToSection } = useSmoothScroll();
+    const [isAtHome, setIsAtHome] = React.useState(true);
+
+    React.useEffect(() => {
+        const handleScroll = () => {
+            const homeSection = document.getElementById("home");
+            if (homeSection) {
+                const rect = homeSection.getBoundingClientRect();
+                // Dock tersembunyi (hide) jika seksi home masih aktif/terlihat di layar
+                setIsAtHome(rect.bottom > 200);
+            } else {
+                setIsAtHome(window.scrollY < 300);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        handleScroll();
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     const dockItems = [
         { label: "Home", icon: Home, href: "#home" },
@@ -28,7 +46,14 @@ export const FloatingDock: React.FC = () => {
     ];
 
     return (
-        <aside aria-label="Quick navigation dock" className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+        <aside
+            aria-label="Quick navigation dock"
+            className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ${
+                isAtHome
+                    ? "opacity-0 translate-y-12 pointer-events-none"
+                    : "opacity-100 translate-y-0 pointer-events-auto"
+            }`}
+        >
             <nav aria-label="Floating dock menu" className="flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 rounded-2xl bg-[#14060a]/85 backdrop-blur-xl border border-rose-800/40 shadow-2xl shadow-rose-950/60 ring-1 ring-rose-500/20">
                 {dockItems.map((item) => {
                     const Icon = item.icon;

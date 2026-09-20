@@ -49,7 +49,7 @@ export const Header: React.FC = () => {
         >
             <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
                 {/* Brand */}
-                <Link
+                <a
                     href="#home"
                     onClick={(e) => scrollToSection(e, "#home")}
                     className="flex items-center gap-2 group font-bold tracking-tight text-white hover:text-rose-400 transition-colors"
@@ -63,19 +63,19 @@ export const Header: React.FC = () => {
                             .{profile.name.toLowerCase()}
                         </span>
                     </span>
-                </Link>
+                </a>
 
                 {/* Desktop Navigation */}
                 <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-zinc-300">
                     {navLinks.map((link) => (
-                        <Link
+                        <a
                             key={link.label}
                             href={link.href}
                             onClick={(e) => scrollToSection(e, link.href)}
                             className="hover:text-rose-400 transition-colors"
                         >
                             {link.label}
-                        </Link>
+                        </a>
                     ))}
                 </nav>
 
@@ -111,7 +111,7 @@ export const Header: React.FC = () => {
             {mobileMenuOpen && (
                 <div className="md:hidden border-b border-rose-950/50 bg-[#120508] px-6 py-4 space-y-3">
                     {navLinks.map((link) => (
-                        <Link
+                        <a
                             key={link.label}
                             href={link.href}
                             onClick={(e) => {
@@ -121,7 +121,7 @@ export const Header: React.FC = () => {
                             className="block py-1.5 text-zinc-300 hover:text-rose-400 text-sm font-medium"
                         >
                             {link.label}
-                        </Link>
+                        </a>
                     ))}
                     <div className="pt-2 space-y-2">
                         <Link
@@ -131,7 +131,7 @@ export const Header: React.FC = () => {
                         >
                             Admin CMS Panel
                         </Link>
-                        <Link
+                        <a
                             href="#contact"
                             onClick={(e) => {
                                 scrollToSection(e, "#contact");
@@ -140,7 +140,7 @@ export const Header: React.FC = () => {
                             className="block w-full text-center px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold"
                         >
                             Hire Me
-                        </Link>
+                        </a>
                     </div>
                 </div>
             )}

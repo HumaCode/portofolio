@@ -39,10 +39,10 @@ export const ContactAndFooterSection: React.FC = () => {
             {/* Contact Section */}
             <section
                 id="contact"
-                className="py-16 sm:py-20 border-t border-rose-950/40 relative scroll-mt-10"
+                className="py-14 sm:py-16 border-t border-rose-950/40 relative scroll-mt-10"
             >
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 w-full">
-                    <div className="text-center max-w-xl mx-auto mb-8 sm:mb-10 space-y-2">
+                    <div className="text-center max-w-xl mx-auto mb-8 space-y-2">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-950/60 border border-rose-800/40 text-rose-400 text-xs font-semibold uppercase tracking-wider">
                             <MessageSquare className="w-3.5 h-3.5" />
                             <span>Get in touch</span>
@@ -59,76 +59,76 @@ export const ContactAndFooterSection: React.FC = () => {
                     </div>
 
                     {/* Single unified card container */}
-                    <div className="bg-[#14060a]/80 border border-rose-900/30 rounded-3xl p-5 sm:p-8 lg:p-10 shadow-2xl">
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+                    <div className="bg-[#14060a]/80 border border-rose-900/30 rounded-3xl p-6 sm:p-8 shadow-2xl">
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
                             {/* Contact Form — primary focus */}
                             <div className="lg:col-span-7 order-2 lg:order-1">
                                 {isSubmitted ? (
-                                    <div className="py-10 text-center space-y-3">
-                                        <div className="w-11 h-11 rounded-full bg-emerald-500/20 border border-emerald-500/50 text-emerald-400 flex items-center justify-center mx-auto">
-                                            <Check className="w-5 h-5" />
+                                    <div className="py-8 text-center space-y-2">
+                                        <div className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/50 text-emerald-400 flex items-center justify-center mx-auto">
+                                            <Check className="w-4 h-4" />
                                         </div>
-                                        <h4 className="text-lg font-bold text-white">Message Sent!</h4>
-                                        <p className="text-zinc-400 text-sm max-w-xs mx-auto">
+                                        <h4 className="text-base font-bold text-white">Message Sent!</h4>
+                                        <p className="text-zinc-400 text-xs max-w-xs mx-auto">
                                             Thank you for reaching out. I will get back to you as soon as possible.
                                         </p>
                                     </div>
                                 ) : (
-                                    <form onSubmit={handleSubmit} className="space-y-4">
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            <div className="space-y-1.5">
-                                                <label className="text-xs font-medium text-zinc-300">Your Name</label>
+                                    <form onSubmit={handleSubmit} className="space-y-3">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                            <div className="space-y-1">
+                                                <label className="text-[11px] font-medium text-zinc-300">Your Name</label>
                                                 <input
                                                     type="text"
                                                     required
                                                     value={formData.name}
                                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                                     placeholder="John Doe"
-                                                    className="w-full px-4 py-2.5 rounded-xl bg-[#0c0406] border border-rose-900/40 text-zinc-100 text-sm focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
+                                                    className="w-full px-3 py-2 rounded-lg bg-[#0c0406] border border-rose-900/40 text-zinc-100 text-xs focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
                                                 />
                                             </div>
-                                            <div className="space-y-1.5">
-                                                <label className="text-xs font-medium text-zinc-300">Your Email</label>
+                                            <div className="space-y-1">
+                                                <label className="text-[11px] font-medium text-zinc-300">Your Email</label>
                                                 <input
                                                     type="email"
                                                     required
                                                     value={formData.email}
                                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                                     placeholder="john@example.com"
-                                                    className="w-full px-4 py-2.5 rounded-xl bg-[#0c0406] border border-rose-900/40 text-zinc-100 text-sm focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
+                                                    className="w-full px-3 py-2 rounded-lg bg-[#0c0406] border border-rose-900/40 text-zinc-100 text-xs focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
                                                 />
                                             </div>
                                         </div>
 
-                                        <div className="space-y-1.5">
-                                            <label className="text-xs font-medium text-zinc-300">Subject</label>
+                                        <div className="space-y-1">
+                                            <label className="text-[11px] font-medium text-zinc-300">Subject</label>
                                             <input
                                                 type="text"
                                                 required
                                                 value={formData.subject}
                                                 onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                                                 placeholder="Project Inquiry / Job Opportunity"
-                                                className="w-full px-4 py-2.5 rounded-xl bg-[#0c0406] border border-rose-900/40 text-zinc-100 text-sm focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
+                                                className="w-full px-3 py-2 rounded-lg bg-[#0c0406] border border-rose-900/40 text-zinc-100 text-xs focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
                                             />
                                         </div>
 
-                                        <div className="space-y-1.5">
-                                            <label className="text-xs font-medium text-zinc-300">Message</label>
+                                        <div className="space-y-1">
+                                            <label className="text-[11px] font-medium text-zinc-300">Message</label>
                                             <textarea
                                                 required
-                                                rows={4}
+                                                rows={3}
                                                 value={formData.message}
                                                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                                                 placeholder="Tell me more about your project goals or role..."
-                                                className="w-full px-4 py-2.5 rounded-xl bg-[#0c0406] border border-rose-900/40 text-zinc-100 text-sm focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors resize-none"
+                                                className="w-full px-3 py-2 rounded-lg bg-[#0c0406] border border-rose-900/40 text-zinc-100 text-xs focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors resize-none"
                                             ></textarea>
                                         </div>
 
                                         <button
                                             type="submit"
-                                            className="px-8 py-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-semibold text-sm shadow-lg shadow-rose-600/30 transition-all flex items-center gap-2 group"
+                                            className="px-6 py-2 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-semibold text-xs shadow-lg shadow-rose-600/30 transition-all flex items-center gap-2 group"
                                         >
-                                            <Send className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                                            <Send className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                                             <span>Send Message</span>
                                         </button>
                                     </form>
