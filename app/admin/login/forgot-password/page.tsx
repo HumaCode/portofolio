@@ -104,122 +104,104 @@ export default function AdminForgotPasswordPage() {
 
     return (
         <AuthShell>
-            <div className="relative w-full max-w-2xl mx-auto">
-                <div className="absolute -inset-1 bg-gradient-to-r from-rose-600/20 via-cyan-500/10 to-rose-600/20 rounded-xl blur-xl opacity-70 pointer-events-none"></div>
+            <div className="relative w-full max-w-xl mx-auto">
+                <div className="relative bg-[#14060a]/90 backdrop-blur-2xl border border-rose-900/40 shadow-[0_0_50px_rgba(225,29,72,0.15)] rounded-2xl p-5 sm:p-8 overflow-hidden">
+                    <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-rose-500 to-transparent"></div>
 
-                <div className="relative bg-[#1b1b23]/95 backdrop-blur-xl p-4 sm:p-10 rounded-xl shadow-2xl shadow-black/50">
-                    <div className="absolute top-2 left-2 flex items-center gap-0.5 text-rose-600/60 pointer-events-none select-none">
-                        <span className="font-mono text-[10px]">[</span>
-                        <span className="w-1.5 h-1.5 bg-rose-600/40"></span>
-                        <span className="font-mono text-[10px]">]</span>
-                    </div>
-                    <div className="absolute top-2 right-2 flex items-center gap-0.5 text-rose-600/60 pointer-events-none select-none">
-                        <span className="font-mono text-[10px]">[</span>
-                        <span className="w-1.5 h-1.5 bg-rose-600/40"></span>
-                        <span className="font-mono text-[10px]">]</span>
-                    </div>
-                    <div className="absolute bottom-2 left-2 flex items-center gap-0.5 text-cyan-400/40 pointer-events-none select-none">
-                        <span className="font-mono text-[10px]">[</span>
-                        <span className="w-1.5 h-1.5 bg-cyan-400/30"></span>
-                        <span className="font-mono text-[10px]">]</span>
-                    </div>
-                    <div className="absolute bottom-2 right-2 flex items-center gap-0.5 text-cyan-400/40 pointer-events-none select-none">
-                        <span className="font-mono text-[10px]">[</span>
-                        <span className="w-1.5 h-1.5 bg-cyan-400/30"></span>
-                        <span className="font-mono text-[10px]">]</span>
-                    </div>
                     {/* Top nav */}
-                    <div className="flex items-center justify-between gap-2 pb-4">
-                        <div className="inline-flex items-center gap-1 px-2.5 py-1 bg-rose-600/10 rounded-full">
-                            <span className="w-1.5 h-1.5 rounded-full bg-rose-600 animate-pulse"></span>
-                            <span className="font-mono text-[11px] uppercase tracking-widest text-rose-300">
+                    <div className="flex items-center justify-between gap-2 pb-4 border-b border-rose-950/60 mb-5">
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-rose-950/60 border border-rose-800/40 rounded-full">
+                            <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span>
+                            <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-rose-300">
                                 RECOVERY PROTOCOL / PASSWORD RESET
                             </span>
                         </div>
                         <Link
                             href="/admin/login"
-                            className="inline-flex items-center gap-1 text-xs text-zinc-300 hover:text-cyan-400 transition-colors group"
+                            className="inline-flex items-center gap-1.5 text-xs text-zinc-300 hover:text-rose-400 transition-colors group"
                         >
-                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+                            <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
                             <span>Kembali ke Login</span>
                         </Link>
                     </div>
 
                     {/* Terminal header */}
-                    <div className="flex flex-col items-center text-center space-y-1 mb-6">
-                        <div className="flex items-center gap-1.5 px-3 py-1 bg-[#1f1f27] rounded-lg shadow-inner">
-                            <div className="w-6 h-6 rounded bg-rose-600 flex items-center justify-center text-white font-bold text-sm">
+                    <div className="flex flex-col items-center text-center space-y-1.5 mb-5">
+                        <div className="flex items-center gap-2 px-3 py-1 bg-[#1c080e] border border-rose-900/40 rounded-xl">
+                            <div className="w-6 h-6 rounded-lg bg-rose-950 border border-rose-800/50 flex items-center justify-center text-rose-400 font-bold text-xs">
                                 f
                             </div>
-                            <span className="font-semibold text-lg tracking-tight text-zinc-100">
-                                fLINK<span className="text-rose-600">.dev</span>
+                            <span className="font-semibold text-base tracking-tight text-white">
+                                fLINK<span className="text-rose-500">.dev</span>
                             </span>
-                            <span className="font-mono text-[10px] text-emerald-400 px-1.5 py-0.5 rounded bg-emerald-600/30 uppercase tracking-tighter">
+                            <span className="font-mono text-[10px] text-emerald-400 px-1.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-800/40 font-semibold uppercase">
                                 root:auth
                             </span>
                         </div>
-                        <h1 className="font-bold text-2xl sm:text-[2rem] sm:leading-10 tracking-[-0.02em] text-zinc-100">
+                        <h1 className="font-bold text-xl sm:text-2xl text-white tracking-tight">
                             Verifikasi &amp; Reset Akses
                         </h1>
-                        <p className="text-xs text-zinc-300 max-w-md">
+                        <p className="text-xs text-zinc-400">
                             SECURE CREDENTIAL RECOVERY GATEWAY • MULTI-FACTOR VERIFICATION
                         </p>
                     </div>
 
                     {/* Protocol flow steps */}
-                    <div className="grid grid-cols-3 gap-1 mb-6">
-                        <div className="flex flex-col gap-1 p-2 rounded bg-[#1f1f27]/60">
+                    <div className="grid grid-cols-3 gap-2 mb-5 text-left">
+                        <div className="flex flex-col gap-0.5 p-2 rounded-xl bg-[#1c080e] border border-rose-900/30">
                             <div className="flex items-center justify-between">
-                                <span className="font-mono text-[10px] text-emerald-400">STEP 01</span>
+                                <span className="font-mono text-[9px] text-emerald-400 font-semibold">STEP 01</span>
                                 <BadgeCheck className="w-3.5 h-3.5 text-emerald-400" />
                             </div>
-                            <span className="text-xs text-zinc-100 truncate">Email Dispatched</span>
+                            <span className="text-xs text-zinc-200 font-medium truncate">Email Dispatched</span>
                         </div>
-                        <div className="flex flex-col gap-1 p-2 rounded bg-rose-600/15 shadow-sm">
+                        <div className="flex flex-col gap-0.5 p-2 rounded-xl bg-rose-950/70 border border-rose-600/50 shadow-md">
                             <div className="flex items-center justify-between">
-                                <span className="font-mono text-[10px] text-rose-400">STEP 02 [ACTIVE]</span>
-                                <span className="w-2 h-2 rounded-full bg-rose-600 animate-ping"></span>
+                                <span className="font-mono text-[9px] text-rose-300 font-semibold">STEP 02 [ACTIVE]</span>
+                                <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping"></span>
                             </div>
-                            <span className="text-xs text-rose-200 font-semibold truncate">Verifikasi 6-Digit</span>
+                            <span className="text-xs text-rose-200 font-bold truncate">Verifikasi 6-Digit</span>
                         </div>
-                        <div className="flex flex-col gap-1 p-2 rounded bg-[#1f1f27]/40 opacity-70">
+                        <div className="flex flex-col gap-0.5 p-2 rounded-xl bg-[#14060a] border border-rose-950/40 opacity-70">
                             <div className="flex items-center justify-between">
-                                <span className="font-mono text-[10px] text-zinc-400">STEP 03</span>
-                                <LockKeyhole className="w-3.5 h-3.5 text-zinc-400" />
+                                <span className="font-mono text-[9px] text-zinc-500">STEP 03</span>
+                                <LockKeyhole className="w-3.5 h-3.5 text-zinc-500" />
                             </div>
                             <span className="text-xs text-zinc-400 truncate">Sandi Baru</span>
                         </div>
                     </div>
+
                     <form className="space-y-4" onSubmit={handleSubmit}>
                         {/* Step 1: dispatched email capsule */}
-                        <div className="p-3 sm:p-4 rounded-xl bg-[#0d0d15]/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div className="p-3 sm:p-3.5 rounded-xl bg-[#0c0406] border border-rose-900/40 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-left">
                             <div className="flex items-center gap-2.5">
-                                <div className="w-9 h-9 rounded-lg bg-emerald-600/20 flex items-center justify-center text-emerald-400 shrink-0">
-                                    <BadgeCheck className="w-5 h-5" />
+                                <div className="w-8 h-8 rounded-lg bg-emerald-950/80 border border-emerald-700/40 flex items-center justify-center text-emerald-400 shrink-0">
+                                    <BadgeCheck className="w-4 h-4" />
                                 </div>
                                 <div className="flex flex-col min-w-0">
-                                    <span className="text-xs text-zinc-300 uppercase tracking-wider">Email Terdaftar</span>
-                                    <span className="font-bold text-sm text-zinc-100 truncate">admin@portfolio.com</span>
+                                    <span className="text-[10px] text-zinc-400 uppercase tracking-wider font-semibold">Email Terdaftar</span>
+                                    <span className="font-bold text-xs text-zinc-100 truncate">admin@portfolio.com</span>
                                 </div>
                             </div>
                             <div className="flex flex-col sm:items-end">
-                                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-400/10 text-emerald-400 font-mono text-[10px] uppercase">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-950/80 border border-emerald-800/40 text-emerald-400 font-mono text-[9px] uppercase font-semibold">
+                                    <span className="w-1 h-1 rounded-full bg-emerald-400"></span>
                                     <span>Ref ID: #SEC-9842</span>
                                 </div>
-                                <span className="text-[11px] text-zinc-500 mt-0.5">Kode OTP Terkirim via Queue</span>
+                                <span className="text-[10px] text-zinc-400 mt-0.5">Kode OTP Terkirim via Queue</span>
                             </div>
                         </div>
+
                         {/* Step 2: 6-digit OTP */}
-                        <div className="space-y-1 p-3 sm:p-4 rounded-xl bg-[#1f1f27]/40">
+                        <div className="space-y-2 p-3.5 rounded-xl bg-[#1c080e]/60 border border-rose-900/30 text-left">
                             <div className="flex items-center justify-between">
-                                <label className="text-sm font-semibold text-zinc-100 uppercase tracking-wide flex items-center gap-1.5">
-                                    <ShieldCheck className="w-[18px] h-[18px] text-rose-600" />
+                                <label className="text-xs font-bold text-white uppercase tracking-wide flex items-center gap-1.5">
+                                    <ShieldCheck className="w-4 h-4 text-rose-500" />
                                     <span>Masukkan Kode OTP 6 Digit</span>
                                 </label>
-                                <span className="font-mono text-[11px] text-cyan-400 tracking-wider">TTL: 120 SEC</span>
+                                <span className="font-mono text-[10px] text-rose-400 font-semibold tracking-wider">TTL: 120 SEC</span>
                             </div>
-                            <div className="grid grid-cols-6 gap-2 sm:gap-3 py-1">
+                            <div className="grid grid-cols-6 gap-2 sm:gap-2.5 py-1">
                                 {otp.map((val, i) => (
                                     <input
                                         key={i}
@@ -237,18 +219,18 @@ export default function AdminForgotPasswordPage() {
                                         autoFocus={i === OTP_LENGTH - 1}
                                         placeholder="•"
                                         aria-label={`OTP digit ${i + 1}`}
-                                        className={`w-full h-14 sm:h-16 text-center text-3xl font-extrabold bg-[#0d0d15] rounded-lg shadow-inner focus:outline-none focus:bg-[#292932] transition-all placeholder:text-zinc-600 selection:bg-rose-600 ${
-                                            val ? "text-zinc-100" : "text-rose-300"
+                                        className={`w-full h-11 sm:h-12 text-center text-xl sm:text-2xl font-black bg-[#0c0406] border border-rose-900/40 rounded-xl focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-all placeholder:text-zinc-700 selection:bg-rose-600 ${
+                                            val ? "text-white" : "text-rose-300"
                                         }`}
                                     />
                                 ))}
                             </div>
 
-                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-0.5">
                                 <div className="flex items-center gap-1.5 text-xs text-zinc-300">
-                                    <Timer className="w-4 h-4 text-cyan-400" />
+                                    <Timer className="w-3.5 h-3.5 text-rose-400" />
                                     <span>Kirim ulang kode dalam:</span>
-                                    <span className="font-mono font-bold text-cyan-400 tracking-widest">
+                                    <span className="font-mono font-bold text-rose-400 tracking-widest">
                                         {minutes}:{seconds}
                                     </span>
                                 </div>
@@ -256,68 +238,69 @@ export default function AdminForgotPasswordPage() {
                                     type="button"
                                     onClick={handleResend}
                                     disabled={!resendEnabled}
-                                    className={`inline-flex items-center gap-1 font-mono text-[11px] uppercase transition-colors self-start sm:self-auto ${
+                                    className={`inline-flex items-center gap-1 font-mono text-[10px] uppercase transition-colors self-start sm:self-auto ${
                                         resendEnabled
-                                            ? "text-cyan-400 font-bold"
-                                            : "text-zinc-400 opacity-50 pointer-events-none"
+                                            ? "text-rose-400 font-bold hover:text-rose-300 cursor-pointer"
+                                            : "text-zinc-500 opacity-50 pointer-events-none"
                                     }`}
                                 >
-                                    <RefreshCw className="w-3.5 h-3.5" />
+                                    <RefreshCw className="w-3 h-3" />
                                     <span>Kirim Ulang OTP</span>
                                 </button>
                             </div>
 
-                            <div className="flex items-center gap-2 p-2 bg-[#0d0d15]/60 rounded text-zinc-300 text-xs">
-                                <Info className="w-4 h-4 text-zinc-500 shrink-0" />
-                                <span className="text-[12px]">
+                            <div className="flex items-center gap-2 p-2 bg-[#0c0406] border border-rose-950/50 rounded-lg text-zinc-400 text-xs">
+                                <Info className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+                                <span className="text-[11px]">
                                     Cek folder inbox atau spam email{" "}
-                                    <strong className="text-zinc-100 font-medium">admin@portfolio.com</strong> jika
+                                    <strong className="text-zinc-200 font-medium">admin@portfolio.com</strong> jika
                                     kode tidak muncul.
                                 </span>
                             </div>
                         </div>
+
                         {/* Step 3: new password */}
-                        <div className="space-y-1 p-3 sm:p-4 rounded-xl bg-[#1f1f27]/40">
-                            <div className="flex items-center justify-between mb-1">
-                                <span className="text-sm font-semibold text-zinc-100 uppercase tracking-wide flex items-center gap-1.5">
-                                    <LockKeyhole className="w-[18px] h-[18px] text-rose-600" />
+                        <div className="space-y-2 p-3.5 rounded-xl bg-[#1c080e]/60 border border-rose-900/30 text-left">
+                            <div className="flex items-center justify-between mb-0.5">
+                                <span className="text-xs font-bold text-white uppercase tracking-wide flex items-center gap-1.5">
+                                    <LockKeyhole className="w-4 h-4 text-rose-500" />
                                     <span>Tetapkan Kata Sandi Baru</span>
                                 </span>
-                                <span className="font-mono text-[10px] text-emerald-400">MIN. 12 KARAKTER</span>
+                                <span className="font-mono text-[10px] text-emerald-400 font-semibold">MIN. 12 KARAKTER</span>
                             </div>
 
                             <div className="space-y-1 text-left">
-                                <label className="text-xs text-zinc-300 block">Kata Sandi Baru</label>
+                                <label className="text-[11px] font-semibold text-zinc-300 block">Kata Sandi Baru</label>
                                 <div className="relative flex items-center">
                                     <input
                                         type={showNew ? "text" : "password"}
                                         value={newPassword}
                                         onChange={(e) => setNewPassword(e.target.value)}
                                         placeholder="Masukkan password kuat..."
-                                        className="w-full h-11 bg-[#0d0d15] px-3.5 pr-10 rounded-lg text-zinc-100 text-sm focus:outline-none focus:bg-[#292932] transition-colors"
+                                        className="w-full bg-[#0c0406] border border-rose-900/40 text-zinc-100 text-xs px-3.5 py-2.5 rounded-xl focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors pr-10"
                                     />
                                     <button
                                         type="button"
                                         aria-label="Toggle password visibility"
                                         onClick={() => setShowNew((v) => !v)}
-                                        className="absolute right-3 text-zinc-500 hover:text-zinc-100 transition-colors cursor-pointer"
+                                        className="absolute right-3 text-zinc-500 hover:text-zinc-200 transition-colors cursor-pointer"
                                     >
                                         {showNew ? (
-                                            <EyeOff className="w-[18px] h-[18px]" />
+                                            <EyeOff className="w-4 h-4" />
                                         ) : (
-                                            <Eye className="w-[18px] h-[18px]" />
+                                            <Eye className="w-4 h-4" />
                                         )}
                                     </button>
                                 </div>
                             </div>
 
-                            <div className="space-y-1.5 py-1">
+                            <div className="space-y-1 py-0.5">
                                 <div className="flex items-center justify-between">
-                                    <span className="text-[11px] text-zinc-500 uppercase tracking-wider">
+                                    <span className="text-[10px] text-zinc-400 uppercase tracking-wider font-semibold">
                                         Kekuatan Sandi:
                                     </span>
-                                    <span className="font-mono text-[11px] text-emerald-400 uppercase tracking-wider flex items-center gap-1">
-                                        <CheckCircle className="w-3.5 h-3.5" />
+                                    <span className="font-mono text-[10px] text-emerald-400 uppercase tracking-wider flex items-center gap-1 font-semibold">
+                                        <CheckCircle className="w-3 h-3" />
                                         <span>Sangat Kuat (100%)</span>
                                     </span>
                                 </div>
@@ -329,66 +312,67 @@ export default function AdminForgotPasswordPage() {
                                 </div>
                             </div>
 
-                            <div className="space-y-1 pt-1 text-left">
-                                <label className="text-xs text-zinc-300 block">Konfirmasi Kata Sandi Baru</label>
+                            <div className="space-y-1 pt-0.5 text-left">
+                                <label className="text-[11px] font-semibold text-zinc-300 block">Konfirmasi Kata Sandi Baru</label>
                                 <div className="relative flex items-center">
                                     <input
                                         type={showConfirm ? "text" : "password"}
                                         value={confirmPassword}
                                         onChange={(e) => setConfirmPassword(e.target.value)}
                                         placeholder="Ulangi kata sandi baru..."
-                                        className="w-full h-11 bg-[#0d0d15] px-3.5 pr-10 rounded-lg text-zinc-100 text-sm focus:outline-none focus:bg-[#292932] transition-colors"
+                                        className="w-full bg-[#0c0406] border border-rose-900/40 text-zinc-100 text-xs px-3.5 py-2.5 rounded-xl focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors pr-10"
                                     />
                                     <button
                                         type="button"
                                         aria-label="Toggle confirm visibility"
                                         onClick={() => setShowConfirm((v) => !v)}
-                                        className="absolute right-3 text-zinc-500 hover:text-zinc-100 transition-colors cursor-pointer"
+                                        className="absolute right-3 text-zinc-500 hover:text-zinc-200 transition-colors cursor-pointer"
                                     >
                                         {showConfirm ? (
-                                            <EyeOff className="w-[18px] h-[18px]" />
+                                            <EyeOff className="w-4 h-4" />
                                         ) : (
-                                            <Eye className="w-[18px] h-[18px]" />
+                                            <Eye className="w-4 h-4" />
                                         )}
                                     </button>
                                 </div>
                             </div>
                         </div>
+
                         {/* Submit */}
                         <div className="pt-1 space-y-2">
                             <button
                                 type="submit"
                                 disabled={status !== "idle"}
-                                className={`w-full py-3.5 px-4 text-sm uppercase tracking-wider font-bold rounded-lg shadow-xl shadow-rose-600/30 transition-all flex items-center justify-center gap-2 active:scale-[0.99] ${
+                                className={`w-full py-2.5 px-4 text-xs uppercase tracking-wider font-bold rounded-xl shadow-lg shadow-rose-600/30 transition-all flex items-center justify-center gap-2 active:scale-95 ${
                                     status === "success"
                                         ? "bg-emerald-600 text-white"
-                                        : "bg-rose-600 hover:bg-rose-700 text-white"
+                                        : "bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white"
                                 }`}
                             >
                                 {status === "verifying" ? (
                                     <>
-                                        <Loader2 className="w-5 h-5 animate-spin" />
+                                        <Loader2 className="w-4 h-4 animate-spin" />
                                         <span>VERIFYING OTP...</span>
                                     </>
                                 ) : status === "success" ? (
                                     <>
-                                        <CheckCircle className="w-5 h-5" />
+                                        <CheckCircle className="w-4 h-4" />
                                         <span>CREDENTIALS UPDATED • REDIRECTING</span>
                                     </>
                                 ) : (
                                     <>
-                                        <ShieldCheck className="w-5 h-5" />
+                                        <ShieldCheck className="w-4 h-4" />
                                         <span>VERIFIKASI OTP &amp; SIMPAN PASSWORD BARU</span>
-                                        <ArrowRight className="w-5 h-5" />
+                                        <ArrowRight className="w-4 h-4" />
                                     </>
                                 )}
                             </button>
                             <div className="text-center">
                                 <Link
                                     href="/admin/login"
-                                    className="inline-flex items-center gap-1 text-xs text-zinc-300 hover:text-red-400 transition-colors"
+                                    className="inline-flex items-center gap-1 text-xs text-zinc-400 hover:text-rose-400 transition-colors"
                                 >
-                                    <X className="w-4 h-4" />
+                                    <X className="w-3.5 h-3.5" />
                                     <span>Batalkan &amp; Kembali ke Login Admin</span>
                                 </Link>
                             </div>

@@ -88,51 +88,40 @@ export default function AdminLoginPage() {
                 <div className="absolute -top-24 w-96 h-96 bg-rose-600/15 rounded-full blur-[100px] pointer-events-none -z-10"></div>
                 <div className="absolute -bottom-24 w-80 h-80 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none -z-10"></div>
 
-                <div className="w-full max-w-[480px] mx-auto relative">
-                    <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-rose-600 pointer-events-none z-20"></div>
-                    <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-rose-600 pointer-events-none z-20"></div>
-                    <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-rose-600/40 pointer-events-none z-20"></div>
-                    <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-rose-600/40 pointer-events-none z-20"></div>
-
-                    <div className="relative bg-[#1b1b23]/85 backdrop-blur-xl shadow-2xl rounded-xl p-6 sm:p-10 overflow-hidden">
-                        <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-rose-600 to-transparent"></div>
-                        <div
-                            className="absolute inset-0 pointer-events-none opacity-[0.015]"
-                            style={{
-                                backgroundImage:
-                                    "repeating-linear-gradient(0deg, #fff, #fff 1px, transparent 1px, transparent 4px)",
-                            }}
-                        ></div>
+                <div className="w-full max-w-[440px] mx-auto relative">
+                    <div className="relative bg-[#14060a]/90 backdrop-blur-2xl border border-rose-900/40 shadow-[0_0_50px_rgba(225,29,72,0.15)] rounded-2xl p-6 sm:p-8 overflow-hidden">
+                        <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-rose-500 to-transparent"></div>
+                        
                         {/* Card header */}
                         <div className="relative z-10 flex flex-col items-center text-center space-y-2 mb-6">
-                            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#34343d]/60 text-cyan-400">
-                                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(76,215,246,0.9)] animate-pulse"></span>
-                                <span className="font-mono text-[11px] tracking-wider uppercase">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-950/60 border border-rose-800/40 text-rose-300">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.9)] animate-pulse"></span>
+                                <span className="font-mono text-[10px] tracking-wider uppercase font-semibold">
                                     RESTRICTED AREA / ROOT ACCESS
                                 </span>
                             </div>
-                            <div className="flex items-center justify-center gap-1 mt-1">
-                                <div className="w-8 h-8 rounded-lg bg-rose-600/20 flex items-center justify-center text-rose-500 shadow-[0_0_12px_rgba(225,29,72,0.3)]">
-                                    <Terminal className="w-5 h-5" />
+                            <div className="flex items-center justify-center gap-2 mt-1">
+                                <div className="w-8 h-8 rounded-lg bg-rose-950 border border-rose-800/50 flex items-center justify-center text-rose-400 shadow-md">
+                                    <Terminal className="w-4 h-4" />
                                 </div>
-                                <span className="font-bold text-[2rem] leading-10 tracking-[-0.02em] text-zinc-100">
-                                    fLINK<span className="text-rose-600">.dev</span>
+                                <span className="font-bold text-2xl tracking-tight text-white">
+                                    fLINK<span className="text-rose-500">.dev</span>
                                 </span>
                             </div>
-                            <p className="font-mono text-[11px] text-zinc-500 tracking-wider uppercase">
+                            <p className="font-mono text-[10px] text-zinc-400 tracking-wider uppercase">
                                 SECURE OPERATIONAL GATEWAY • 256-BIT SSL ENCRYPTION
                             </p>
                         </div>
 
                         {/* Demo credentials helper */}
-                        <div className="relative z-10 mb-6 p-2 rounded-lg bg-[#34343d]/40 flex items-center justify-between gap-2 transition-all hover:bg-[#34343d]/60">
+                        <div className="relative z-10 mb-5 p-2.5 rounded-xl bg-[#1c080e]/80 border border-rose-900/30 flex items-center justify-between gap-2 transition-all hover:border-rose-700/50">
                             <div className="flex items-center gap-2 min-w-0">
-                                <KeyRound className="w-4 h-4 text-cyan-400 shrink-0" />
+                                <KeyRound className="w-4 h-4 text-rose-400 shrink-0" />
                                 <div className="flex flex-col min-w-0 text-left">
-                                    <span className="font-mono text-[11px] text-zinc-100 uppercase tracking-wide">
+                                    <span className="font-mono text-[10px] text-zinc-200 uppercase tracking-wide font-semibold">
                                         Demo Credentials Loaded
                                     </span>
-                                    <span className="text-xs text-zinc-500 truncate">
+                                    <span className="text-[11px] text-zinc-400 truncate">
                                         admin@portfolio.com • password123
                                     </span>
                                 </div>
@@ -140,9 +129,9 @@ export default function AdminLoginPage() {
                             <button
                                 type="button"
                                 onClick={handleQuickFill}
-                                className="shrink-0 px-2 py-1 rounded bg-cyan-400/15 hover:bg-cyan-400/25 text-cyan-400 font-mono text-[11px] uppercase tracking-wider flex items-center gap-1 transition-all"
+                                className="shrink-0 px-2.5 py-1 rounded-lg bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 font-mono text-[10px] font-semibold uppercase tracking-wider flex items-center gap-1 transition-all border border-rose-800/40"
                             >
-                                <Zap className="w-3.5 h-3.5" />
+                                <Zap className="w-3 h-3 text-rose-400" />
                                 <span>Auto Fill</span>
                             </button>
                         </div>
@@ -156,18 +145,18 @@ export default function AdminLoginPage() {
                                 </div>
                             )}
                             {/* Field 1: identity / email */}
-                            <div className="space-y-1 text-left">
+                            <div className="space-y-1.5 text-left">
                                 <label
-                                    className="text-sm text-zinc-300 flex justify-between items-center"
+                                    className="text-xs font-semibold text-zinc-300 flex justify-between items-center"
                                     htmlFor="admin-identity"
                                 >
                                     <span>Identity / Root Access Email</span>
-                                    <span className="font-mono text-[11px] text-zinc-500 uppercase tracking-wider">
+                                    <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-wider">
                                         SEC-01
                                     </span>
                                 </label>
                                 <div className="relative flex items-center">
-                                    <UserCog className="absolute left-3 w-5 h-5 text-zinc-500 pointer-events-none" />
+                                    <UserCog className="absolute left-3 w-4 h-4 text-rose-400/70 pointer-events-none" />
                                     <input
                                         id="admin-identity"
                                         type="email"
@@ -175,28 +164,28 @@ export default function AdminLoginPage() {
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         placeholder="admin@flink.dev"
-                                        className={`w-full bg-[#0d0d15]/80 text-zinc-100 text-sm pl-10 pr-4 py-2.5 rounded-lg transition-all placeholder:text-zinc-600 focus:outline-none focus:bg-[#0d0d15] focus:shadow-[0_0_0_2px_rgba(225,29,72,0.4)] ${
-                                            fillFlash ? "bg-[#34343d]" : ""
+                                        className={`w-full bg-[#0c0406] border border-rose-900/40 text-zinc-100 text-xs pl-9 pr-4 py-2.5 rounded-xl transition-all placeholder:text-zinc-600 focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 ${
+                                            fillFlash ? "bg-rose-950/40 border-rose-600" : ""
                                         }`}
                                     />
                                 </div>
                             </div>
 
                             {/* Field 2: password */}
-                            <div className="space-y-1 text-left">
+                            <div className="space-y-1.5 text-left">
                                 <div className="flex items-center justify-between">
                                     <label
-                                        className="text-sm text-zinc-300 flex items-center gap-1.5"
+                                        className="text-xs font-semibold text-zinc-300 flex items-center gap-1.5"
                                         htmlFor="admin-password"
                                     >
                                         <span>Authorization Key</span>
                                     </label>
-                                    <span className="font-mono text-[11px] text-zinc-500 uppercase tracking-wider">
+                                    <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-wider">
                                         AUTH-PASS
                                     </span>
                                 </div>
                                 <div className="relative flex items-center">
-                                    <Lock className="absolute left-3 w-5 h-5 text-zinc-500 pointer-events-none" />
+                                    <Lock className="absolute left-3 w-4 h-4 text-rose-400/70 pointer-events-none" />
                                     <input
                                         id="admin-password"
                                         type={showPassword ? "text" : "password"}
@@ -204,41 +193,42 @@ export default function AdminLoginPage() {
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         placeholder="••••••••••••"
-                                        className={`w-full bg-[#0d0d15]/80 text-zinc-100 text-sm pl-10 pr-11 py-2.5 rounded-lg transition-all placeholder:text-zinc-600 focus:outline-none focus:bg-[#0d0d15] focus:shadow-[0_0_0_2px_rgba(225,29,72,0.4)] tracking-wider ${
-                                            fillFlash ? "bg-[#34343d]" : ""
+                                        className={`w-full bg-[#0c0406] border border-rose-900/40 text-zinc-100 text-xs pl-9 pr-10 py-2.5 rounded-xl transition-all placeholder:text-zinc-600 focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 tracking-wider ${
+                                            fillFlash ? "bg-rose-950/40 border-rose-600" : ""
                                         }`}
                                     />
                                     <button
                                         type="button"
                                         aria-label="Toggle password visibility"
                                         onClick={() => setShowPassword((v) => !v)}
-                                        className="absolute right-3 text-zinc-500 hover:text-zinc-100 transition-colors p-1 flex items-center justify-center"
+                                        className="absolute right-3 text-zinc-500 hover:text-zinc-200 transition-colors p-1 flex items-center justify-center"
                                     >
                                         {showPassword ? (
-                                            <EyeOff className="w-[18px] h-[18px]" />
+                                            <EyeOff className="w-4 h-4" />
                                         ) : (
-                                            <Eye className="w-[18px] h-[18px]" />
+                                            <Eye className="w-4 h-4" />
                                         )}
                                     </button>
                                 </div>
                             </div>
+
                             {/* Remember me + forgot password */}
-                            <div className="flex items-center justify-between pt-1">
+                            <div className="flex items-center justify-between pt-1 text-xs">
                                 <label className="inline-flex items-center gap-2 cursor-pointer select-none">
                                     <input
                                         type="checkbox"
                                         checked={remember}
                                         onChange={(e) => setRemember(e.target.checked)}
-                                        className="w-4 h-4 rounded bg-[#0d0d15] border-0 text-rose-600 focus:ring-0 focus:outline-none accent-rose-600 cursor-pointer"
+                                        className="w-3.5 h-3.5 rounded bg-[#0c0406] border border-rose-800/40 text-rose-600 focus:ring-0 focus:outline-none accent-rose-600 cursor-pointer"
                                     />
-                                    <span className="text-sm text-zinc-300 hover:text-zinc-100 transition-colors">
+                                    <span className="text-zinc-300 hover:text-white transition-colors">
                                         Ingat Sesi Ini
                                     </span>
                                 </label>
                                 <button
                                     type="button"
                                     onClick={openModal}
-                                    className="text-sm text-rose-300 hover:text-rose-400 transition-colors focus:outline-none"
+                                    className="text-rose-400 hover:text-rose-300 font-medium transition-colors focus:outline-none"
                                 >
                                     Lupa Password?
                                 </button>
@@ -248,33 +238,32 @@ export default function AdminLoginPage() {
                             <button
                                 type="submit"
                                 disabled={status !== "idle"}
-                                className={`group relative w-full overflow-hidden rounded-lg py-3 px-4 font-bold text-sm text-white transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(225,29,72,0.35)] hover:shadow-[0_0_28px_rgba(225,29,72,0.5)] ${
+                                className={`group relative w-full overflow-hidden rounded-xl py-2.5 px-4 font-bold text-xs text-white transition-all flex items-center justify-center gap-2 shadow-lg shadow-rose-600/30 ${
                                     status === "success"
                                         ? "bg-emerald-600"
-                                        : "bg-rose-600 hover:bg-rose-600/90 active:scale-[0.99]"
+                                        : "bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 active:scale-95"
                                 }`}
                             >
                                 {status === "verifying" ? (
                                     <>
-                                        <Loader2 className="w-5 h-5 animate-spin" />
-                                        <span className="font-mono text-[11px] tracking-wider uppercase">
+                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                        <span className="font-mono text-[10px] tracking-wider uppercase">
                                             VERIFYING TOKEN...
                                         </span>
                                     </>
                                 ) : status === "success" ? (
                                     <>
-                                        <CheckCircle className="w-5 h-5" />
-                                        <span className="font-mono text-[11px] tracking-wider uppercase">
+                                        <CheckCircle className="w-4 h-4" />
+                                        <span className="font-mono text-[10px] tracking-wider uppercase">
                                             ROOT GRANTED • REDIRECTING
                                         </span>
                                     </>
                                 ) : (
                                     <>
-                                        <span className="font-mono text-[11px] tracking-wider uppercase">
+                                        <span className="font-mono text-[10px] tracking-wider uppercase">
                                             MASUK KE CMS ADMIN
                                         </span>
-                                        <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                                        <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none"></div>
+                                        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                                     </>
                                 )}
                             </button>
