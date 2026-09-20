@@ -11,6 +11,48 @@ export const HeroSection: React.FC = () => {
     const { profile } = portfolioData;
     const { scrollToSection } = useSmoothScroll();
 
+    // Daftar teks profesi yang akan diketik secara otomatis
+    const roles = [
+        "<Frontend & Fullstack Developer />",
+        "<React & Next.js />",
+        "<UI/UX & Laravel Engineer />",
+    ];
+
+    const [currentRoleIndex, setCurrentRoleIndex] = React.useState(0);
+    const [currentText, setCurrentText] = React.useState("");
+    const [isDeleting, setIsDeleting] = React.useState(false);
+
+    React.useEffect(() => {
+        const fullText = roles[currentRoleIndex];
+
+        // Jika selesai mengetik teks penuh
+        if (!isDeleting && currentText === fullText) {
+            const timeout = setTimeout(() => {
+                setIsDeleting(true);
+            }, 1800); // Jeda 1.8 detik saat kata selesai diketik
+            return () => clearTimeout(timeout);
+        }
+
+        // Jika selesai menghapus seluruh teks
+        if (isDeleting && currentText === "") {
+            setIsDeleting(false);
+            setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
+            return;
+        }
+
+        // Kecepatan mengetik & menghapus
+        const speed = isDeleting ? 35 : 70;
+        const timer = setTimeout(() => {
+            setCurrentText((prev) =>
+                isDeleting
+                    ? fullText.substring(0, prev.length - 1)
+                    : fullText.substring(0, prev.length + 1)
+            );
+        }, speed);
+
+        return () => clearTimeout(timer);
+    }, [currentText, isDeleting, currentRoleIndex]);
+
     return (
         <section
             id="home"
@@ -34,8 +76,9 @@ export const HeroSection: React.FC = () => {
                             </p>
                             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight">
                                 {profile.name}{" "}
-                                <span className="block mt-1 text-3xl sm:text-4xl lg:text-5xl bg-gradient-to-r from-rose-400 via-rose-500 to-red-600 bg-clip-text text-transparent">
-                                    {profile.role}
+                                <span className="block mt-1 text-3xl sm:text-4xl lg:text-5xl bg-gradient-to-r from-rose-400 via-rose-500 to-red-600 bg-clip-text text-transparent min-h-[1.3em]">
+                                    {currentText}
+                                    <span className="inline-block w-0.5 h-[0.85em] bg-rose-400 ml-1 translate-y-1 animate-pulse"></span>
                                 </span>
                             </h1>
                         </div>
@@ -101,25 +144,58 @@ export const HeroSection: React.FC = () => {
 
                     {/* Right Column: Hero Concentric Rings Avatar */}
                     <div className="lg:col-span-5 flex justify-center items-center relative">
-                        {/* Outer Pulsing Glow */}
-                        <div className="absolute w-72 h-72 sm:w-80 sm:h-80 rounded-full bg-rose-600/20 blur-3xl -z-10 animate-pulse"></div>
+                        {/* Outer Pulsing Glow Ambient */}
+                        <div className="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-gradient-to-tr from-rose-600/30 to-red-500/20 blur-3xl -z-10 animate-pulse"></div>
 
-                        {/* Concentric Ring 2 (Outer) */}
-                        <div className="w-72 h-72 sm:w-88 sm:h-88 rounded-full border border-rose-500/20 concentric-ring-2 flex items-center justify-center p-4 relative">
-                            {/* Decorative floating dots */}
-                            <div className="absolute top-4 right-8 w-2.5 h-2.5 rounded-full bg-rose-400 shadow-md shadow-rose-400/80"></div>
-                            <div className="absolute bottom-6 left-6 w-2 h-2 rounded-full bg-red-500 shadow-md shadow-red-500/80"></div>
+                        {/* Outer Rotating SVG Orbit Ring */}
+                        <div className="absolute w-[290px] h-[290px] sm:w-[370px] sm:h-[370px] pointer-events-none animate-spin-slow">
+                            <svg className="w-full h-full" viewBox="0 0 100 100">
+                                <circle
+                                    cx="50"
+                                    cy="50"
+                                    r="48"
+                                    fill="none"
+                                    stroke="rgba(225, 29, 72, 0.4)"
+                                    strokeWidth="0.5"
+                                    strokeDasharray="4 4"
+                                />
+                            </svg>
+                        </div>
 
-                            {/* Concentric Ring 1 (Inner) */}
-                            <div className="w-full h-full rounded-full border border-rose-500/40 concentric-ring-1 flex items-center justify-center p-3 relative bg-[#130508]/40 backdrop-blur-xs">
+                        {/* Reverse Rotating SVG Ring with glowing dot */}
+                        <div className="absolute w-[320px] h-[320px] sm:w-[400px] sm:h-[400px] pointer-events-none animate-spin-reverse-slow">
+                            <div className="absolute top-2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-rose-400 shadow-lg shadow-rose-400/90 animate-ping"></div>
+                            <div className="absolute top-2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-rose-500 shadow-lg shadow-rose-500/90"></div>
+                            <div className="absolute bottom-4 right-10 w-2 h-2 rounded-full bg-red-400 shadow-md shadow-red-400/80"></div>
+                        </div>
+
+                        {/* Concentric Ring 2 (Outer Container with scale pulse) */}
+                        <div className="w-72 h-72 sm:w-88 sm:h-88 rounded-full border border-rose-500/30 concentric-ring-2 flex items-center justify-center p-4 relative hover:scale-105 transition-transform duration-500">
+                            {/* Inner Rotating Dashed SVG */}
+                            <div className="absolute inset-2 rounded-full pointer-events-none animate-spin-slow">
+                                <svg className="w-full h-full" viewBox="0 0 100 100">
+                                    <circle
+                                        cx="50"
+                                        cy="50"
+                                        r="47"
+                                        fill="none"
+                                        stroke="rgba(244, 63, 94, 0.5)"
+                                        strokeWidth="0.8"
+                                        strokeDasharray="6 8"
+                                    />
+                                </svg>
+                            </div>
+
+                            {/* Concentric Ring 1 (Inner with glow pulse) */}
+                            <div className="w-full h-full rounded-full border border-rose-500/50 concentric-ring-1 flex items-center justify-center p-3 relative bg-[#130508]/60 backdrop-blur-sm shadow-[0_0_50px_rgba(225,29,72,0.3)]">
                                 {/* Center Avatar Container */}
-                                <div className="w-full h-full rounded-full overflow-hidden border-2 border-rose-500/70 relative shadow-2xl bg-black/40">
+                                <div className="w-full h-full rounded-full overflow-hidden border-2 border-rose-500/80 relative shadow-2xl bg-black/40 group">
                                     <img
                                         src={profile.avatarUrl}
                                         alt={profile.name}
-                                        className="w-full h-full object-cover scale-105 hover:scale-110 transition-transform duration-700"
+                                        className="w-full h-full object-cover scale-105 group-hover:scale-115 transition-transform duration-700"
                                     />
-                                    {/* Subtle inner shadow overlay */}
+                                    {/* Subtle inner shadow & gradient overlay */}
                                     <div className="absolute inset-0 bg-gradient-to-t from-[#0b0406]/70 via-transparent to-transparent pointer-events-none"></div>
                                 </div>
                             </div>

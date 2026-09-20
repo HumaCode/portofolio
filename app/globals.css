@@ -31,6 +31,33 @@ body {
   box-shadow: 0 0 0 1px rgba(225, 29, 72, 0.15);
 }
 
+/* Hero Avatar Spin & Orbit Animations */
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinReverseSlow {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 20s linear infinite;
+}
+
+.animate-spin-reverse-slow {
+  animation: spinReverseSlow 25s linear infinite;
+}
+
 /* Circular SVG Gauges */
 .gauge-circle {
   stroke-linecap: round;
