@@ -4,10 +4,12 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Menu, X, Terminal } from "lucide-react";
 import { portfolioData } from "@/data/portfolio";
+import { useSmoothScroll } from "@/components/useSmoothScroll";
 
 export const Header: React.FC = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const { profile } = portfolioData;
+    const { scrollToSection } = useSmoothScroll();
 
     const navLinks = [
         { label: "Home", href: "#home" },
@@ -24,6 +26,7 @@ export const Header: React.FC = () => {
                 {/* Brand */}
                 <Link
                     href="#home"
+                    onClick={(e) => scrollToSection(e, "#home")}
                     className="flex items-center gap-2 group font-bold tracking-tight text-white hover:text-rose-400 transition-colors"
                 >
                     <div className="w-8 h-8 rounded-lg bg-rose-950/80 border border-rose-700/40 flex items-center justify-center text-rose-400 group-hover:scale-105 group-hover:border-rose-500 transition-all">
@@ -43,6 +46,7 @@ export const Header: React.FC = () => {
                         <Link
                             key={link.label}
                             href={link.href}
+                            onClick={(e) => scrollToSection(e, link.href)}
                             className="hover:text-rose-400 transition-colors"
                         >
                             {link.label}
@@ -61,6 +65,7 @@ export const Header: React.FC = () => {
                     </Link>
                     <Link
                         href="#contact"
+                        onClick={(e) => scrollToSection(e, "#contact")}
                         className="px-4 py-1.5 rounded-full bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold shadow-lg shadow-rose-600/30 transition-all active:scale-95"
                     >
                         Hire Me
@@ -84,7 +89,10 @@ export const Header: React.FC = () => {
                         <Link
                             key={link.label}
                             href={link.href}
-                            onClick={() => setMobileMenuOpen(false)}
+                            onClick={(e) => {
+                                scrollToSection(e, link.href);
+                                setMobileMenuOpen(false);
+                            }}
                             className="block py-1.5 text-zinc-300 hover:text-rose-400 text-sm font-medium"
                         >
                             {link.label}
@@ -100,7 +108,10 @@ export const Header: React.FC = () => {
                         </Link>
                         <Link
                             href="#contact"
-                            onClick={() => setMobileMenuOpen(false)}
+                            onClick={(e) => {
+                                scrollToSection(e, "#contact");
+                                setMobileMenuOpen(false);
+                            }}
                             className="block w-full text-center px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold"
                         >
                             Hire Me

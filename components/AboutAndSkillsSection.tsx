@@ -12,7 +12,7 @@ export const AboutAndSkillsSection: React.FC = () => {
             {/* About Section */}
             <section
                 id="about"
-                className="py-16 sm:py-20 border-b border-rose-950/40 relative scroll-mt-0"
+                className="py-16 sm:py-20 border-b border-rose-950/40 relative scroll-mt-24"
             >
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
                     {/* Section Header */}
@@ -82,7 +82,7 @@ export const AboutAndSkillsSection: React.FC = () => {
             {/* Skills Section */}
             <section
                 id="skills"
-                className="py-16 sm:py-20 border-b border-rose-950/40 relative scroll-mt-0"
+                className="py-16 sm:py-20 border-b border-rose-950/40 relative scroll-mt-24"
             >
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
                     <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">

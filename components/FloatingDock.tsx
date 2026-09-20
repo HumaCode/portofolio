@@ -12,9 +12,11 @@ import {
     Sparkles,
 } from "lucide-react";
 import { portfolioData } from "@/data/portfolio";
+import { useSmoothScroll } from "@/components/useSmoothScroll";
 
 export const FloatingDock: React.FC = () => {
     const { profile } = portfolioData;
+    const { scrollToSection } = useSmoothScroll();
 
     const dockItems = [
         { label: "Home", icon: Home, href: "#home" },
@@ -34,6 +36,7 @@ export const FloatingDock: React.FC = () => {
                         <a
                             key={item.label}
                             href={item.href}
+                            onClick={(e) => scrollToSection(e, item.href)}
                             className="relative p-2.5 sm:p-3 rounded-xl text-zinc-400 hover:text-white hover:bg-rose-900/40 transition-all group flex items-center justify-center hover:-translate-y-1.5"
                             aria-label={item.label}
                         >

@@ -5,9 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { Download, Send, Sparkles, FolderGit2, Users, Award } from "lucide-react";
 import { portfolioData } from "@/data/portfolio";
+import { useSmoothScroll } from "@/components/useSmoothScroll";
 
 export const HeroSection: React.FC = () => {
     const { profile } = portfolioData;
+    const { scrollToSection } = useSmoothScroll();
 
     return (
         <section
@@ -47,6 +49,7 @@ export const HeroSection: React.FC = () => {
                         <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-1">
                             <Link
                                 href="#projects"
+                                onClick={(e) => scrollToSection(e, "#projects")}
                                 className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-semibold text-sm shadow-xl shadow-rose-600/30 transition-all flex items-center gap-2 active:scale-95"
                             >
                                 <span>View Projects</span>
@@ -54,6 +57,7 @@ export const HeroSection: React.FC = () => {
                             </Link>
                             <a
                                 href="#contact"
+                                onClick={(e) => scrollToSection(e, "#contact")}
                                 className="px-5 py-2.5 rounded-xl bg-[#18070b]/90 hover:bg-[#250b12] border border-rose-800/40 hover:border-rose-500/70 text-zinc-200 font-semibold text-sm transition-all flex items-center gap-2 active:scale-95"
                             >
                                 <span>Download CV</span>

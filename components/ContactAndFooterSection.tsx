@@ -12,9 +12,11 @@ import {
     Check,
 } from "lucide-react";
 import { portfolioData } from "@/data/portfolio";
+import { useSmoothScroll } from "@/components/useSmoothScroll";
 
 export const ContactAndFooterSection: React.FC = () => {
     const { profile } = portfolioData;
+    const { scrollToTop } = useSmoothScroll();
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [formData, setFormData] = useState({
         name: "",
@@ -32,16 +34,12 @@ export const ContactAndFooterSection: React.FC = () => {
         }, 4000);
     };
 
-    const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    };
-
     return (
         <>
             {/* Contact Section */}
             <section
                 id="contact"
-                className="py-16 sm:py-20 border-t border-rose-950/40 relative scroll-mt-0"
+                className="py-16 sm:py-20 border-t border-rose-950/40 relative scroll-mt-24"
             >
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 w-full">
                     <div className="text-center max-w-xl mx-auto mb-8 sm:mb-10 space-y-2">
