@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Shield, Clock, ExternalLink, User } from "lucide-react";
+import { Shield, Clock, ExternalLink, User, LogOut } from "lucide-react";
+import { signOut } from "next-auth/react";
 import { portfolioData } from "@/data/portfolio";
 
 interface AdminHeaderProps {
@@ -79,6 +80,15 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ onTabChange }) => {
                         <span className="hidden md:block text-xs font-semibold text-zinc-200">
                             {profile.brandName} (Admin)
                         </span>
+                    </button>
+
+                    <button
+                        onClick={() => signOut({ callbackUrl: "/admin/login" })}
+                        className="p-2 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 border border-rose-800/40 text-rose-300 hover:text-white transition-all text-xs font-semibold flex items-center gap-1.5"
+                        title="Keluar dari Panel Admin"
+                    >
+                        <LogOut className="w-4 h-4" />
+                        <span className="hidden sm:inline">Keluar</span>
                     </button>
                 </div>
             </div>

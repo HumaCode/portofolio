@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import {
     Terminal,
     UserCog,
@@ -38,28 +39,38 @@ export default function AdminLoginPage() {
 
     const handleQuickFill = () => {
         setEmail("admin@portfolio.com");
-        setPassword("password123");
+        setPassword("adminpassword123");
         setError("");
         setFillFlash(true);
         setTimeout(() => setFillFlash(false), 300);
     };
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setError("");
         setStatus("verifying");
-        setTimeout(() => {
-            const valid =
-                (email.trim() === "admin@portfolio.com" && password === "password123") ||
-                (email.trim() === "admin@flink.dev" && password.length >= 6);
-            if (valid) {
-                setStatus("success");
-                setTimeout(() => router.push("/admin"), 800);
-            } else {
-                setError("Kredensial tidak cocok dengan database node. Gunakan fitur Auto Fill.");
+
+        try {
+            const res = await signIn("credentials", {
+                email,
+                password,
+                redirect: false,
+            });
+
+            if (res?.error) {
+                setError("Kredensial tidak valid. Silakan periksa kembali email & password Anda.");
                 setStatus("idle");
+            } else {
+                setStatus("success");
+                setTimeout(() => {
+                    router.push("/admin");
+                    router.refresh();
+                }, 600);
             }
-        }, 750);
+        } catch (err: any) {
+            setError("Terjadi kesalahan sistem saat menghubungi auth gateway.");
+            setStatus("idle");
+        }
     };
 
     const openModal = () => {
@@ -122,7 +133,7 @@ export default function AdminLoginPage() {
                                         Demo Credentials Loaded
                                     </span>
                                     <span className="text-[11px] text-zinc-400 truncate">
-                                        admin@portfolio.com • password123
+                                        admin@portfolio.com • adminpassword123
                                     </span>
                                 </div>
                             </div>
