@@ -53,6 +53,13 @@ export const Header: React.FC = () => {
                 {/* Action Button */}
                 <div className="hidden md:flex items-center gap-3">
                     <Link
+                        href="/admin"
+                        className="px-3 py-1.5 rounded-full bg-[#18080c] hover:bg-[#260c13] text-rose-300 hover:text-white text-xs font-medium border border-rose-800/40 transition-all flex items-center gap-1.5"
+                    >
+                        <Terminal className="w-3.5 h-3.5 text-rose-400" />
+                        <span>Admin CMS</span>
+                    </Link>
+                    <Link
                         href="#contact"
                         className="px-4 py-1.5 rounded-full bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold shadow-lg shadow-rose-600/30 transition-all active:scale-95"
                     >
@@ -83,7 +90,14 @@ export const Header: React.FC = () => {
                             {link.label}
                         </Link>
                     ))}
-                    <div className="pt-2">
+                    <div className="pt-2 space-y-2">
+                        <Link
+                            href="/admin"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="block w-full text-center px-4 py-2 rounded-xl bg-[#1f0a10] border border-rose-800/40 text-rose-300 text-xs font-semibold"
+                        >
+                            Admin CMS Panel
+                        </Link>
                         <Link
                             href="#contact"
                             onClick={() => setMobileMenuOpen(false)}
