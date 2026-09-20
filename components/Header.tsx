@@ -8,8 +8,27 @@ import { useSmoothScroll } from "@/components/useSmoothScroll";
 
 export const Header: React.FC = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [isAtHome, setIsAtHome] = useState(true);
     const { profile } = portfolioData;
     const { scrollToSection } = useSmoothScroll();
+
+    React.useEffect(() => {
+        const handleScroll = () => {
+            // Ambil elemen seksi Home (Hero Section)
+            const homeSection = document.getElementById("home");
+            if (homeSection) {
+                const rect = homeSection.getBoundingClientRect();
+                // Header hanya tampil jika seksi home masih terlihat sebagian besar di layar
+                setIsAtHome(rect.bottom > 120);
+            } else {
+                setIsAtHome(window.scrollY < 400);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        handleScroll();
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     const navLinks = [
         { label: "Home", href: "#home" },
@@ -21,7 +40,13 @@ export const Header: React.FC = () => {
     ];
 
     return (
-        <header className="sticky top-0 z-40 w-full border-b border-rose-950/40 bg-[#0b0406]/85 backdrop-blur-md">
+        <header
+            className={`sticky top-0 z-40 w-full border-b border-rose-950/40 bg-[#0b0406]/85 backdrop-blur-md transition-all duration-500 ${
+                isAtHome
+                    ? "opacity-100 translate-y-0 pointer-events-auto"
+                    : "opacity-0 -translate-y-full pointer-events-none"
+            }`}
+        >
             <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
                 {/* Brand */}
                 <Link

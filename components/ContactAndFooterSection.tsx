@@ -39,7 +39,7 @@ export const ContactAndFooterSection: React.FC = () => {
             {/* Contact Section */}
             <section
                 id="contact"
-                className="py-16 sm:py-20 border-t border-rose-950/40 relative scroll-mt-24"
+                className="py-16 sm:py-20 border-t border-rose-950/40 relative scroll-mt-10"
             >
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 w-full">
                     <div className="text-center max-w-xl mx-auto mb-8 sm:mb-10 space-y-2">

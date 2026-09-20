@@ -20,7 +20,7 @@ export const CertificatesAndProjectsSection: React.FC = () => {
             {/* Certificates Section */}
             <section
                 id="certificates"
-                className="py-16 sm:py-20 border-b border-rose-950/40 relative scroll-mt-24"
+                className="py-16 sm:py-20 border-b border-rose-950/40 relative scroll-mt-10"
             >
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
                     <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 space-y-2">
@@ -101,7 +101,7 @@ export const CertificatesAndProjectsSection: React.FC = () => {
             {/* Projects Section */}
             <section
                 id="projects"
-                className="py-16 sm:py-20 border-b border-rose-950/40 relative scroll-mt-24"
+                className="py-16 sm:py-20 border-b border-rose-950/40 relative scroll-mt-10"
             >
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
                     <div className="text-center max-w-2xl mx-auto mb-8 space-y-2">
