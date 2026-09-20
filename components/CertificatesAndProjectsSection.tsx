@@ -17,10 +17,10 @@ export const CertificatesAndProjectsSection: React.FC = () => {
 
     return (
         <>
-            {/* Certificates Section - Full Viewport */}
+            {/* Certificates Section */}
             <section
                 id="certificates"
-                className="min-h-screen flex items-center justify-center pt-20 pb-16 border-b border-rose-950/40 relative scroll-mt-0"
+                className="py-16 sm:py-20 border-b border-rose-950/40 relative scroll-mt-0"
             >
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
                     <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 space-y-2">
@@ -98,10 +98,10 @@ export const CertificatesAndProjectsSection: React.FC = () => {
                 </div>
             </section>
 
-            {/* Projects Section - Full Viewport */}
+            {/* Projects Section */}
             <section
                 id="projects"
-                className="min-h-screen flex items-center justify-center pt-20 pb-16 border-b border-rose-950/40 relative scroll-mt-0"
+                className="py-16 sm:py-20 border-b border-rose-950/40 relative scroll-mt-0"
             >
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
                     <div className="text-center max-w-2xl mx-auto mb-8 space-y-2">

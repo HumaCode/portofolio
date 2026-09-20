@@ -12,12 +12,12 @@ export const HeroSection: React.FC = () => {
     return (
         <section
             id="home"
-            className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center py-8 md:py-12 border-b border-rose-950/40 hero-glow-bg overflow-hidden scroll-mt-24"
+            className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center py-10 md:py-12 border-b border-rose-950/40 hero-glow-bg scroll-mt-24"
         >
             <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                     {/* Left Column: Hero Text & CTA */}
-                    <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div className="lg:col-span-7 space-y-4 text-center lg:text-left">
                         {/* Status Pill Badge */}
                         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-950/70 border border-rose-800/40 text-rose-300 text-xs font-semibold backdrop-blur-sm shadow-inner shadow-rose-900/30">
                             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -32,7 +32,7 @@ export const HeroSection: React.FC = () => {
                             </p>
                             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight">
                                 {profile.name}{" "}
-                                <span className="block mt-1 bg-gradient-to-r from-rose-400 via-rose-500 to-red-600 bg-clip-text text-transparent">
+                                <span className="block mt-1 text-3xl sm:text-4xl lg:text-5xl bg-gradient-to-r from-rose-400 via-rose-500 to-red-600 bg-clip-text text-transparent">
                                     {profile.role}
                                 </span>
                             </h1>
@@ -44,17 +44,17 @@ export const HeroSection: React.FC = () => {
                         </p>
 
                         {/* CTA Action Buttons */}
-                        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-1">
                             <Link
                                 href="#projects"
-                                className="px-6 py-3 rounded-xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-semibold text-sm shadow-xl shadow-rose-600/30 transition-all flex items-center gap-2 active:scale-95"
+                                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-semibold text-sm shadow-xl shadow-rose-600/30 transition-all flex items-center gap-2 active:scale-95"
                             >
                                 <span>View Projects</span>
                                 <Send className="w-4 h-4" />
                             </Link>
                             <a
                                 href="#contact"
-                                className="px-6 py-3 rounded-xl bg-[#18070b]/90 hover:bg-[#250b12] border border-rose-800/40 hover:border-rose-500/70 text-zinc-200 font-semibold text-sm transition-all flex items-center gap-2 active:scale-95"
+                                className="px-5 py-2.5 rounded-xl bg-[#18070b]/90 hover:bg-[#250b12] border border-rose-800/40 hover:border-rose-500/70 text-zinc-200 font-semibold text-sm transition-all flex items-center gap-2 active:scale-95"
                             >
                                 <span>Download CV</span>
                                 <Download className="w-4 h-4 text-rose-400" />
@@ -62,7 +62,7 @@ export const HeroSection: React.FC = () => {
                         </div>
 
                         {/* Quick Metrics Bar */}
-                        <div className="grid grid-cols-3 gap-4 pt-8 border-t border-rose-950/60 max-w-lg mx-auto lg:mx-0">
+                        <div className="grid grid-cols-3 gap-3 pt-5 border-t border-rose-950/60 max-w-lg mx-auto lg:mx-0">
                             <div className="text-center lg:text-left">
                                 <div className="flex items-center justify-center lg:justify-start gap-1.5 text-rose-400 mb-1">
                                     <Award className="w-4 h-4" />
