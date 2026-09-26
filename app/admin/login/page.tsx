@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { useState, Suspense, type FormEvent } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import {
     Terminal,
@@ -21,8 +21,9 @@ import {
 } from "lucide-react";
 import { AuthShell } from "@/components/admin/AuthShell";
 
-export default function AdminLoginPage() {
+function AdminLoginForm() {
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -63,7 +64,8 @@ export default function AdminLoginPage() {
             } else {
                 setStatus("success");
                 setTimeout(() => {
-                    router.push("/admin");
+                    const targetUrl = searchParams.get("callbackUrl") || "/admin";
+                    router.push(targetUrl);
                     router.refresh();
                 }, 600);
             }
@@ -356,5 +358,13 @@ export default function AdminLoginPage() {
                 </div>
             )}
         </AuthShell>
+    );
+}
+
+export default function AdminLoginPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-[#090305]" />}>
+            <AdminLoginForm />
+        </Suspense>
     );
 }
