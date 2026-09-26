@@ -116,6 +116,7 @@ model Profile {
   email         String
   phone         String?
   socials       Json     // Object JSON socials: github, instagram, tiktok, youtube, linkedin
+  secondaryStack Json?   // Array string Additional Tech Stack & Ecosystem e.g. ["Laravel 11 & Livewire", ...]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }

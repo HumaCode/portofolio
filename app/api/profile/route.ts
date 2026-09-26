@@ -35,6 +35,9 @@ export async function GET() {
       email: profile.email,
       phone: profile.phone || "",
       socials: (profile.socials as Profile["socials"]) || {},
+      secondaryStack: Array.isArray(profile.secondaryStack)
+        ? (profile.secondaryStack as string[])
+        : portfolioData.secondaryStack,
     };
 
     return NextResponse.json({ profile: formattedProfile });
@@ -60,6 +63,7 @@ export async function PUT(req: Request) {
 
     const rolesList = body.roles && body.roles.length > 0 ? body.roles : [body.role || "<Developer />"];
     const primaryRole = rolesList[0] || body.role || "<Developer />";
+    const secStackList = Array.isArray(body.secondaryStack) ? body.secondaryStack : portfolioData.secondaryStack;
 
     const updatedProfile = await db.profile.upsert({
       where: { id: "default" },
@@ -83,6 +87,7 @@ export async function PUT(req: Request) {
         email: (body.email || "").trim(),
         phone: (body.phone || "").trim() || null,
         socials: body.socials || {},
+        secondaryStack: secStackList,
       },
       create: {
         id: "default",
@@ -105,6 +110,7 @@ export async function PUT(req: Request) {
         email: (body.email || "").trim(),
         phone: (body.phone || "").trim() || null,
         socials: body.socials || {},
+        secondaryStack: secStackList,
       },
     });
 
@@ -128,6 +134,9 @@ export async function PUT(req: Request) {
       email: updatedProfile.email,
       phone: updatedProfile.phone || "",
       socials: (updatedProfile.socials as Profile["socials"]) || {},
+      secondaryStack: Array.isArray(updatedProfile.secondaryStack)
+        ? (updatedProfile.secondaryStack as string[])
+        : portfolioData.secondaryStack,
     };
 
     return NextResponse.json({

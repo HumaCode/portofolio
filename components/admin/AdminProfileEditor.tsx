@@ -204,6 +204,80 @@ export const AdminProfileEditor: React.FC<Props> = ({ profile, onSaveProfile, to
                         </div>
                     </div>
                 </div>
+
+                {/* About Me Image Upload & Field */}
+                <div className="p-4 rounded-xl bg-[#13131b] border border-white/[0.06] space-y-3">
+                    <label className="text-zinc-200 font-semibold flex items-center gap-1.5">
+                        <ImageIcon className="w-4 h-4 text-rose-400" />
+                        <span>Foto Seksi About Me (Identity Card Image)</span>
+                    </label>
+
+                    <div className="flex items-center gap-4">
+                        <img
+                            src={formData.aboutImageUrl || formData.avatarUrl}
+                            alt="About Me Preview"
+                            className="w-20 h-20 rounded-2xl object-cover border-2 border-rose-500/40 shrink-0 bg-[#0d0d15] shadow-lg"
+                        />
+
+                        <div className="flex-1 space-y-2">
+                            <label className="flex items-center justify-center gap-2 w-full py-2.5 border-2 border-dashed border-rose-900/40 hover:border-rose-500/60 rounded-xl bg-[#1b1b23] hover:bg-[#251017] cursor-pointer transition-all text-center">
+                                {uploading ? (
+                                    <div className="flex items-center gap-2 text-rose-400 font-semibold">
+                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                        <span>Mengunggah Foto About...</span>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <Upload className="w-4 h-4 text-rose-400" />
+                                        <span className="text-xs font-semibold text-zinc-200">
+                                            Upload Foto About Me dari Perangkat
+                                        </span>
+                                    </>
+                                )}
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={async (e) => {
+                                        const file = e.target.files?.[0];
+                                        if (!file) return;
+                                        if (file.size > 5 * 1024 * 1024) {
+                                            alert("Ukuran file melebihi batas 5MB!");
+                                            return;
+                                        }
+                                        try {
+                                            setUploading(true);
+                                            const body = new FormData();
+                                            body.append("file", file);
+                                            body.append("folder", "about");
+                                            const res = await fetch("/api/upload", { method: "POST", body });
+                                            const data = await res.json();
+                                            if (res.ok) {
+                                                setFormData((prev) => ({ ...prev, aboutImageUrl: data.url }));
+                                            } else {
+                                                alert(data.error || "Gagal mengunggah foto.");
+                                            }
+                                        } catch (err) {
+                                            alert("Gagal mengunggah foto.");
+                                        } finally {
+                                            setUploading(false);
+                                            e.target.value = "";
+                                        }
+                                    }}
+                                    disabled={uploading}
+                                    className="hidden"
+                                />
+                            </label>
+
+                            <input
+                                type="text"
+                                value={formData.aboutImageUrl || ""}
+                                onChange={(e) => setFormData({ ...formData, aboutImageUrl: e.target.value })}
+                                placeholder="Atau tempelkan URL link foto About Me (https://...)"
+                                className="w-full px-3 py-1.5 rounded-xl bg-[#1b1b23] border border-white/[0.08] text-white text-xs focus:outline-none focus:border-rose-500"
+                            />
+                        </div>
+                    </div>
+                </div>
                 {/* Primary Info */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
@@ -313,6 +387,88 @@ export const AdminProfileEditor: React.FC<Props> = ({ profile, onSaveProfile, to
                             onChange={(e) => setFormData({ ...formData, aboutBio: e.target.value })}
                             className="w-full px-3 py-2 rounded-xl bg-[#13131b] border border-white/[0.08] text-white focus:outline-none focus:border-rose-500"
                         />
+                    </div>
+
+                    {/* Additional Tech Stack & Ecosystem */}
+                    <div className="pt-2 border-t border-white/[0.06] space-y-3">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <label className="block text-rose-400 font-mono text-xs uppercase tracking-wider font-bold">
+                                    Additional Tech Stack & Ecosystem
+                                </label>
+                                <p className="text-[11px] text-zinc-400">
+                                    Daftar badge teknologi/framework tambahan yang ditampilkan di halaman About Me.
+                                </p>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    const currentStack = [...(formData.secondaryStack || [
+                                        "Laravel 11 & Livewire",
+                                        "Flutter & Dart",
+                                        "Next.js 16 App Router",
+                                        "TypeScript & React 19",
+                                        "Tailwind CSS v4",
+                                        "PostgreSQL / MySQL",
+                                        "REST APIs & GraphQL",
+                                        "Figma UI/UX & Tokens",
+                                        "Docker & CI/CD",
+                                        "Git & GitHub Actions"
+                                    ])];
+                                    currentStack.push("");
+                                    setFormData({ ...formData, secondaryStack: currentStack });
+                                }}
+                                className="px-3 py-1.5 rounded-xl bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 text-xs font-semibold flex items-center gap-1.5 transition-all"
+                            >
+                                <Plus className="w-3.5 h-3.5" />
+                                <span>Tambah Tech Item</span>
+                            </button>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            {(formData.secondaryStack && formData.secondaryStack.length > 0
+                                ? formData.secondaryStack
+                                : [
+                                    "Laravel 11 & Livewire",
+                                    "Flutter & Dart",
+                                    "Next.js 16 App Router",
+                                    "TypeScript & React 19",
+                                    "Tailwind CSS v4",
+                                    "PostgreSQL / MySQL",
+                                    "REST APIs & GraphQL",
+                                    "Figma UI/UX & Tokens",
+                                    "Docker & CI/CD",
+                                    "Git & GitHub Actions"
+                                ]
+                            ).map((techItem, index, arr) => (
+                                <div key={index} className="flex items-center gap-2">
+                                    <input
+                                        type="text"
+                                        value={techItem}
+                                        onChange={(e) => {
+                                            const updatedStack = [...(formData.secondaryStack || arr)];
+                                            updatedStack[index] = e.target.value;
+                                            setFormData({ ...formData, secondaryStack: updatedStack });
+                                        }}
+                                        placeholder={`Tech Stack ${index + 1} (Contoh: Next.js 16 App Router)`}
+                                        className="flex-1 px-3 py-1.5 rounded-xl bg-[#13131b] border border-white/[0.08] text-zinc-200 text-xs focus:outline-none focus:border-rose-500"
+                                    />
+                                    {arr.length > 1 && (
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                const updatedStack = arr.filter((_, i) => i !== index);
+                                                setFormData({ ...formData, secondaryStack: updatedStack });
+                                            }}
+                                            title="Hapus item ini"
+                                            className="p-1.5 rounded-xl bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white border border-red-500/30 transition-all shrink-0"
+                                        >
+                                            <Minus className="w-3.5 h-3.5" />
+                                        </button>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
 

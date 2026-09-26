@@ -73,7 +73,10 @@ export const AboutAndSkillsSection: React.FC = () => {
                                     Additional Tech Stack & Ecosystem
                                 </h4>
                                 <div className="flex flex-wrap gap-2">
-                                    {secondaryStack.map((tech) => (
+                                    {(profile.secondaryStack && profile.secondaryStack.length > 0
+                                        ? profile.secondaryStack
+                                        : secondaryStack
+                                    ).map((tech) => (
                                         <span
                                             key={tech}
                                             className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-rose-950/40 border border-rose-800/30 text-xs font-medium text-zinc-200 hover:border-rose-500/50 hover:bg-rose-900/30 transition-all cursor-default"

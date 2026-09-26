@@ -24,6 +24,7 @@ export interface Profile {
         youtube?: string;
         linkedin?: string;
     };
+    secondaryStack?: string[];
 }
 
 export interface SkillGauge {
