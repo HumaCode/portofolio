@@ -68,7 +68,7 @@ export const HeroSection: React.FC = () => {
             id="home"
             className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center py-10 md:py-12 border-b border-rose-950/40 hero-glow-bg scroll-mt-24"
         >
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
+            <div className="max-w-7xl 2xl:max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 w-full">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                     {/* Left Column: Hero Text & CTA */}
                     <div className="lg:col-span-7 space-y-4 text-center lg:text-left">

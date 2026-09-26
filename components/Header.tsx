@@ -9,6 +9,7 @@ import { useSmoothScroll } from "@/components/useSmoothScroll";
 export const Header: React.FC = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isAtHome, setIsAtHome] = useState(true);
+    const [activeSection, setActiveSection] = useState<string>("home");
     const [profile, setProfile] = useState(portfolioData.profile);
     const { scrollToSection } = useSmoothScroll();
 
@@ -22,15 +23,27 @@ export const Header: React.FC = () => {
     }, []);
 
     React.useEffect(() => {
+        const sections = ["home", "about", "skills", "certificates", "projects", "contact"];
+
         const handleScroll = () => {
-            // Ambil elemen seksi Home (Hero Section)
             const homeSection = document.getElementById("home");
             if (homeSection) {
                 const rect = homeSection.getBoundingClientRect();
-                // Header hanya tampil jika seksi home masih terlihat sebagian besar di layar
                 setIsAtHome(rect.bottom > 120);
             } else {
                 setIsAtHome(window.scrollY < 400);
+            }
+
+            const scrollPosition = window.scrollY + window.innerHeight / 3;
+            for (let i = sections.length - 1; i >= 0; i--) {
+                const sectionId = sections[i];
+                const element = document.getElementById(sectionId);
+                if (element) {
+                    if (scrollPosition >= element.offsetTop) {
+                        setActiveSection(sectionId);
+                        break;
+                    }
+                }
             }
         };
 
@@ -40,12 +53,12 @@ export const Header: React.FC = () => {
     }, []);
 
     const navLinks = [
-        { label: "Home", href: "#home" },
-        { label: "About", href: "#about" },
-        { label: "Skills", href: "#skills" },
-        { label: "Certificates", href: "#certificates" },
-        { label: "Projects", href: "#projects" },
-        { label: "Contact", href: "#contact" },
+        { id: "home", label: "Home", href: "#home" },
+        { id: "about", label: "About", href: "#about" },
+        { id: "skills", label: "Skills", href: "#skills" },
+        { id: "certificates", label: "Certificates", href: "#certificates" },
+        { id: "projects", label: "Projects", href: "#projects" },
+        { id: "contact", label: "Contact", href: "#contact" },
     ];
 
     return (
@@ -56,7 +69,7 @@ export const Header: React.FC = () => {
                     : "opacity-0 -translate-y-full pointer-events-none"
             }`}
         >
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <div className="max-w-7xl 2xl:max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 h-16 flex items-center justify-between">
                 {/* Brand */}
                 <a
                     href="#home"
@@ -76,16 +89,26 @@ export const Header: React.FC = () => {
 
                 {/* Desktop Navigation */}
                 <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-zinc-300">
-                    {navLinks.map((link) => (
-                        <a
-                            key={link.label}
-                            href={link.href}
-                            onClick={(e) => scrollToSection(e, link.href)}
-                            className="hover:text-rose-400 transition-colors"
-                        >
-                            {link.label}
-                        </a>
-                    ))}
+                    {navLinks.map((link) => {
+                        const isActive = activeSection === link.id;
+                        return (
+                            <a
+                                key={link.label}
+                                href={link.href}
+                                onClick={(e) => scrollToSection(e, link.href)}
+                                className={`transition-all relative py-1 ${
+                                    isActive
+                                        ? "text-rose-400 font-semibold"
+                                        : "text-zinc-300 hover:text-rose-400"
+                                }`}
+                            >
+                                {link.label}
+                                {isActive && (
+                                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-rose-500 to-red-500 rounded-full"></span>
+                                )}
+                            </a>
+                        );
+                    })}
                 </nav>
 
                 {/* Action Button */}

@@ -48,10 +48,10 @@ export const ContactAndFooterSection: React.FC = () => {
             {/* Contact Section */}
             <section
                 id="contact"
-                className="py-14 sm:py-16 border-t border-rose-950/40 relative scroll-mt-10"
+                className="min-h-[calc(100vh-5rem)] flex items-center justify-center py-12 sm:py-16 border-t border-rose-950/40 relative scroll-mt-20"
             >
-                <div className="max-w-5xl mx-auto px-4 sm:px-6 w-full">
-                    <div className="text-center max-w-xl mx-auto mb-8 space-y-2">
+                <div className="max-w-7xl 2xl:max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 w-full my-auto">
+                    <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12 space-y-2">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-950/60 border border-rose-800/40 text-rose-400 text-xs font-semibold uppercase tracking-wider">
                             <MessageSquare className="w-3.5 h-3.5" />
                             <span>Get in touch</span>
@@ -68,8 +68,8 @@ export const ContactAndFooterSection: React.FC = () => {
                     </div>
 
                     {/* Single unified card container */}
-                    <div className="bg-[#14060a]/80 border border-rose-900/30 rounded-3xl p-6 sm:p-8 shadow-2xl">
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+                    <div className="bg-[#14060a]/80 border border-rose-900/30 rounded-3xl p-6 sm:p-10 lg:p-12 shadow-2xl">
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
                             {/* Contact Form — primary focus */}
                             <div className="lg:col-span-7 order-2 lg:order-1">
                                 {isSubmitted ? (
@@ -217,7 +217,7 @@ export const ContactAndFooterSection: React.FC = () => {
 
             {/* Footer */}
             <footer className="border-t border-rose-950/40 bg-[#070204] py-8 relative">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="max-w-7xl 2xl:max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <div className="flex items-center gap-2 text-sm text-zinc-400">
                         <span>© {new Date().getFullYear()} {profile.brandName} ({profile.name}). Crafted with</span>
                         <Heart className="w-4 h-4 text-rose-500 fill-rose-500" />

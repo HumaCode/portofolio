@@ -55,7 +55,8 @@ export function useSmoothScroll() {
             const targetElement = document.querySelector(href) as HTMLElement | null;
             if (!targetElement) return;
 
-            const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - customOffset;
+            // Target persis di garis atas section
+            const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
 
             if (lenis) {
                 lenis.scrollTo(targetPosition, {

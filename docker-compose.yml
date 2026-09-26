@@ -1,0 +1,22 @@
+services:
+  portofolio_db:
+    image: postgres:17-alpine
+    container_name: portofolio_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-my_portofolio}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-portofolio@26}
+      POSTGRES_DB: ${DB_NAME:-db_portofolio}
+    ports:
+      - "${DB_PORT:-5441}:5432"
+    volumes:
+      - portofolio_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-my_portofolio} -d ${DB_NAME:-db_portofolio}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  portofolio_pgdata:
+    driver: local
