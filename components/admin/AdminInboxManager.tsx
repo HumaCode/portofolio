@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { Mail, CheckCircle2, Trash2, Send, Clock, Building } from "lucide-react";
+import { Mail, CheckCircle2, Trash2, Send, Clock, Building, Loader2 } from "lucide-react";
 import { InboxMessage } from "@/data/portfolio";
+import { Modal } from "../Modal";
 
 interface Props {
     messages: InboxMessage[];
@@ -18,6 +19,38 @@ export const AdminInboxManager: React.FC<Props> = ({
     onMarkAllRead,
 }) => {
     const [filter, setFilter] = useState<"all" | "unread">("all");
+    const [replyModalMsg, setReplyModalMsg] = useState<InboxMessage | null>(null);
+    const [replyText, setReplyText] = useState("");
+    const [sendingReply, setSendingReply] = useState(false);
+
+    const handleSendReply = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!replyModalMsg || !replyText.trim()) return;
+
+        try {
+            setSendingReply(true);
+            const res = await fetch("/api/messages", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    action: "reply",
+                    id: replyModalMsg.id,
+                    replyText: replyText.trim(),
+                }),
+            });
+
+            if (res.ok) {
+                onToggleRead(replyModalMsg.id);
+                setReplyModalMsg(null);
+                setReplyText("");
+                alert(`Balasan berhasil dikirimkan ke ${replyModalMsg.email}!`);
+            }
+        } catch (err) {
+            console.error("Gagal mengirim balasan", err);
+        } finally {
+            setSendingReply(false);
+        }
+    };
 
     const unreadCount = messages.filter((m) => !m.isRead).length;
 
@@ -79,9 +112,28 @@ export const AdminInboxManager: React.FC<Props> = ({
             </div>
             <div className="divide-y divide-white/[0.04]">
                 {filteredMessages.length === 0 ? (
-                    <div className="p-12 text-center text-zinc-400">
-                        <Mail className="w-8 h-8 text-zinc-600 mx-auto mb-2" />
-                        <p className="text-sm font-medium">Tidak ada pesan dalam kategori ini.</p>
+                    <div className="py-16 px-6 text-center text-zinc-400">
+                        <div className="flex flex-col items-center justify-center space-y-3">
+                            <div className="w-12 h-12 rounded-2xl bg-rose-950/40 border border-rose-900/30 flex items-center justify-center text-rose-400 shadow-inner">
+                                <Mail className="w-6 h-6 text-rose-500 animate-pulse" />
+                            </div>
+                            <h3 className="text-sm font-bold text-zinc-200">
+                                {filter === "unread" ? "Tidak Ada Pesan Belum Dibaca" : "Inbox Pesan Masih Kosong"}
+                            </h3>
+                            <p className="text-xs text-zinc-500 max-w-sm leading-relaxed">
+                                {filter === "unread"
+                                    ? "Semua pesan kontak yang masuk sudah selesai Anda baca."
+                                    : "Belum ada pesan kontak dari pengunjung portofolio. Pesan baru dari form publik akan otomatis muncul di sini."}
+                            </p>
+                            {filter === "unread" && (
+                                <button
+                                    onClick={() => setFilter("all")}
+                                    className="mt-2 px-3 py-1 rounded-lg bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 border border-rose-500/30 text-xs font-medium transition-colors"
+                                >
+                                    Tampilkan Semua Pesan
+                                </button>
+                            )}
+                        </div>
                     </div>
                 ) : (
                     filteredMessages.map((msg) => (
@@ -139,11 +191,18 @@ export const AdminInboxManager: React.FC<Props> = ({
                             </div>
 
                             <div className="mt-4 sm:pl-13 flex items-center gap-2 flex-wrap">
-                                <a
-                                    href={`mailto:${msg.email}?subject=Re: ${encodeURIComponent(msg.subject)}`}
+                                <button
+                                    onClick={() => setReplyModalMsg(msg)}
                                     className="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-sm shadow-rose-600/20"
                                 >
-                                    <Send className="w-3 h-3" /> Balas Email
+                                    <Send className="w-3 h-3" /> Balas Langsung
+                                </button>
+
+                                <a
+                                    href={`mailto:${msg.email}?subject=Re: ${encodeURIComponent(msg.subject)}`}
+                                    className="px-3 py-1.5 rounded-lg bg-[#13131b] hover:bg-[#252532] text-zinc-300 text-xs font-medium border border-white/[0.08] flex items-center gap-1.5 transition-colors"
+                                >
+                                    Buka Mail App
                                 </a>
 
                                 <button
@@ -166,6 +225,71 @@ export const AdminInboxManager: React.FC<Props> = ({
                     ))
                 )}
             </div>
+
+            {/* Modal Reply Balas Email Direct */}
+            <Modal
+                isOpen={Boolean(replyModalMsg)}
+                onClose={() => {
+                    setReplyModalMsg(null);
+                    setReplyText("");
+                }}
+                title={`Balas Email ke ${replyModalMsg?.senderName}`}
+                subtitle={`Tujuan: ${replyModalMsg?.email}`}
+                icon={<Send className="w-5 h-5 text-rose-500" />}
+                size="xl"
+            >
+                <form onSubmit={handleSendReply} className="space-y-4 text-xs">
+                    <div className="p-3.5 rounded-xl bg-[#13131b] border border-white/[0.06] space-y-1">
+                        <span className="text-[10px] font-mono font-bold text-rose-400 uppercase">Subjek Pesan:</span>
+                        <p className="font-semibold text-white">{replyModalMsg?.subject}</p>
+                        <p className="text-[11px] text-zinc-400 leading-relaxed italic pt-1">
+                            "{replyModalMsg?.message}"
+                        </p>
+                    </div>
+
+                    <div>
+                        <label className="block text-xs font-semibold text-zinc-300 mb-1.5">Pesan Balasan Anda</label>
+                        <textarea
+                            rows={5}
+                            required
+                            value={replyText}
+                            onChange={(e) => setReplyText(e.target.value)}
+                            placeholder={`Halo ${replyModalMsg?.senderName},\n\nTerima kasih atas tawaran kerjasama Anda...`}
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-[#13131b] border border-white/[0.1] text-white focus:outline-none focus:border-rose-500 transition-all text-xs leading-relaxed"
+                        />
+                    </div>
+
+                    <div className="flex items-center justify-end gap-2 pt-2 border-t border-white/[0.06]">
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setReplyModalMsg(null);
+                                setReplyText("");
+                            }}
+                            className="px-4 py-2 rounded-xl bg-[#13131b] hover:bg-[#252532] text-xs font-semibold text-zinc-300 border border-white/[0.08]"
+                        >
+                            Batal
+                        </button>
+                        <button
+                            type="submit"
+                            disabled={sendingReply || !replyText.trim()}
+                            className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 disabled:opacity-50 text-xs font-bold text-white shadow-lg shadow-rose-600/30 flex items-center gap-1.5 transition-all"
+                        >
+                            {sendingReply ? (
+                                <>
+                                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                                    <span>Mengirim Balasan...</span>
+                                </>
+                            ) : (
+                                <>
+                                    <Send className="w-3.5 h-3.5" />
+                                    <span>Kirim Balasan</span>
+                                </>
+                            )}
+                        </button>
+                    </div>
+                </form>
+            </Modal>
         </div>
     );
 };

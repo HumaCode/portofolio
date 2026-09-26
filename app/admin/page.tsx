@@ -26,7 +26,8 @@ export default function AdminDashboardPage() {
     const [activeTab, setActiveTab] = useState<"overview" | "projects" | "inbox" | "profile">("overview");
     const [projects, setProjects] = useState<Project[]>([]);
     const [loadingProjects, setLoadingProjects] = useState(true);
-    const [messages, setMessages] = useState<InboxMessage[]>(portfolioData.inboxMessages);
+    const [messages, setMessages] = useState<InboxMessage[]>([]);
+    const [loadingMessages, setLoadingMessages] = useState(true);
     const [profile, setProfile] = useState<Profile>(portfolioData.profile);
     const [isAvailable, setIsAvailable] = useState<boolean>(portfolioData.profile.isAvailable ?? true);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -47,8 +48,24 @@ export default function AdminDashboardPage() {
         }
     };
 
+    const fetchMessages = async () => {
+        try {
+            setLoadingMessages(true);
+            const res = await fetch("/api/messages");
+            if (res.ok) {
+                const data = await res.json();
+                setMessages(data);
+            }
+        } catch (e) {
+            console.error("Failed to load inbox messages from DB", e);
+        } finally {
+            setLoadingMessages(false);
+        }
+    };
+
     useEffect(() => {
         fetchProjects();
+        fetchMessages();
     }, []);
 
     const showToast = (text: string, type: ToastType = "success", title?: string) => {
@@ -94,21 +111,50 @@ export default function AdminDashboardPage() {
         }
     };
 
-    const handleToggleReadMessage = (id: string) => {
-        setMessages(
-            messages.map((m) => (m.id === id ? { ...m, isRead: !m.isRead } : m))
-        );
-        showToast("Status pesan diperbarui.", "info");
+    const handleToggleReadMessage = async (id: string) => {
+        try {
+            const res = await fetch("/api/messages", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id }),
+            });
+            if (res.ok) {
+                await fetchMessages();
+                showToast("Status pesan diperbarui.", "info");
+            }
+        } catch (e) {
+            showToast("Gagal memperbarui status pesan.", "error");
+        }
     };
 
-    const handleDeleteMessage = (id: string) => {
-        setMessages(messages.filter((m) => m.id !== id));
-        showToast("Pesan kontak berhasil dihapus.", "info");
+    const handleDeleteMessage = async (id: string) => {
+        try {
+            const res = await fetch(`/api/messages?id=${id}`, {
+                method: "DELETE",
+            });
+            if (res.ok) {
+                await fetchMessages();
+                showToast("Pesan kontak berhasil dihapus.", "info");
+            }
+        } catch (e) {
+            showToast("Gagal menghapus pesan.", "error");
+        }
     };
 
-    const handleMarkAllRead = () => {
-        setMessages(messages.map((m) => ({ ...m, isRead: true })));
-        showToast("Semua pesan telah ditandai sebagai dibaca.", "success");
+    const handleMarkAllRead = async () => {
+        try {
+            const res = await fetch("/api/messages", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ markAllRead: true }),
+            });
+            if (res.ok) {
+                await fetchMessages();
+                showToast("Semua pesan telah ditandai sebagai dibaca.", "success");
+            }
+        } catch (e) {
+            showToast("Gagal memperbarui pesan.", "error");
+        }
     };
 
     const handleSaveProfile = (newProfile: Profile) => {
@@ -273,21 +319,28 @@ export default function AdminDashboardPage() {
                                     </button>
                                 </div>
                                 <div className="space-y-2.5">
-                                    {messages.slice(0, 2).map((m) => (
-                                        <div
-                                            key={m.id}
-                                            onClick={() => setActiveTab("inbox")}
-                                            className="p-3 rounded-xl bg-[#13131b] border border-white/[0.04] hover:border-rose-500/30 cursor-pointer transition-colors"
-                                        >
-                                            <div className="flex items-center justify-between text-[11px]">
-                                                <span className="font-bold text-white">{m.senderName}</span>
-                                                <span className="text-zinc-500 text-[10px]">{m.timeAgo}</span>
-                                            </div>
-                                            <p className="text-xs text-zinc-300 font-medium truncate mt-1">
-                                                {m.subject}
-                                            </p>
+                                    {messages.length === 0 ? (
+                                        <div className="py-6 text-center text-zinc-500">
+                                            <Mail className="w-5 h-5 text-rose-500/70 mx-auto mb-1 animate-pulse" />
+                                            <p className="text-xs font-semibold text-zinc-400">Belum ada pesan masuk</p>
                                         </div>
-                                    ))}
+                                    ) : (
+                                        messages.slice(0, 2).map((m) => (
+                                            <div
+                                                key={m.id}
+                                                onClick={() => setActiveTab("inbox")}
+                                                className="p-3 rounded-xl bg-[#13131b] border border-white/[0.04] hover:border-rose-500/30 cursor-pointer transition-colors"
+                                            >
+                                                <div className="flex items-center justify-between text-[11px]">
+                                                    <span className="font-bold text-white">{m.senderName}</span>
+                                                    <span className="text-zinc-500 text-[10px]">{m.timeAgo}</span>
+                                                </div>
+                                                <p className="text-xs text-zinc-300 font-medium truncate mt-1">
+                                                    {m.subject}
+                                                </p>
+                                            </div>
+                                        ))
+                                    )}
                                 </div>
                             </div>
                         </div>
