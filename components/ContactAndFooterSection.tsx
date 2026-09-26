@@ -11,21 +11,26 @@ import {
     Phone,
     Check,
 } from "lucide-react";
-import { portfolioData } from "@/data/portfolio";
+import { portfolioData, Profile } from "@/data/portfolio";
 import { useSmoothScroll } from "@/components/useSmoothScroll";
 
-export const ContactAndFooterSection: React.FC = () => {
-    const [profile, setProfile] = useState(portfolioData.profile);
+interface ContactAndFooterSectionProps {
+    initialProfile?: Profile;
+}
+
+export const ContactAndFooterSection: React.FC<ContactAndFooterSectionProps> = ({ initialProfile }) => {
+    const [profile, setProfile] = useState<Profile>(initialProfile || portfolioData.profile);
     const { scrollToTop } = useSmoothScroll();
 
     React.useEffect(() => {
+        if (initialProfile) setProfile(initialProfile);
         fetch("/api/profile")
             .then((res) => res.json())
             .then((data) => {
                 if (data?.profile) setProfile(data.profile);
             })
             .catch(() => {});
-    }, []);
+    }, [initialProfile]);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [formData, setFormData] = useState({
         name: "",

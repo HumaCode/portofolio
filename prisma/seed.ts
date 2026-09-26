@@ -78,11 +78,40 @@ async function main() {
   }
   console.log("✅ Projects & Categories seeded");
 
-  // 3. Seed Skills
+  // 3. Seed Skill Categories & Skills
+  const defaultSkillCategories = [
+    { name: "Frontend", slug: "frontend", description: "Pengembangan antarmuka web interaktif dan responsif" },
+    { name: "Backend", slug: "backend", description: "Arsitektur server, API, dan sistem logika bisnis" },
+    { name: "Database", slug: "database", description: "Perancangan skema data, query relasional, dan caching" },
+    { name: "Mobile", slug: "mobile", description: "Aplikasi seluler cross-platform performa tinggi" },
+  ];
+
+  for (const cat of defaultSkillCategories) {
+    const existing = await db.skillCategory.findFirst({
+      where: { OR: [{ name: cat.name }, { slug: cat.slug }] },
+    });
+    if (!existing) {
+      await db.skillCategory.create({
+        data: {
+          id: ulid(),
+          name: cat.name,
+          slug: cat.slug,
+          description: cat.description,
+        },
+      });
+    }
+  }
+
+  const allSkillCats = await db.skillCategory.findMany();
+  const catMap = new Map(allSkillCats.map((c) => [c.name.toLowerCase(), c.id]));
+
   for (const skill of portfolioData.skillsGauges) {
     const existingSkill = await db.skill.findFirst({
       where: { name: skill.name },
     });
+
+    const categoryName = skill.category || "General";
+    const matchedCatId = catMap.get(categoryName.toLowerCase()) || null;
 
     if (!existingSkill) {
       await db.skill.create({
@@ -90,14 +119,20 @@ async function main() {
           id: ulid(),
           name: skill.name,
           percentage: skill.percentage,
-          category: skill.category || "General",
+          category: categoryName,
+          categoryId: matchedCatId,
           color: skill.color,
           strokeColor: skill.strokeColor,
         },
       });
+    } else if (!existingSkill.categoryId && matchedCatId) {
+      await db.skill.update({
+        where: { id: existingSkill.id },
+        data: { categoryId: matchedCatId },
+      });
     }
   }
-  console.log("✅ Skills seeded");
+  console.log("✅ Skills & Skill Categories seeded");
 
   // 4. Seed Certificates
   for (const cert of portfolioData.certificates) {

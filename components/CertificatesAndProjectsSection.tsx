@@ -4,9 +4,35 @@ import React, { useState } from "react";
 import { Award, Briefcase, ExternalLink, Code2, CheckCircle, Sparkles } from "lucide-react";
 import { portfolioData, Certificate, Project } from "@/data/portfolio";
 
-export const CertificatesAndProjectsSection: React.FC = () => {
-    const { certificates, projects, profile } = portfolioData;
+interface CertificatesAndProjectsSectionProps {
+    initialCertificates?: Certificate[];
+    initialProjects?: Project[];
+}
+
+export const CertificatesAndProjectsSection: React.FC<CertificatesAndProjectsSectionProps> = ({
+    initialCertificates,
+    initialProjects,
+}) => {
+    const { profile } = portfolioData;
+    const [certificates, setCertificates] = useState<Certificate[]>(initialCertificates || portfolioData.certificates);
+    const [projects, setProjects] = useState<Project[]>(initialProjects || portfolioData.projects);
     const [selectedTag, setSelectedTag] = useState<string>("All");
+
+    React.useEffect(() => {
+        fetch("/api/certificates")
+            .then((res) => res.json())
+            .then((data) => {
+                if (Array.isArray(data) && data.length > 0) setCertificates(data);
+            })
+            .catch(() => {});
+
+        fetch("/api/projects")
+            .then((res) => res.json())
+            .then((data) => {
+                if (Array.isArray(data) && data.length > 0) setProjects(data);
+            })
+            .catch(() => {});
+    }, []);
 
     const allTags = ["All", "React", "Tailwind CSS", "Vue JS", "REST APIs"];
 

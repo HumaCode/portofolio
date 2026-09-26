@@ -1,14 +1,17 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { Download, Send, Sparkles, FolderGit2, Users, Award } from "lucide-react";
-import { portfolioData } from "@/data/portfolio";
+import { Download, Send, Sparkles, FolderGit2, Users, Award, Code2, Zap } from "lucide-react";
+import { portfolioData, Profile } from "@/data/portfolio";
 import { useSmoothScroll } from "@/components/useSmoothScroll";
 
-export const HeroSection: React.FC = () => {
-    const [profile, setProfile] = React.useState(portfolioData.profile);
+interface HeroSectionProps {
+    initialProfile?: Profile;
+}
+
+export const HeroSection: React.FC<HeroSectionProps> = ({ initialProfile }) => {
+    const [profile, setProfile] = React.useState<Profile>(initialProfile || portfolioData.profile);
     const { scrollToSection } = useSmoothScroll();
 
     React.useEffect(() => {
@@ -45,9 +48,11 @@ export const HeroSection: React.FC = () => {
 
         // Jika selesai menghapus seluruh teks
         if (isDeleting && currentText === "") {
-            setIsDeleting(false);
-            setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
-            return;
+            const timeout = setTimeout(() => {
+                setIsDeleting(false);
+                setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
+            }, 0);
+            return () => clearTimeout(timeout);
         }
 
         // Kecepatan mengetik & menghapus
@@ -61,7 +66,7 @@ export const HeroSection: React.FC = () => {
         }, speed);
 
         return () => clearTimeout(timer);
-    }, [currentText, isDeleting, currentRoleIndex]);
+    }, [currentText, isDeleting, currentRoleIndex, roles]);
 
     return (
         <section
@@ -154,60 +159,61 @@ export const HeroSection: React.FC = () => {
 
                     {/* Right Column: Hero Concentric Rings Avatar */}
                     <div className="lg:col-span-5 flex justify-center items-center relative">
-                        {/* Outer Pulsing Glow Ambient */}
-                        <div className="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-gradient-to-tr from-rose-600/30 to-red-500/20 blur-3xl -z-10 animate-pulse"></div>
+                        {/* Main Avatar Wrapper with balanced responsive dimensions */}
+                        <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[380px] lg:h-[380px] xl:w-[420px] xl:h-[420px] flex items-center justify-center">
+                            {/* Outer Ambient Glow Pulsing in Background */}
+                            <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-rose-600/35 via-rose-500/20 to-red-600/25 blur-3xl -z-10 animate-pulse pointer-events-none"></div>
 
-                        {/* Outer Rotating SVG Orbit Ring */}
-                        <div className="absolute w-[290px] h-[290px] sm:w-[370px] sm:h-[370px] pointer-events-none animate-spin-slow">
-                            <svg className="w-full h-full" viewBox="0 0 100 100">
-                                <circle
-                                    cx="50"
-                                    cy="50"
-                                    r="48"
-                                    fill="none"
-                                    stroke="rgba(225, 29, 72, 0.4)"
-                                    strokeWidth="0.5"
-                                    strokeDasharray="4 4"
-                                />
-                            </svg>
-                        </div>
-
-                        {/* Reverse Rotating SVG Ring with glowing dot */}
-                        <div className="absolute w-[320px] h-[320px] sm:w-[400px] sm:h-[400px] pointer-events-none animate-spin-reverse-slow">
-                            <div className="absolute top-2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-rose-400 shadow-lg shadow-rose-400/90 animate-ping"></div>
-                            <div className="absolute top-2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-rose-500 shadow-lg shadow-rose-500/90"></div>
-                            <div className="absolute bottom-4 right-10 w-2 h-2 rounded-full bg-red-400 shadow-md shadow-red-400/80"></div>
-                        </div>
-
-                        {/* Concentric Ring 2 (Outer Container with scale pulse) */}
-                        <div className="w-72 h-72 sm:w-88 sm:h-88 rounded-full border border-rose-500/30 concentric-ring-2 flex items-center justify-center p-4 relative hover:scale-105 transition-transform duration-500">
-                            {/* Inner Rotating Dashed SVG */}
-                            <div className="absolute inset-2 rounded-full pointer-events-none animate-spin-slow">
-                                <svg className="w-full h-full" viewBox="0 0 100 100">
-                                    <circle
-                                        cx="50"
-                                        cy="50"
-                                        r="47"
-                                        fill="none"
-                                        stroke="rgba(244, 63, 94, 0.5)"
-                                        strokeWidth="0.8"
-                                        strokeDasharray="6 8"
-                                    />
-                                </svg>
+                            {/* Outer Orbit Rings (behind the avatar, pointer-events-none) */}
+                            <div className="absolute -inset-4 sm:-inset-6 rounded-full border border-dashed border-rose-500/30 animate-spin-slow pointer-events-none -z-10"></div>
+                            <div className="absolute -inset-8 sm:-inset-10 rounded-full border border-rose-500/15 pointer-events-none -z-10"></div>
+                            
+                            {/* Orbiting Satellite Dot */}
+                            <div className="absolute -inset-4 sm:-inset-6 pointer-events-none animate-spin-reverse-slow -z-10">
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-rose-400 shadow-[0_0_12px_#f43f5e]"></div>
                             </div>
 
-                            {/* Concentric Ring 1 (Inner with glow pulse) */}
-                            <div className="w-full h-full rounded-full border border-rose-500/50 concentric-ring-1 flex items-center justify-center p-3 relative bg-[#130508]/60 backdrop-blur-sm shadow-[0_0_50px_rgba(225,29,72,0.3)]">
-                                {/* Center Avatar Container */}
-                                <div className="w-full h-full rounded-full overflow-hidden border-2 border-rose-500/80 relative shadow-2xl bg-black/40 group">
+                            {/* Core Avatar Frame: Crystal Clear, No Obscuring Overlays */}
+                            <div className="relative z-10 w-full h-full rounded-full p-2 sm:p-2.5 bg-gradient-to-b from-rose-500/40 via-rose-900/20 to-rose-950/40 border border-rose-500/40 backdrop-blur-sm shadow-[0_0_50px_rgba(225,29,72,0.3)] group hover:scale-[1.02] transition-transform duration-500">
+                                <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-b from-[#240c12] via-[#140609] to-[#090204] border border-rose-500/30 relative flex items-center justify-center">
                                     <img
                                         src={profile.avatarUrl}
                                         alt={profile.name}
-                                        className="w-full h-full object-cover scale-105 group-hover:scale-115 transition-transform duration-700"
+                                        className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700 select-none"
                                     />
-                                    {/* Subtle inner shadow & gradient overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-[#0b0406]/70 via-transparent to-transparent pointer-events-none"></div>
+                                    {/* Subtle inner ambient rim light to highlight shoulders & silhouette */}
+                                    <div className="absolute inset-0 rounded-full shadow-[inset_0_0_28px_rgba(244,63,94,0.3)] pointer-events-none"></div>
                                 </div>
+                            </div>
+
+                            {/* Floating Peripheral HUD Badges (Balanced framing around the orbit) */}
+                            {/* 1. Brand Tag (Top Right) */}
+                            <div className="absolute -top-2 -right-1 sm:-top-3 sm:-right-3 z-20 px-3.5 py-1.5 rounded-full bg-[#140508]/90 backdrop-blur-md border border-rose-500/50 text-xs font-mono text-rose-300 shadow-xl shadow-rose-950/80 flex items-center gap-2 animate-float pointer-events-auto hover:border-rose-400 hover:scale-105 transition-all">
+                                <Sparkles className="w-3.5 h-3.5 text-rose-400" />
+                                <span className="font-semibold text-white tracking-wide">{profile.brandName || "fLINK"}</span>
+                            </div>
+
+                            {/* 2. Primary Tech Badge (Top Left) */}
+                            <div className="absolute top-8 -left-3 sm:top-10 sm:-left-6 z-20 px-3 py-1.5 rounded-full bg-[#140508]/90 backdrop-blur-md border border-cyan-500/40 text-xs font-mono text-cyan-300 shadow-xl shadow-cyan-950/60 flex items-center gap-2 animate-float pointer-events-auto hover:border-cyan-400 hover:scale-105 transition-all">
+                                <Code2 className="w-3.5 h-3.5 text-cyan-400" />
+                                <span className="font-semibold text-zinc-200 tracking-tight">Next.js &bull; React</span>
+                            </div>
+
+                            {/* 3. Role/Capability Badge (Bottom Left) */}
+                            <div className="absolute bottom-10 -left-2 sm:bottom-12 sm:-left-4 z-20 px-3 py-1.5 rounded-full bg-[#140508]/90 backdrop-blur-md border border-rose-500/40 text-xs font-mono text-rose-300 shadow-xl shadow-rose-950/60 flex items-center gap-2 animate-float-slow pointer-events-auto hover:border-rose-400 hover:scale-105 transition-all">
+                                <Zap className="w-3.5 h-3.5 text-amber-400" />
+                                <span className="font-semibold text-zinc-200 tracking-tight">Full Stack Dev</span>
+                            </div>
+
+                            {/* 4. Status Badge (Bottom Center) */}
+                            <div className="absolute -bottom-3 sm:-bottom-4 left-1/2 -translate-x-1/2 z-20 px-4 py-2 rounded-full bg-[#140508]/90 backdrop-blur-md border border-emerald-500/40 text-xs font-semibold text-zinc-200 shadow-xl shadow-black/80 flex items-center gap-2.5 whitespace-nowrap animate-float-slow pointer-events-auto hover:scale-105 transition-all">
+                                <span className="relative flex h-2.5 w-2.5">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                                </span>
+                                <span className="text-zinc-200 font-medium">
+                                    {profile.isAvailable !== false ? "Open for Collaboration" : "Currently Focused"}
+                                </span>
                             </div>
                         </div>
                     </div>

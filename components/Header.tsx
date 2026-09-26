@@ -3,24 +3,29 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Menu, X, Terminal } from "lucide-react";
-import { portfolioData } from "@/data/portfolio";
+import { portfolioData, Profile } from "@/data/portfolio";
 import { useSmoothScroll } from "@/components/useSmoothScroll";
 
-export const Header: React.FC = () => {
+interface HeaderProps {
+    initialProfile?: Profile;
+}
+
+export const Header: React.FC<HeaderProps> = ({ initialProfile }) => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isAtHome, setIsAtHome] = useState(true);
     const [activeSection, setActiveSection] = useState<string>("home");
-    const [profile, setProfile] = useState(portfolioData.profile);
+    const [profile, setProfile] = useState<Profile>(initialProfile || portfolioData.profile);
     const { scrollToSection } = useSmoothScroll();
 
     React.useEffect(() => {
+        if (initialProfile) setProfile(initialProfile);
         fetch("/api/profile")
             .then((res) => res.json())
             .then((data) => {
                 if (data?.profile) setProfile(data.profile);
             })
             .catch(() => {});
-    }, []);
+    }, [initialProfile]);
 
     React.useEffect(() => {
         const sections = ["home", "about", "skills", "certificates", "projects", "contact"];

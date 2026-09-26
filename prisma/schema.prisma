@@ -58,15 +58,29 @@ model Project {
   @@index([categoryId])
 }
 
+model SkillCategory {
+  id          String    @id
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  skills      Skill[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
 model Skill {
-  id          String   @id
-  name        String
-  percentage  Int      @default(0)
-  category    String?  // e.g. "Frontend", "Backend", "Mobile", "Database"
-  color       String   // e.g. "from-rose-500 to-red-600"
-  strokeColor String   // e.g. "#f43f5e"
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String         @id
+  name          String
+  percentage    Int            @default(0)
+  category      String?        // e.g. "Frontend", "Backend", "Mobile", "Database"
+  categoryId    String?
+  skillCategory SkillCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  color         String         // e.g. "from-rose-500 to-red-600"
+  strokeColor   String         // e.g. "#f43f5e"
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([categoryId])
 }
 
 model Certificate {

@@ -7,10 +7,8 @@ import {
     Mail,
     User,
     Download,
-    Sparkles,
-    Shield,
-    CheckCircle2,
-    Database,
+    Cpu,
+    Award,
 } from "lucide-react";
 import { portfolioData, Project, InboxMessage, Profile } from "@/data/portfolio";
 import { AdminHeader } from "@/components/admin/AdminHeader";
@@ -20,14 +18,18 @@ import { AdminProjectsManager } from "@/components/admin/AdminProjectsManager";
 import { AdminTelemetryWidget } from "@/components/admin/AdminTelemetryWidget";
 import { AdminInboxManager } from "@/components/admin/AdminInboxManager";
 import { AdminProfileEditor } from "@/components/admin/AdminProfileEditor";
+import { AdminSkillsManager } from "@/components/admin/AdminSkillsManager";
+import { AdminCertificatesManager } from "@/components/admin/AdminCertificatesManager";
 import { AdminToast, ToastMessage, ToastType } from "@/components/admin/AdminToast";
 
+type AdminTab = "overview" | "projects" | "inbox" | "profile" | "skills" | "certificates";
+
 export default function AdminDashboardPage() {
-    const [activeTab, setActiveTab] = useState<"overview" | "projects" | "inbox" | "profile">("overview");
+    const [activeTab, setActiveTab] = useState<AdminTab>("overview");
     const [projects, setProjects] = useState<Project[]>([]);
-    const [loadingProjects, setLoadingProjects] = useState(true);
     const [messages, setMessages] = useState<InboxMessage[]>([]);
-    const [loadingMessages, setLoadingMessages] = useState(true);
+    const [skillsCount, setSkillsCount] = useState<number>(portfolioData.skillsGauges.length);
+    const [certificatesCount, setCertificatesCount] = useState<number>(portfolioData.certificates.length);
     const [profile, setProfile] = useState<Profile>(portfolioData.profile);
     const [isAvailable, setIsAvailable] = useState<boolean>(portfolioData.profile.isAvailable ?? true);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -35,53 +37,92 @@ export default function AdminDashboardPage() {
 
     const fetchProjects = async () => {
         try {
-            setLoadingProjects(true);
             const res = await fetch("/api/projects");
             if (res.ok) {
                 const data = await res.json();
                 setProjects(data);
             }
-        } catch (e) {
-            console.error("Failed to load projects from DB", e);
-        } finally {
-            setLoadingProjects(false);
+        } catch (err) {
+            console.error("Failed to load projects from DB", err);
         }
     };
 
     const fetchMessages = async () => {
         try {
-            setLoadingMessages(true);
             const res = await fetch("/api/messages");
             if (res.ok) {
                 const data = await res.json();
                 setMessages(data);
             }
-        } catch (e) {
-            console.error("Failed to load inbox messages from DB", e);
-        } finally {
-            setLoadingMessages(false);
+        } catch (err) {
+            console.error("Failed to load inbox messages from DB", err);
         }
     };
 
-    const fetchProfile = async () => {
+    const fetchCounts = async () => {
         try {
-            const res = await fetch("/api/profile");
-            if (res.ok) {
-                const data = await res.json();
-                if (data.profile) {
-                    setProfile(data.profile);
-                    setIsAvailable(data.profile.isAvailable ?? true);
-                }
+            const [skillsRes, certsRes] = await Promise.all([
+                fetch("/api/skills"),
+                fetch("/api/certificates"),
+            ]);
+            if (skillsRes.ok) {
+                const s = await skillsRes.json();
+                if (Array.isArray(s)) setSkillsCount(s.length);
             }
-        } catch (e) {
-            console.error("Failed to load profile from DB", e);
+            if (certsRes.ok) {
+                const c = await certsRes.json();
+                if (Array.isArray(c)) setCertificatesCount(c.length);
+            }
+        } catch (err) {
+            console.error("Failed to load counts", err);
         }
     };
 
     useEffect(() => {
-        fetchProjects();
-        fetchMessages();
-        fetchProfile();
+        let isMounted = true;
+        const loadInitialData = async () => {
+            try {
+                const [projRes, msgRes, profRes, skillsRes, certsRes] = await Promise.all([
+                    fetch("/api/projects"),
+                    fetch("/api/messages"),
+                    fetch("/api/profile"),
+                    fetch("/api/skills"),
+                    fetch("/api/certificates"),
+                ]);
+                if (!isMounted) return;
+                if (projRes.ok) {
+                    const data = await projRes.json();
+                    setProjects(data);
+                }
+                if (msgRes.ok) {
+                    const data = await msgRes.json();
+                    setMessages(data);
+                }
+                if (profRes.ok) {
+                    const data = await profRes.json();
+                    if (data.profile) {
+                        setProfile(data.profile);
+                        setIsAvailable(data.profile.isAvailable ?? true);
+                    }
+                }
+                if (skillsRes.ok) {
+                    const s = await skillsRes.json();
+                    if (Array.isArray(s)) setSkillsCount(s.length);
+                }
+                if (certsRes.ok) {
+                    const c = await certsRes.json();
+                    if (Array.isArray(c)) setCertificatesCount(c.length);
+                }
+            } catch (err) {
+                console.error("Failed to load initial data", err);
+            }
+        };
+
+        loadInitialData();
+
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     const showToast = (text: string, type: ToastType = "success", title?: string) => {
@@ -105,7 +146,7 @@ export default function AdminDashboardPage() {
             } else {
                 showToast("Gagal menyimpan proyek ke database.", "error");
             }
-        } catch (e) {
+        } catch {
             showToast("Terjadi kesalahan jaringan.", "error");
         }
     };
@@ -122,7 +163,7 @@ export default function AdminDashboardPage() {
             } else {
                 showToast("Gagal menghapus proyek dari database.", "error");
             }
-        } catch (e) {
+        } catch {
             showToast("Terjadi kesalahan jaringan.", "error");
         }
     };
@@ -138,7 +179,7 @@ export default function AdminDashboardPage() {
                 await fetchMessages();
                 showToast("Status pesan diperbarui.", "info");
             }
-        } catch (e) {
+        } catch {
             showToast("Gagal memperbarui status pesan.", "error");
         }
     };
@@ -152,7 +193,7 @@ export default function AdminDashboardPage() {
                 await fetchMessages();
                 showToast("Pesan kontak berhasil dihapus.", "info");
             }
-        } catch (e) {
+        } catch {
             showToast("Gagal menghapus pesan.", "error");
         }
     };
@@ -168,7 +209,7 @@ export default function AdminDashboardPage() {
                 await fetchMessages();
                 showToast("Semua pesan telah ditandai sebagai dibaca.", "success");
             }
-        } catch (e) {
+        } catch {
             showToast("Gagal memperbarui pesan.", "error");
         }
     };
@@ -188,8 +229,8 @@ export default function AdminDashboardPage() {
             } else {
                 showToast(data.error || "Gagal menyimpan data profil ke database.", "error");
             }
-        } catch (e) {
-            console.error("Gagal menyimpan profil:", e);
+        } catch (err) {
+            console.error("Gagal menyimpan profil:", err);
             showToast("Terjadi kesalahan jaringan saat menyimpan data profil.", "error");
         }
     };
@@ -232,7 +273,11 @@ export default function AdminDashboardPage() {
 
     return (
         <div className="flex flex-col min-h-screen">
-            <AdminHeader onTabChange={(tab) => setActiveTab(tab as any)} />
+            <AdminHeader onTabChange={(tab) => {
+                if (tab === "overview" || tab === "projects" || tab === "inbox" || tab === "profile" || tab === "skills" || tab === "certificates") {
+                    setActiveTab(tab);
+                }
+            }} />
 
             <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8">
                 <AdminBanner
@@ -243,17 +288,19 @@ export default function AdminDashboardPage() {
                 <AdminKpiCards
                     projectsCount={projects.length}
                     featuredCount={featuredCount}
-                    skillsCount={portfolioData.skillsGauges.length}
-                    certificatesCount={portfolioData.certificates.length}
+                    skillsCount={skillsCount}
+                    certificatesCount={certificatesCount}
                     unreadInboxCount={unreadInboxCount}
                     totalInboxCount={messages.length}
                     onViewInbox={() => setActiveTab("inbox")}
                     onViewProjects={() => setActiveTab("projects")}
+                    onViewSkills={() => setActiveTab("skills")}
+                    onViewCertificates={() => setActiveTab("certificates")}
                 />
 
                 {/* Segment Navigation Bar */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-2 rounded-2xl bg-[#1b1b23] border border-white/[0.08] mb-8 shadow-xl">
-                    <nav className="flex items-center gap-1 overflow-x-auto">
+                    <nav className="flex items-center gap-1 overflow-x-auto pb-1 sm:pb-0">
                         <button
                             onClick={() => setActiveTab("overview")}
                             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
@@ -304,9 +351,33 @@ export default function AdminDashboardPage() {
                             <User className="w-4 h-4" />
                             <span>Bio & Profil</span>
                         </button>
+
+                        <button
+                            onClick={() => setActiveTab("skills")}
+                            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
+                                activeTab === "skills"
+                                    ? "bg-rose-600 text-white shadow-lg shadow-rose-600/30"
+                                    : "text-zinc-400 hover:text-white hover:bg-[#13131b]"
+                            }`}
+                        >
+                            <Cpu className="w-4 h-4" />
+                            <span>Skills ({skillsCount})</span>
+                        </button>
+
+                        <button
+                            onClick={() => setActiveTab("certificates")}
+                            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
+                                activeTab === "certificates"
+                                    ? "bg-rose-600 text-white shadow-lg shadow-rose-600/30"
+                                    : "text-zinc-400 hover:text-white hover:bg-[#13131b]"
+                            }`}
+                        >
+                            <Award className="w-4 h-4" />
+                            <span>Sertifikat ({certificatesCount})</span>
+                        </button>
                     </nav>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 shrink-0">
                         <button
                             onClick={handleExportCSV}
                             className="px-3.5 py-2 rounded-xl bg-[#13131b] hover:bg-[#292932] border border-white/[0.08] text-xs font-semibold text-zinc-300 hover:text-white transition-all flex items-center gap-1.5"
@@ -405,6 +476,24 @@ export default function AdminDashboardPage() {
                         profile={profile}
                         onSaveProfile={handleSaveProfile}
                         totalProjectsCount={projects.length}
+                    />
+                )}
+
+                {activeTab === "skills" && (
+                    <AdminSkillsManager
+                        onShowToast={(text, type, title) => {
+                            showToast(text, type, title);
+                            fetchCounts();
+                        }}
+                    />
+                )}
+
+                {activeTab === "certificates" && (
+                    <AdminCertificatesManager
+                        onShowToast={(text, type, title) => {
+                            showToast(text, type, title);
+                            fetchCounts();
+                        }}
                     />
                 )}
             </main>

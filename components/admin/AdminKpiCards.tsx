@@ -12,6 +12,8 @@ interface AdminKpiCardsProps {
     totalInboxCount: number;
     onViewInbox?: () => void;
     onViewProjects?: () => void;
+    onViewSkills?: () => void;
+    onViewCertificates?: () => void;
 }
 
 export const AdminKpiCards: React.FC<AdminKpiCardsProps> = ({
@@ -23,6 +25,8 @@ export const AdminKpiCards: React.FC<AdminKpiCardsProps> = ({
     totalInboxCount,
     onViewInbox,
     onViewProjects,
+    onViewSkills,
+    onViewCertificates,
 }) => {
     return (
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
@@ -47,10 +51,13 @@ export const AdminKpiCards: React.FC<AdminKpiCardsProps> = ({
             </div>
 
             {/* Card 2: Skills */}
-            <div className="rounded-2xl bg-[#1b1b23] border border-white/[0.08] p-5 shadow-lg">
+            <div
+                onClick={onViewSkills}
+                className="rounded-2xl bg-[#1b1b23] hover:bg-[#1f1f27] border border-white/[0.08] hover:border-cyan-500/40 p-5 transition-all cursor-pointer shadow-lg group"
+            >
                 <div className="flex items-center justify-between mb-4">
                     <span className="text-xs font-medium text-zinc-400">Skills Terdaftar</span>
-                    <div className="w-10 h-10 rounded-xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                    <div className="w-10 h-10 rounded-xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
                         <Cpu className="w-5 h-5" />
                     </div>
                 </div>
@@ -64,10 +71,13 @@ export const AdminKpiCards: React.FC<AdminKpiCardsProps> = ({
             </div>
 
             {/* Card 3: Sertifikat */}
-            <div className="rounded-2xl bg-[#1b1b23] border border-white/[0.08] p-5 shadow-lg">
+            <div
+                onClick={onViewCertificates}
+                className="rounded-2xl bg-[#1b1b23] hover:bg-[#1f1f27] border border-white/[0.08] hover:border-emerald-500/40 p-5 transition-all cursor-pointer shadow-lg group"
+            >
                 <div className="flex items-center justify-between mb-4">
                     <span className="text-xs font-medium text-zinc-400">Sertifikat & Lisensi</span>
-                    <div className="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
                         <Award className="w-5 h-5" />
                     </div>
                 </div>

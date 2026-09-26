@@ -4,8 +4,96 @@ import { AboutAndSkillsSection } from "@/components/AboutAndSkillsSection";
 import { CertificatesAndProjectsSection } from "@/components/CertificatesAndProjectsSection";
 import { ContactAndFooterSection } from "@/components/ContactAndFooterSection";
 import { FloatingDock } from "@/components/FloatingDock";
+import { db } from "@/lib/db";
+import { portfolioData, Profile, SkillGauge, Certificate } from "@/data/portfolio";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+async function getProfile(): Promise<Profile> {
+  try {
+    const p = await db.profile.findUnique({
+      where: { id: "default" },
+    });
+    if (!p) return portfolioData.profile;
+
+    return {
+      name: p.name,
+      brandName: p.brandName,
+      tagline: p.tagline || "",
+      role: p.role,
+      roles: Array.isArray(p.roles) ? (p.roles as string[]) : [p.role],
+      bio: p.bio,
+      aboutBio: p.aboutBio,
+      yearsExp: p.yearsExp,
+      projectsCount: p.projectsCount,
+      clientsCount: p.clientsCount,
+      isAvailable: p.isAvailable,
+      avatarUrl: p.avatarUrl,
+      aboutImageUrl: p.aboutImageUrl || "",
+      certImageUrl: p.certImageUrl || "",
+      contactImageUrl: p.contactImageUrl || "",
+      location: p.location,
+      email: p.email,
+      phone: p.phone || "",
+      socials: (p.socials as Profile["socials"]) || {},
+      secondaryStack: Array.isArray(p.secondaryStack)
+        ? (p.secondaryStack as string[])
+        : portfolioData.secondaryStack,
+    };
+  } catch (e) {
+    console.error("Error fetching profile in page.tsx:", e);
+    return portfolioData.profile;
+  }
+}
+
+async function getSkills(): Promise<SkillGauge[]> {
+  try {
+    const skills = await db.skill.findMany({
+      orderBy: [{ percentage: "desc" }, { createdAt: "asc" }],
+    });
+    if (skills.length > 0) {
+      return skills.map((s) => ({
+        name: s.name,
+        percentage: s.percentage,
+        category: s.category || "General",
+        color: s.color,
+        strokeColor: s.strokeColor,
+      }));
+    }
+    return portfolioData.skillsGauges;
+  } catch {
+    return portfolioData.skillsGauges;
+  }
+}
+
+async function getCertificates(): Promise<Certificate[]> {
+  try {
+    const certs = await db.certificate.findMany({
+      orderBy: [{ year: "desc" }, { createdAt: "desc" }],
+    });
+    if (certs.length > 0) {
+      return certs.map((c) => ({
+        id: c.id,
+        title: c.title,
+        issuer: c.issuer,
+        year: c.year,
+        verifyUrl: c.verifyUrl || undefined,
+        isVerified: c.isVerified,
+      }));
+    }
+    return portfolioData.certificates;
+  } catch {
+    return portfolioData.certificates;
+  }
+}
+
+export default async function Home() {
+  const [profile, skills, certificates] = await Promise.all([
+    getProfile(),
+    getSkills(),
+    getCertificates(),
+  ]);
+
   return (
     <div className="min-h-screen bg-[#070204] text-zinc-100 font-sans selection:bg-rose-500 selection:text-white relative overflow-x-clip">
       {/* Background ambient lighting */}
@@ -17,20 +105,20 @@ export default function Home() {
 
       <div className="relative z-10">
         {/* Navigation Bar */}
-        <Header />
+        <Header initialProfile={profile} />
 
         <main>
           {/* Hero Section */}
-          <HeroSection />
+          <HeroSection initialProfile={profile} />
 
           {/* About & Skills Section */}
-          <AboutAndSkillsSection />
+          <AboutAndSkillsSection initialProfile={profile} initialSkills={skills} />
 
           {/* Certificates & Featured Projects */}
-          <CertificatesAndProjectsSection />
+          <CertificatesAndProjectsSection initialCertificates={certificates} />
 
           {/* Contact Section & Footer */}
-          <ContactAndFooterSection />
+          <ContactAndFooterSection initialProfile={profile} />
         </main>
 
         {/* Floating Quick Dock */}
