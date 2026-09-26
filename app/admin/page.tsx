@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     LayoutDashboard,
     FolderGit2,
@@ -20,35 +20,78 @@ import { AdminProjectsManager } from "@/components/admin/AdminProjectsManager";
 import { AdminTelemetryWidget } from "@/components/admin/AdminTelemetryWidget";
 import { AdminInboxManager } from "@/components/admin/AdminInboxManager";
 import { AdminProfileEditor } from "@/components/admin/AdminProfileEditor";
-import { AdminToast, ToastMessage } from "@/components/admin/AdminToast";
+import { AdminToast, ToastMessage, ToastType } from "@/components/admin/AdminToast";
 
 export default function AdminDashboardPage() {
     const [activeTab, setActiveTab] = useState<"overview" | "projects" | "inbox" | "profile">("overview");
-    const [projects, setProjects] = useState<Project[]>(portfolioData.projects);
+    const [projects, setProjects] = useState<Project[]>([]);
+    const [loadingProjects, setLoadingProjects] = useState(true);
     const [messages, setMessages] = useState<InboxMessage[]>(portfolioData.inboxMessages);
     const [profile, setProfile] = useState<Profile>(portfolioData.profile);
     const [isAvailable, setIsAvailable] = useState<boolean>(portfolioData.profile.isAvailable ?? true);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [toast, setToast] = useState<ToastMessage | null>(null);
 
-    const showToast = (text: string, type: "success" | "info" | "error" = "success") => {
-        setToast({ id: `${Date.now()}`, text, type });
-    };
-
-    const handleSaveProject = (project: Project, isNew: boolean) => {
-        if (isNew) {
-            setProjects([project, ...projects]);
-            showToast(`Proyek "${project.title}" berhasil ditambahkan!`, "success");
-        } else {
-            setProjects(projects.map((p) => (p.id === project.id ? project : p)));
-            showToast(`Proyek "${project.title}" berhasil diperbarui!`, "success");
+    const fetchProjects = async () => {
+        try {
+            setLoadingProjects(true);
+            const res = await fetch("/api/projects");
+            if (res.ok) {
+                const data = await res.json();
+                setProjects(data);
+            }
+        } catch (e) {
+            console.error("Failed to load projects from DB", e);
+        } finally {
+            setLoadingProjects(false);
         }
     };
 
-    const handleDeleteProject = (id: string) => {
+    useEffect(() => {
+        fetchProjects();
+    }, []);
+
+    const showToast = (text: string, type: ToastType = "success", title?: string) => {
+        setToast({ id: `${Date.now()}`, text, type, title });
+    };
+
+    const handleSaveProject = async (project: Project, isNew: boolean) => {
+        try {
+            const res = await fetch("/api/projects", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(project),
+            });
+            if (res.ok) {
+                await fetchProjects();
+                showToast(
+                    isNew ? `Proyek "${project.title}" berhasil ditambahkan!` : `Proyek "${project.title}" berhasil diperbarui!`,
+                    "success",
+                    isNew ? "Proyek Dibuat" : "Proyek Diperbarui"
+                );
+            } else {
+                showToast("Gagal menyimpan proyek ke database.", "error");
+            }
+        } catch (e) {
+            showToast("Terjadi kesalahan jaringan.", "error");
+        }
+    };
+
+    const handleDeleteProject = async (id: string) => {
         const target = projects.find((p) => p.id === id);
-        setProjects(projects.filter((p) => p.id !== id));
-        showToast(`Proyek "${target?.title || id}" telah dihapus.`, "info");
+        try {
+            const res = await fetch(`/api/projects?id=${id}`, {
+                method: "DELETE",
+            });
+            if (res.ok) {
+                setProjects(projects.filter((p) => p.id !== id));
+                showToast(`Proyek "${target?.title || "terpilih"}" telah berhasil dihapus dari database.`, "danger", "Hapus Proyek Sukses");
+            } else {
+                showToast("Gagal menghapus proyek dari database.", "error");
+            }
+        } catch (e) {
+            showToast("Terjadi kesalahan jaringan.", "error");
+        }
     };
 
     const handleToggleReadMessage = (id: string) => {
@@ -206,6 +249,7 @@ export default function AdminDashboardPage() {
                                 isModalOpen={isAddModalOpen}
                                 onCloseModal={() => setIsAddModalOpen(false)}
                                 onOpenAddModal={() => setIsAddModalOpen(true)}
+                                showToast={showToast}
                             />
                         </div>
                         <div className="lg:col-span-4 space-y-6">
@@ -258,6 +302,7 @@ export default function AdminDashboardPage() {
                         isModalOpen={isAddModalOpen}
                         onCloseModal={() => setIsAddModalOpen(false)}
                         onOpenAddModal={() => setIsAddModalOpen(true)}
+                        showToast={showToast}
                     />
                 )}
 

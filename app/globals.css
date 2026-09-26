@@ -66,6 +66,16 @@ body {
   transform-origin: 50% 50%;
 }
 
+/* Custom Scrollbar Utility to hide scrollbars while maintaining scroll functionality */
+.scrollbar-none {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
