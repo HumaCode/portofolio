@@ -94,3 +94,28 @@ model InboxMessage {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
+
+model Profile {
+  id            String   @id @default("default")
+  name          String
+  brandName     String
+  tagline       String?
+  role          String   // Primary role / string fallback
+  roles         Json     // Array string roles e.g. ["<Frontend & Fullstack Developer />", "<React & Next.js />"]
+  bio           String   @db.Text
+  aboutBio      String   @db.Text
+  yearsExp      String
+  projectsCount String
+  clientsCount  String
+  isAvailable   Boolean  @default(true)
+  avatarUrl     String   @db.Text
+  aboutImageUrl String?  @db.Text
+  certImageUrl  String?  @db.Text
+  contactImageUrl String? @db.Text
+  location      String
+  email         String
+  phone         String?
+  socials       Json     // Object JSON socials: github, instagram, tiktok, youtube, linkedin
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

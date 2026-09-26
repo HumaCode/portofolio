@@ -9,8 +9,17 @@ import { useSmoothScroll } from "@/components/useSmoothScroll";
 export const Header: React.FC = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isAtHome, setIsAtHome] = useState(true);
-    const { profile } = portfolioData;
+    const [profile, setProfile] = useState(portfolioData.profile);
     const { scrollToSection } = useSmoothScroll();
+
+    React.useEffect(() => {
+        fetch("/api/profile")
+            .then((res) => res.json())
+            .then((data) => {
+                if (data?.profile) setProfile(data.profile);
+            })
+            .catch(() => {});
+    }, []);
 
     React.useEffect(() => {
         const handleScroll = () => {

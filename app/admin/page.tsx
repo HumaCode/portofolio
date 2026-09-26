@@ -63,9 +63,25 @@ export default function AdminDashboardPage() {
         }
     };
 
+    const fetchProfile = async () => {
+        try {
+            const res = await fetch("/api/profile");
+            if (res.ok) {
+                const data = await res.json();
+                if (data.profile) {
+                    setProfile(data.profile);
+                    setIsAvailable(data.profile.isAvailable ?? true);
+                }
+            }
+        } catch (e) {
+            console.error("Failed to load profile from DB", e);
+        }
+    };
+
     useEffect(() => {
         fetchProjects();
         fetchMessages();
+        fetchProfile();
     }, []);
 
     const showToast = (text: string, type: ToastType = "success", title?: string) => {
@@ -157,9 +173,25 @@ export default function AdminDashboardPage() {
         }
     };
 
-    const handleSaveProfile = (newProfile: Profile) => {
-        setProfile(newProfile);
-        showToast("Informasi profil berhasil diperbarui & disimpan!", "success");
+    const handleSaveProfile = async (newProfile: Profile) => {
+        try {
+            const res = await fetch("/api/profile", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newProfile),
+            });
+            const data = await res.json();
+
+            if (res.ok) {
+                setProfile(data.profile || newProfile);
+                showToast("Informasi profil berhasil tersimpan di Database!", "success", "Profil Diperbarui");
+            } else {
+                showToast(data.error || "Gagal menyimpan data profil ke database.", "error");
+            }
+        } catch (e) {
+            console.error("Gagal menyimpan profil:", e);
+            showToast("Terjadi kesalahan jaringan saat menyimpan data profil.", "error");
+        }
     };
 
     const handleToggleAvailability = (available: boolean) => {
@@ -372,6 +404,7 @@ export default function AdminDashboardPage() {
                     <AdminProfileEditor
                         profile={profile}
                         onSaveProfile={handleSaveProfile}
+                        totalProjectsCount={projects.length}
                     />
                 )}
             </main>

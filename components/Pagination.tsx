@@ -66,7 +66,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         {/* Tombol Kurang / Previous */}
         <button
           onClick={() => onPageChange(currentPage - 1)}
-          disabled={currentPage === 1}
+          disabled={currentPage <= 1}
           className="p-1.5 rounded-lg bg-[#1b1b23] border border-white/[0.08] text-zinc-300 hover:text-white hover:bg-rose-600/20 hover:border-rose-500/40 disabled:opacity-30 disabled:pointer-events-none transition-all"
           aria-label="Halaman Sebelumnya"
         >

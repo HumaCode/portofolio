@@ -15,8 +15,17 @@ import { portfolioData } from "@/data/portfolio";
 import { useSmoothScroll } from "@/components/useSmoothScroll";
 
 export const ContactAndFooterSection: React.FC = () => {
-    const { profile } = portfolioData;
+    const [profile, setProfile] = useState(portfolioData.profile);
     const { scrollToTop } = useSmoothScroll();
+
+    React.useEffect(() => {
+        fetch("/api/profile")
+            .then((res) => res.json())
+            .then((data) => {
+                if (data?.profile) setProfile(data.profile);
+            })
+            .catch(() => {});
+    }, []);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [formData, setFormData] = useState({
         name: "",

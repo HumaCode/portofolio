@@ -2,20 +2,20 @@ import { NextResponse } from "next/server";
 import { readFile, stat } from "fs/promises";
 import path from "path";
 
-// GET /api/files/[...slug] - Secure File Serving Stream with Content-Type & Caching
+// GET /api/files/...slug - Secure File Serving Stream with Content-Type & Caching
 export async function GET(
   req: Request,
-  { params }: { params: Promise<{ filename?: string; slug?: string[] }> }
+  { params }: { params: Promise<{ slug?: string[] }> }
 ) {
   try {
     const resolvedParams = await params;
-    const slugParts = resolvedParams.slug || (resolvedParams.filename ? [resolvedParams.filename] : []);
+    const slugParts = resolvedParams.slug || [];
     
     if (slugParts.length === 0) {
       return NextResponse.json({ error: "File tidak ditentukan." }, { status: 400 });
     }
 
-    // Security Check: Prevent directory traversal attack
+    // Security Check: Prevent directory traversal attack (e.g. ../../.env)
     const safePaths = slugParts.map((part) => path.basename(part));
     const filePath = path.join(process.cwd(), "storage", "private", "uploads", ...safePaths);
 

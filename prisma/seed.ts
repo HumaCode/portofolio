@@ -145,6 +145,40 @@ async function main() {
   }
   console.log("✅ Inbox Messages seeded");
 
+  // 6. Seed Default Profile
+  const existingProfile = await db.profile.findUnique({
+    where: { id: "default" },
+  });
+
+  if (!existingProfile) {
+    const p = portfolioData.profile;
+    await db.profile.create({
+      data: {
+        id: "default",
+        name: p.name,
+        brandName: p.brandName,
+        tagline: p.tagline || null,
+        role: p.role,
+        roles: p.roles || [p.role],
+        bio: p.bio,
+        aboutBio: p.aboutBio,
+        yearsExp: p.yearsExp,
+        projectsCount: p.projectsCount,
+        clientsCount: p.clientsCount,
+        isAvailable: p.isAvailable ?? true,
+        avatarUrl: p.avatarUrl,
+        aboutImageUrl: p.aboutImageUrl || null,
+        certImageUrl: p.certImageUrl || null,
+        contactImageUrl: p.contactImageUrl || null,
+        location: p.location,
+        email: p.email,
+        phone: p.phone || null,
+        socials: p.socials || {},
+      },
+    });
+    console.log("✅ Profile seeded");
+  }
+
   console.log("🎉 Seeding completed successfully!");
 }
 

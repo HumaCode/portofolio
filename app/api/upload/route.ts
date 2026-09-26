@@ -34,23 +34,63 @@ export async function POST(req: Request) {
       );
     }
 
-    // 3. Private Storage Directory Outside 'public' Folder (Protected Local Storage)
-    const privateStorageDir = path.join(process.cwd(), "storage", "private", "uploads");
+    // 3. Subfolder & Private Storage Directory Outside 'public' Folder
+    const folderParam = formData.get("folder") as string | null;
+    const subfolder = folderParam ? path.basename(folderParam) : "";
+    const privateStorageDir = subfolder
+      ? path.join(process.cwd(), "storage", "private", "uploads", subfolder)
+      : path.join(process.cwd(), "storage", "private", "uploads");
+    
     await mkdir(privateStorageDir, { recursive: true });
 
-    // 4. Safe random filename with verified real extension (Prevents Path Traversal & Double Extension attack)
+    // 4. Safe random filename with prefix
     const ext = securityCheck.detectedExt || ".jpg";
-    const filename = `proj_${Date.now()}_${Math.random().toString(36).substring(2, 10)}${ext}`;
+    const prefix = subfolder ? `${subfolder}_` : "file_";
+    const filename = `${prefix}${Date.now()}_${Math.random().toString(36).substring(2, 10)}${ext}`;
     const filePath = path.join(privateStorageDir, filename);
 
     // 5. Write verified binary buffer securely
     await writeFile(filePath, securityCheck.buffer);
 
     // Protected API Route URL
-    const secureUrl = `/api/files/${filename}`;
+    const secureUrl = subfolder ? `/api/files/${subfolder}/${filename}` : `/api/files/${filename}`;
     return NextResponse.json({ url: secureUrl });
   } catch (error) {
     console.error("Upload error:", error);
     return NextResponse.json({ error: "Gagal mengunggah file ke direktori privat." }, { status: 500 });
+  }
+}
+
+// DELETE /api/upload - Delete unused file from storage
+export async function DELETE(req: Request) {
+  try {
+    const session = await auth();
+    if (!session?.user) {
+      return NextResponse.json({ error: "Unauthorized: Akses ditolak." }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(req.url);
+    const fileUrl = searchParams.get("url");
+
+    if (!fileUrl || !fileUrl.startsWith("/api/files/")) {
+      return NextResponse.json({ error: "URL file tidak valid." }, { status: 400 });
+    }
+
+    // Extract path relative to uploads directory (e.g. /api/files/avatar/file.jpg -> avatar/file.jpg)
+    const relativePath = fileUrl.replace(/^\/api\/files\//, "");
+    const parts = relativePath.split("/").map((p) => path.basename(p));
+    const targetFilePath = path.join(process.cwd(), "storage", "private", "uploads", ...parts);
+
+    try {
+      const { unlink, stat } = await import("fs/promises");
+      await stat(targetFilePath);
+      await unlink(targetFilePath);
+      return NextResponse.json({ success: true, message: "File lama berhasil dihapus dari disk." });
+    } catch {
+      return NextResponse.json({ success: true, message: "File tidak ditemukan atau sudah dihapus." });
+    }
+  } catch (error) {
+    console.error("Delete file error:", error);
+    return NextResponse.json({ error: "Gagal menghapus file dari disk." }, { status: 500 });
   }
 }

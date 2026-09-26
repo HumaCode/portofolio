@@ -180,24 +180,26 @@ export const AdminProjectModal: React.FC<Props> = ({
                 <div className="p-4 rounded-xl bg-[#13131b]/60 border border-white/[0.06] space-y-2.5">
                     <div className="flex items-center justify-between">
                         <label className="text-zinc-200 font-semibold">Gambar / Thumbnail Proyek</label>
-                        <div className="flex items-center gap-1 bg-[#13131b] p-0.5 rounded-lg border border-white/[0.08] text-[10px]">
+                        <div className="flex items-center gap-1 bg-[#13131b] p-1 rounded-lg border border-white/[0.08]">
                             <button
                                 type="button"
                                 onClick={() => setImageMode("file")}
-                                className={`px-2.5 py-1 rounded-md transition-all font-semibold ${
+                                title="Upload File Gambar dari Perangkat"
+                                className={`p-1.5 rounded-md transition-all flex items-center justify-center ${
                                     imageMode === "file" ? "bg-rose-600 text-white shadow-sm" : "text-zinc-400 hover:text-white"
                                 }`}
                             >
-                                Upload File
+                                <Upload className="w-4 h-4" />
                             </button>
                             <button
                                 type="button"
                                 onClick={() => setImageMode("url")}
-                                className={`px-2.5 py-1 rounded-md transition-all font-semibold ${
+                                title="Gunakan URL Link Gambar"
+                                className={`p-1.5 rounded-md transition-all flex items-center justify-center ${
                                     imageMode === "url" ? "bg-rose-600 text-white shadow-sm" : "text-zinc-400 hover:text-white"
                                 }`}
                             >
-                                URL Link
+                                <ImageIcon className="w-4 h-4" />
                             </button>
                         </div>
                     </div>

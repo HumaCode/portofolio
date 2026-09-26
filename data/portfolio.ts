@@ -3,6 +3,7 @@ export interface Profile {
     brandName: string;
     tagline: string;
     role: string;
+    roles?: string[];
     bio: string;
     aboutBio: string;
     yearsExp: string;
@@ -96,6 +97,11 @@ export const portfolioData: {
         brandName: "fLINK",
         tagline: "Charlotte Edition",
         role: "<Frontend & Fullstack Developer />",
+        roles: [
+            "<Frontend & Fullstack Developer />",
+            "<React & Next.js />",
+            "<UI/UX & Laravel Engineer />",
+        ],
         bio: "I craft beautiful and responsive web experiences with modern technologies. Turning complex technical challenges into pixel-perfect, highly scalable interfaces.",
         aboutBio: "I'm a passionate Fullstack & Frontend Developer dedicated to creating exceptional digital experiences. With deep expertise in Laravel, Next.js, and Flutter, I engineer high-performance systems and enterprise web platforms.",
         yearsExp: "2+",

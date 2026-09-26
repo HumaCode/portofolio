@@ -5,7 +5,17 @@ import { User, Cpu, Sparkles, CheckCircle2 } from "lucide-react";
 import { portfolioData, SkillGauge } from "@/data/portfolio";
 
 export const AboutAndSkillsSection: React.FC = () => {
-    const { profile, skillsGauges, secondaryStack } = portfolioData;
+    const [profile, setProfile] = React.useState(portfolioData.profile);
+    const { skillsGauges, secondaryStack } = portfolioData;
+
+    React.useEffect(() => {
+        fetch("/api/profile")
+            .then((res) => res.json())
+            .then((data) => {
+                if (data?.profile) setProfile(data.profile);
+            })
+            .catch(() => {});
+    }, []);
 
     return (
         <>

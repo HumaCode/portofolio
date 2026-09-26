@@ -8,15 +8,25 @@ import { portfolioData } from "@/data/portfolio";
 import { useSmoothScroll } from "@/components/useSmoothScroll";
 
 export const HeroSection: React.FC = () => {
-    const { profile } = portfolioData;
+    const [profile, setProfile] = React.useState(portfolioData.profile);
     const { scrollToSection } = useSmoothScroll();
 
-    // Daftar teks profesi yang akan diketik secara otomatis
-    const roles = [
-        "<Frontend & Fullstack Developer />",
-        "<React & Next.js />",
-        "<UI/UX & Laravel Engineer />",
-    ];
+    React.useEffect(() => {
+        fetch("/api/profile")
+            .then((res) => res.json())
+            .then((data) => {
+                if (data?.profile) setProfile(data.profile);
+            })
+            .catch(() => {});
+    }, []);
+
+    // Daftar teks profesi yang akan diketik secara otomatis (diambil dari profile.roles)
+    const roles = React.useMemo(() => {
+        if (profile.roles && profile.roles.length > 0) {
+            return profile.roles;
+        }
+        return [profile.role || "<Frontend & Fullstack Developer />"];
+    }, [profile.roles, profile.role]);
 
     const [currentRoleIndex, setCurrentRoleIndex] = React.useState(0);
     const [currentText, setCurrentText] = React.useState("");
