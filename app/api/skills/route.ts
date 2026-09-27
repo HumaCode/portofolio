@@ -48,15 +48,31 @@ export async function POST(req: Request) {
     let finalCategoryName = (category || "General").trim();
 
     if (finalCategoryId) {
-      const foundCat = await db.skillCategory.findUnique({ where: { id: finalCategoryId } });
+      const foundCat = await db.skillCategory.findUnique({
+        where: { id: finalCategoryId },
+        select: { id: true, name: true },
+      });
       if (foundCat) {
         finalCategoryName = foundCat.name;
       }
     } else if (finalCategoryName) {
-      const foundCat = await db.skillCategory.findUnique({ where: { name: finalCategoryName } });
-      if (foundCat) {
-        finalCategoryId = foundCat.id;
-      }
+      const categorySlug = finalCategoryName
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
+
+      const categoryRecord = await db.skillCategory.upsert({
+        where: { slug: categorySlug },
+        update: { name: finalCategoryName },
+        create: {
+          id: ulid(),
+          name: finalCategoryName,
+          slug: categorySlug,
+        },
+        select: { id: true, name: true },
+      });
+      finalCategoryId = categoryRecord.id;
+      finalCategoryName = categoryRecord.name;
     }
 
     if (id && id.length > 5) {

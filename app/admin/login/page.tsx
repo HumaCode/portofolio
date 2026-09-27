@@ -38,7 +38,11 @@ function AdminLoginForm() {
     const [error, setError] = useState("");
     const [status, setStatus] = useState<"idle" | "verifying" | "success">("idle");
 
+    const [failedAttempts, setFailedAttempts] = useState(0);
+    const [cooldownSeconds, setCooldownSeconds] = useState(0);
+
     const handleQuickFill = () => {
+        if (cooldownSeconds > 0) return;
         setEmail("admin@portfolio.com");
         setPassword("adminpassword123");
         setError("");
@@ -48,6 +52,8 @@ function AdminLoginForm() {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (cooldownSeconds > 0) return;
+
         setError("");
         setStatus("verifying");
 
@@ -59,9 +65,29 @@ function AdminLoginForm() {
             });
 
             if (res?.error) {
-                setError("Kredensial tidak valid. Silakan periksa kembali email & password Anda.");
+                const nextAttempts = failedAttempts + 1;
+                setFailedAttempts(nextAttempts);
+
+                if (nextAttempts >= 3) {
+                    setCooldownSeconds(30);
+                    setError("Terlalu banyak percobaan gagal! Akses diblokir sementara selama 30 detik.");
+                    const timer = setInterval(() => {
+                        setCooldownSeconds((prev) => {
+                            if (prev <= 1) {
+                                clearInterval(timer);
+                                setFailedAttempts(0);
+                                setError("");
+                                return 0;
+                            }
+                            return prev - 1;
+                        });
+                    }, 1000);
+                } else {
+                    setError(`Kredensial tidak valid. Sisa percobaan: ${3 - nextAttempts}x lagi.`);
+                }
                 setStatus("idle");
             } else {
+                setFailedAttempts(0);
                 setStatus("success");
                 setTimeout(() => {
                     const targetUrl = searchParams.get("callbackUrl") || "/admin";
@@ -250,14 +276,20 @@ function AdminLoginForm() {
                             {/* Submit */}
                             <button
                                 type="submit"
-                                disabled={status !== "idle"}
+                                disabled={status !== "idle" || cooldownSeconds > 0}
                                 className={`group relative w-full overflow-hidden rounded-xl py-2.5 px-4 font-bold text-xs text-white transition-all flex items-center justify-center gap-2 shadow-lg shadow-rose-600/30 ${
-                                    status === "success"
+                                    cooldownSeconds > 0
+                                        ? "bg-zinc-800 text-zinc-400 border border-zinc-700 cursor-not-allowed shadow-none"
+                                        : status === "success"
                                         ? "bg-emerald-600"
                                         : "bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 active:scale-95"
                                 }`}
                             >
-                                {status === "verifying" ? (
+                                {cooldownSeconds > 0 ? (
+                                    <span className="font-mono text-[10px] tracking-wider uppercase text-amber-400">
+                                        TERKUNCI: TUNGGU {cooldownSeconds} DETIK
+                                    </span>
+                                ) : status === "verifying" ? (
                                     <>
                                         <Loader2 className="w-4 h-4 animate-spin" />
                                         <span className="font-mono text-[10px] tracking-wider uppercase">
