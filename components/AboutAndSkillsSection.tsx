@@ -35,37 +35,37 @@ export const AboutAndSkillsSection: React.FC<AboutAndSkillsSectionProps> = ({ in
             {/* About Section */}
             <section
                 id="about"
-                className="min-h-[calc(100vh-5rem)] flex items-center justify-center py-12 sm:py-16 border-b border-rose-950/40 relative scroll-mt-20"
+                className="min-h-[calc(100vh-4.5rem)] flex items-center justify-center py-8 sm:py-12 md:py-14 border-b border-rose-950/40 relative scroll-mt-20"
             >
                 <div className="max-w-7xl 2xl:max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 w-full my-auto">
                     {/* Section Header */}
-                    <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14 space-y-2">
-                        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-rose-950/60 border border-rose-800/40 text-rose-400 text-xs font-semibold uppercase tracking-wider">
+                    <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8 md:mb-10 space-y-1.5 sm:space-y-2">
+                        <div className="inline-flex items-center gap-2 px-3 py-0.5 sm:py-1 rounded-full bg-rose-950/60 border border-rose-800/40 text-rose-400 text-[11px] sm:text-xs font-semibold uppercase tracking-wider">
                             <User className="w-3.5 h-3.5" />
                             <span>Profile & Identity</span>
                         </div>
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
+                        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
                             About Me
                         </h2>
-                        <p className="text-zinc-400 text-sm sm:text-base max-w-xl mx-auto">
+                        <p className="text-zinc-400 text-xs sm:text-sm md:text-base max-w-xl mx-auto">
                             Passionate developer bridging interface aesthetics and modern performant engineering.
                         </p>
                     </div>
 
                     {/* About Bio & Persona Image */}
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-[#130508]/60 border border-rose-900/30 rounded-3xl p-6 sm:p-10 lg:p-12 shadow-2xl backdrop-blur-sm">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-10 items-center bg-[#130508]/60 border border-rose-900/30 rounded-2xl sm:rounded-3xl p-5 sm:p-7 md:p-8 lg:p-10 shadow-2xl backdrop-blur-sm">
                         <div className="lg:col-span-5 flex justify-center">
-                            <div className="relative group w-full max-w-md rounded-3xl overflow-hidden bg-gradient-to-b from-[#1c060d] via-[#120407] to-[#0a0204] p-6 sm:p-8 flex flex-col items-center justify-center">
+                            <div className="relative group w-full max-w-sm sm:max-w-md rounded-2xl sm:rounded-3xl overflow-hidden bg-gradient-to-b from-[#1c060d] via-[#120407] to-[#0a0204] p-4 sm:p-6 flex flex-col items-center justify-center">
                                 {/* Ambient Background Glow */}
                                 <div className="absolute inset-0 bg-radial from-rose-600/20 via-transparent to-transparent blur-2xl pointer-events-none"></div>
 
-                                {/* Aesthetic Organic Red Blob Pattern (Lebar & Melingkupi Karakter Sesuai Contoh) */}
-                                <div className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-[340px] lg:h-[340px] flex items-center justify-center">
+                                {/* Aesthetic Organic Red Blob Pattern (Ukuran fleksibel & ter-scale rapi di 1366x768 & laptop) */}
+                                <div className="relative w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-72 lg:h-72 xl:w-80 xl:h-80 flex items-center justify-center">
                                     {/* Layer SVG Blob Pattern Lebih Besar di Belakang */}
                                     <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 group-hover:scale-105">
                                         <svg
                                             viewBox="0 0 200 200"
-                                            className="w-full h-full drop-shadow-[0_20px_40px_rgba(225,29,72,0.45)]"
+                                            className="w-full h-full drop-shadow-[0_15px_30px_rgba(225,29,72,0.4)]"
                                             xmlns="http://www.w3.org/2000/svg"
                                         >
                                             <defs>
@@ -86,49 +86,49 @@ export const AboutAndSkillsSection: React.FC<AboutAndSkillsSectionProps> = ({ in
                                     </div>
 
                                     {/* PNG Avatar Image (Ukuran proporsional di depan blob) */}
-                                    <div className="relative z-10 w-[84%] h-[84%] flex items-center justify-center">
+                                    <div className="relative z-10 w-[82%] h-[82%] flex items-center justify-center">
                                         <img
                                             src={profile.aboutImageUrl || profile.avatarUrl}
                                             alt={profile.name}
-                                            className="w-full h-full object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.8)] group-hover:scale-105 transition-transform duration-500"
+                                            className="w-full h-full object-contain drop-shadow-[0_12px_20px_rgba(0,0,0,0.8)] group-hover:scale-105 transition-transform duration-500"
                                         />
                                     </div>
                                 </div>
 
                                 {/* Location Badge Below Avatar */}
-                                <div className="mt-5 w-full text-center px-4 py-2.5 rounded-xl bg-[#0b0406]/80 border border-rose-900/30 backdrop-blur-sm">
-                                    <span className="text-[11px] font-mono uppercase text-rose-400 font-semibold tracking-wider block">
+                                <div className="mt-4 w-full text-center px-3.5 py-2 rounded-xl bg-[#0b0406]/80 border border-rose-900/30 backdrop-blur-sm">
+                                    <span className="text-[10px] font-mono uppercase text-rose-400 font-semibold tracking-wider block">
                                         Location
                                     </span>
-                                    <p className="text-sm text-white font-medium truncate">{profile.location}</p>
+                                    <p className="text-xs sm:text-sm text-white font-medium truncate">{profile.location}</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="lg:col-span-7 space-y-5 sm:space-y-6">
-                            <div className="space-y-3 sm:space-y-4">
-                                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-snug">
+                        <div className="lg:col-span-7 space-y-4 sm:space-y-5">
+                            <div className="space-y-2.5 sm:space-y-3.5">
+                                <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl font-bold text-white tracking-tight leading-snug">
                                     {profile.tagline || "Architecting interactive digital products with precision."}
                                 </h3>
-                                <p className="text-zinc-300 text-sm sm:text-base leading-relaxed">
+                                <p className="text-zinc-300 text-xs sm:text-sm md:text-base leading-relaxed">
                                     {profile.aboutBio}
                                 </p>
                             </div>
 
-                            <div className="space-y-3 pt-4 border-t border-rose-950/60">
-                                <h4 className="text-xs uppercase font-mono tracking-widest text-rose-400 font-bold">
+                            <div className="space-y-2.5 pt-3.5 border-t border-rose-950/60">
+                                <h4 className="text-[11px] sm:text-xs uppercase font-mono tracking-widest text-rose-400 font-bold">
                                     Additional Tech Stack & Ecosystem
                                 </h4>
-                                <div className="flex flex-wrap gap-2.5">
+                                <div className="flex flex-wrap gap-2 sm:gap-2.5">
                                     {(profile.secondaryStack && profile.secondaryStack.length > 0
                                         ? profile.secondaryStack
                                         : secondaryStack
                                     ).map((tech) => (
                                         <span
                                             key={tech}
-                                            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-rose-950/40 border border-rose-800/30 text-xs sm:text-sm font-medium text-zinc-200 hover:border-rose-500/50 hover:bg-rose-900/30 transition-all cursor-default"
+                                            className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-rose-950/40 border border-rose-800/30 text-xs font-medium text-zinc-200 hover:border-rose-500/50 hover:bg-rose-900/30 transition-all cursor-default"
                                         >
-                                            <CheckCircle2 className="w-4 h-4 text-rose-400" />
+                                            <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-400" />
                                             {tech}
                                         </span>
                                     ))}
@@ -142,23 +142,23 @@ export const AboutAndSkillsSection: React.FC<AboutAndSkillsSectionProps> = ({ in
             {/* Skills Section */}
             <section
                 id="skills"
-                className="min-h-[calc(100vh-5rem)] flex items-center justify-center py-12 sm:py-16 border-b border-rose-950/40 relative scroll-mt-20"
+                className="min-h-[calc(100vh-4.5rem)] flex items-center justify-center py-8 sm:py-12 md:py-14 border-b border-rose-950/40 relative scroll-mt-20"
             >
                 <div className="max-w-7xl 2xl:max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 w-full my-auto">
-                    <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12 space-y-2">
-                        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-rose-950/50 border border-rose-800/40 text-rose-400 text-xs font-semibold uppercase tracking-wider">
+                    <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8 md:mb-10 space-y-1.5 sm:space-y-2">
+                        <div className="inline-flex items-center gap-2 px-3 py-0.5 sm:py-1 rounded-full bg-rose-950/50 border border-rose-800/40 text-rose-400 text-[11px] sm:text-xs font-semibold uppercase tracking-wider">
                             <Cpu className="w-3.5 h-3.5" />
                             <span>Core Specializations</span>
                         </div>
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
+                        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
                             Technical Arsenal & Skills
                         </h2>
-                        <p className="text-zinc-400 text-sm sm:text-base max-w-xl mx-auto">
+                        <p className="text-zinc-400 text-xs sm:text-sm md:text-base max-w-xl mx-auto">
                             Proficiency breakdown across frontend, backend, UI engineering, and modern stacks.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5 sm:gap-5 lg:gap-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-5">
                         {skills.map((skill: SkillGauge) => {
                             const radius = 42;
                             const circumference = 2 * Math.PI * radius;
@@ -167,9 +167,9 @@ export const AboutAndSkillsSection: React.FC<AboutAndSkillsSectionProps> = ({ in
                             return (
                                 <div
                                     key={skill.name}
-                                    className="bg-[#14060a]/80 border border-rose-900/30 hover:border-rose-600/50 rounded-2xl p-4 sm:p-5 text-center shadow-lg transition-all group hover:-translate-y-1 flex flex-col items-center justify-center min-h-[190px] sm:min-h-[210px]"
+                                    className="bg-[#14060a]/80 border border-rose-900/30 hover:border-rose-600/50 rounded-2xl p-3.5 sm:p-4 text-center shadow-lg transition-all group hover:-translate-y-1 flex flex-col items-center justify-center min-h-[170px] sm:min-h-[190px]"
                                 >
-                                    <div className="relative w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 mx-auto flex items-center justify-center">
+                                    <div className="relative w-18 h-18 sm:w-22 sm:h-22 lg:w-24 lg:h-24 mx-auto flex items-center justify-center">
                                         <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
                                             {/* Background track circle */}
                                             <circle
@@ -196,13 +196,13 @@ export const AboutAndSkillsSection: React.FC<AboutAndSkillsSectionProps> = ({ in
                                         </svg>
                                         {/* Centered Percentage */}
                                         <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                            <span className="text-lg sm:text-xl lg:text-2xl font-extrabold text-white tracking-tight">
+                                            <span className="text-base sm:text-lg lg:text-xl font-extrabold text-white tracking-tight">
                                                 {skill.percentage}%
                                             </span>
                                         </div>
                                     </div>
 
-                                    <h3 className="mt-3.5 font-semibold text-xs sm:text-sm lg:text-base text-zinc-100 group-hover:text-rose-400 transition-colors">
+                                    <h3 className="mt-2.5 font-semibold text-xs sm:text-sm text-zinc-100 group-hover:text-rose-400 transition-colors">
                                         {skill.name}
                                     </h3>
                                 </div>

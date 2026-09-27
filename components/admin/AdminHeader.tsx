@@ -4,14 +4,15 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Shield, Clock, ExternalLink, User, LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
-import { portfolioData } from "@/data/portfolio";
+import { portfolioData, Profile } from "@/data/portfolio";
 
 interface AdminHeaderProps {
     onTabChange?: (tab: string) => void;
+    profile?: Profile;
 }
 
-export const AdminHeader: React.FC<AdminHeaderProps> = ({ onTabChange }) => {
-    const { profile } = portfolioData;
+export const AdminHeader: React.FC<AdminHeaderProps> = ({ onTabChange, profile: propProfile }) => {
+    const profile = propProfile || portfolioData.profile;
     const [time, setTime] = useState<string>("");
 
     useEffect(() => {
@@ -34,7 +35,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ onTabChange }) => {
                         </div>
                         <div className="flex flex-col">
                             <span className="font-bold text-base tracking-tight text-white flex items-center gap-1.5">
-                                {profile.brandName}
+                                {profile.brandName || profile.name}
                                 <span className="text-rose-500 font-mono text-xs px-1.5 py-0.5 rounded bg-rose-500/10 border border-rose-500/20">
                                     CMS ADMIN
                                 </span>
@@ -74,11 +75,11 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ onTabChange }) => {
                         className="flex items-center gap-2 p-1.5 sm:px-2.5 sm:py-1 rounded-lg bg-[#1b1b23] hover:bg-[#292932] border border-white/[0.08] transition-colors"
                         title="Pengaturan Profil"
                     >
-                        <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-rose-600 to-rose-400 flex items-center justify-center text-white font-bold text-xs shadow-sm">
-                            {profile.brandName.charAt(0)}
+                        <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-rose-600 to-rose-400 flex items-center justify-center text-white font-bold text-xs shadow-sm uppercase">
+                            {(profile.brandName || profile.name || "A").charAt(0)}
                         </div>
                         <span className="hidden md:block text-xs font-semibold text-zinc-200">
-                            {profile.brandName} (Admin)
+                            {profile.brandName || profile.name} (Admin)
                         </span>
                     </button>
 

@@ -160,7 +160,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ initialProfile }) => {
                     {/* Right Column: Hero Concentric Rings Avatar */}
                     <div className="lg:col-span-5 flex justify-center items-center relative">
                         {/* Main Avatar Wrapper with balanced responsive dimensions */}
-                        <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[380px] lg:h-[380px] xl:w-[420px] xl:h-[420px] flex items-center justify-center">
+                        <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-[340px] lg:h-[340px] xl:w-[380px] xl:h-[380px] flex items-center justify-center">
                             {/* Outer Ambient Glow Pulsing in Background */}
                             <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-rose-600/35 via-rose-500/20 to-red-600/25 blur-3xl -z-10 animate-pulse pointer-events-none"></div>
 
@@ -206,13 +206,21 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ initialProfile }) => {
                             </div>
 
                             {/* 4. Status Badge (Bottom Center) */}
-                            <div className="absolute -bottom-3 sm:-bottom-4 left-1/2 -translate-x-1/2 z-20 px-4 py-2 rounded-full bg-[#140508]/90 backdrop-blur-md border border-emerald-500/40 text-xs font-semibold text-zinc-200 shadow-xl shadow-black/80 flex items-center gap-2.5 whitespace-nowrap animate-float-slow pointer-events-auto hover:scale-105 transition-all">
+                            <div className={`absolute -bottom-3 sm:-bottom-4 left-1/2 -translate-x-1/2 z-20 px-4 py-2 rounded-full backdrop-blur-md text-xs font-semibold shadow-xl shadow-black/80 flex items-center gap-2.5 whitespace-nowrap animate-float-slow pointer-events-auto hover:scale-105 transition-all ${
+                                profile.isAvailable !== false
+                                    ? "bg-[#140508]/90 border border-emerald-500/40 text-zinc-200"
+                                    : "bg-[#140508]/90 border border-amber-500/40 text-zinc-200"
+                            }`}>
                                 <span className="relative flex h-2.5 w-2.5">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                                    <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                                        profile.isAvailable !== false ? "bg-emerald-400" : "bg-amber-400"
+                                    }`}></span>
+                                    <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${
+                                        profile.isAvailable !== false ? "bg-emerald-500" : "bg-amber-500"
+                                    }`}></span>
                                 </span>
                                 <span className="text-zinc-200 font-medium">
-                                    {profile.isAvailable !== false ? "Open for Collaboration" : "Currently Focused"}
+                                    {profile.isAvailable !== false ? "Open for Collaboration" : "Currently Busy / Focused"}
                                 </span>
                             </div>
                         </div>

@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import { ulid } from "ulid";
 
+import nodemailer from "nodemailer";
+
 // GET /api/messages - Retrieve all inbox messages for Admin
 export async function GET() {
   try {
@@ -41,14 +43,71 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "ID pesan dan isi balasan wajib diisi." }, { status: 400 });
       }
 
+      // Ambil detail pesan dari database
+      const existingMsg = await db.inboxMessage.findUnique({ where: { id } });
+      if (!existingMsg) {
+        return NextResponse.json({ error: "Pesan tidak ditemukan." }, { status: 404 });
+      }
+
       // Tandai pesan sudah dibaca di DB
       await db.inboxMessage.update({
         where: { id },
         data: { isRead: true },
       });
 
-      // Catatan: Jika disetup SMTP/Nodemailer, email balasan dikirimkan di sini
-      return NextResponse.json({ success: true, message: "Balasan berhasil dikirim!" });
+      // Cek apakah kredensial SMTP Gmail/Email sudah terpasang di .env
+      const smtpHost = process.env.SMTP_HOST || "smtp.gmail.com";
+      const smtpPort = Number(process.env.SMTP_PORT) || 465;
+      const smtpUser = process.env.SMTP_USER;
+      const smtpPass = process.env.SMTP_PASS;
+
+      if (smtpUser && smtpPass) {
+        try {
+          const transporter = nodemailer.createTransport({
+            host: smtpHost,
+            port: smtpPort,
+            secure: smtpPort === 465,
+            auth: {
+              user: smtpUser,
+              pass: smtpPass,
+            },
+          });
+
+          await transporter.sendMail({
+            from: `"${process.env.SMTP_FROM_NAME || "Portfolio Admin"}" <${smtpUser}>`,
+            to: existingMsg.email,
+            subject: `Re: ${existingMsg.subject}`,
+            text: replyText,
+            html: `
+              <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; max-width: 600px; margin: 0 auto; border: 1px solid #eee; padding: 20px; rounded: 10px;">
+                <h3 style="color: #e11d48;">Balasan Pesan Portofolio</h3>
+                <p>Halo <strong>${existingMsg.senderName}</strong>,</p>
+                <div style="background: #f9f9f9; padding: 15px; border-left: 4px solid #e11d48; margin: 15px 0;">
+                  <p style="margin: 0; white-space: pre-wrap;">${replyText}</p>
+                </div>
+                <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
+                <p style="font-size: 12px; color: #777;">
+                  <strong>Subjek Asal:</strong> ${existingMsg.subject}<br />
+                  <strong>Pesan Anda:</strong> "${existingMsg.message}"
+                </p>
+              </div>
+            `,
+          });
+          console.log(`✉️ Email balasan berhasil dikirim ke ${existingMsg.email}`);
+          return NextResponse.json({ success: true, message: `Balasan email berhasil dikirim ke ${existingMsg.email}!` });
+        } catch (emailErr) {
+          console.error("Failed to send email via SMTP:", emailErr);
+          return NextResponse.json({
+            success: true,
+            warning: "Pesan ditandai dibaca di DB, tetapi SMTP gagal mengirim email (cek kredensial SMTP_USER & SMTP_PASS di .env).",
+          });
+        }
+      }
+
+      return NextResponse.json({
+        success: true,
+        message: "Status pesan diubah ke 'Sudah Dibaca'. (Isi SMTP_USER & SMTP_PASS di .env untuk pengiriman email sungguhan)",
+      });
     }
 
     // Aksi 2: Form Kontak Publik (Submit Pesan Baru dari Pengunjung)

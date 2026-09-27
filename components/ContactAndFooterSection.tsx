@@ -31,7 +31,9 @@ export const ContactAndFooterSection: React.FC<ContactAndFooterSectionProps> = (
             })
             .catch(() => {});
     }, [initialProfile]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [submitError, setSubmitError] = useState<string | null>(null);
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -39,13 +41,38 @@ export const ContactAndFooterSection: React.FC<ContactAndFooterSectionProps> = (
         message: "",
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setIsSubmitted(true);
-        setTimeout(() => {
-            setIsSubmitted(false);
-            setFormData({ name: "", email: "", subject: "", message: "" });
-        }, 4000);
+        setIsSubmitting(true);
+        setSubmitError(null);
+
+        try {
+            const res = await fetch("/api/messages", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    senderName: formData.name,
+                    email: formData.email,
+                    subject: formData.subject,
+                    message: formData.message,
+                }),
+            });
+
+            if (res.ok) {
+                setIsSubmitted(true);
+                setFormData({ name: "", email: "", subject: "", message: "" });
+                setTimeout(() => {
+                    setIsSubmitted(false);
+                }, 5000);
+            } else {
+                const data = await res.json();
+                setSubmitError(data.error || "Gagal mengirim pesan.");
+            }
+        } catch {
+            setSubmitError("Terjadi kesalahan jaringan saat mengirim pesan.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -78,17 +105,40 @@ export const ContactAndFooterSection: React.FC<ContactAndFooterSectionProps> = (
                             {/* Contact Form — primary focus */}
                             <div className="lg:col-span-7 order-2 lg:order-1">
                                 {isSubmitted ? (
-                                    <div className="py-8 text-center space-y-2">
-                                        <div className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/50 text-emerald-400 flex items-center justify-center mx-auto">
-                                            <Check className="w-4 h-4" />
+                                    <div className="py-12 sm:py-16 text-center space-y-4 animate-in fade-in zoom-in-95 duration-500 bg-[#0c0406]/60 rounded-2xl border border-emerald-500/20 p-6 sm:p-8 backdrop-blur-md relative overflow-hidden">
+                                        {/* Background Glow */}
+                                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                                        {/* Animated Icon Circle */}
+                                        <div className="relative inline-flex">
+                                            <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-emerald-600/30 to-emerald-400/20 border-2 border-emerald-500/60 text-emerald-400 flex items-center justify-center mx-auto shadow-[0_0_30px_rgba(16,185,129,0.4)] animate-bounce">
+                                                <Check className="w-8 h-8 stroke-[3]" />
+                                            </div>
+                                            <span className="absolute top-0 right-0 flex h-4 w-4">
+                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                                <span className="relative inline-flex rounded-full h-4 w-4 bg-emerald-500"></span>
+                                            </span>
                                         </div>
-                                        <h4 className="text-base font-bold text-white">Message Sent!</h4>
-                                        <p className="text-zinc-400 text-xs max-w-xs mx-auto">
-                                            Thank you for reaching out. I will get back to you as soon as possible.
-                                        </p>
+
+                                        <div className="space-y-1.5 relative z-10">
+                                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-800/60 text-emerald-400 text-[11px] font-mono font-semibold uppercase tracking-wider mb-2">
+                                                <span>Pesan Berhasil Terkirim</span>
+                                            </div>
+                                            <h4 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+                                                Message Sent Successfully!
+                                            </h4>
+                                            <p className="text-zinc-300 text-xs sm:text-sm max-w-sm mx-auto leading-relaxed">
+                                                Terima kasih telah menghubungi kami. Pesan Anda telah diterima di CMS Admin dan akan segera dibalas.
+                                            </p>
+                                        </div>
                                     </div>
                                 ) : (
                                     <form onSubmit={handleSubmit} className="space-y-3">
+                                        {submitError && (
+                                            <div className="p-2.5 rounded-lg bg-rose-950/80 border border-rose-800 text-rose-300 text-xs">
+                                                {submitError}
+                                            </div>
+                                        )}
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                             <div className="space-y-1">
                                                 <label className="text-[11px] font-medium text-zinc-300">Your Name</label>
@@ -140,10 +190,11 @@ export const ContactAndFooterSection: React.FC<ContactAndFooterSectionProps> = (
 
                                         <button
                                             type="submit"
-                                            className="px-6 py-2 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-semibold text-xs shadow-lg shadow-rose-600/30 transition-all flex items-center gap-2 group"
+                                            disabled={isSubmitting}
+                                            className="px-6 py-2 rounded-lg bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white font-semibold text-xs shadow-lg shadow-rose-600/30 transition-all flex items-center gap-2 group"
                                         >
                                             <Send className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                                            <span>Send Message</span>
+                                            <span>{isSubmitting ? "Sending..." : "Send Message"}</span>
                                         </button>
                                     </form>
                                 )}

@@ -16,6 +16,7 @@ export const CertificatesAndProjectsSection: React.FC<CertificatesAndProjectsSec
     const { profile } = portfolioData;
     const [certificates, setCertificates] = useState<Certificate[]>(initialCertificates || portfolioData.certificates);
     const [projects, setProjects] = useState<Project[]>(initialProjects || portfolioData.projects);
+    const [categories, setCategories] = useState<{ id: string; name: string; slug: string }[]>([]);
     const [selectedTag, setSelectedTag] = useState<string>("All");
 
     React.useEffect(() => {
@@ -32,14 +33,31 @@ export const CertificatesAndProjectsSection: React.FC<CertificatesAndProjectsSec
                 if (Array.isArray(data) && data.length > 0) setProjects(data);
             })
             .catch(() => {});
+
+        fetch("/api/categories")
+            .then((res) => res.json())
+            .then((data) => {
+                if (Array.isArray(data)) setCategories(data);
+            })
+            .catch(() => {});
     }, []);
 
-    const allTags = ["All", "React", "Tailwind CSS", "Vue JS", "REST APIs"];
+    // Dynamic category list from db categories + fallback tags if categories empty
+    const categoryOptions = [
+        "All",
+        ...(categories.length > 0
+            ? categories.map((c) => c.name)
+            : Array.from(new Set(projects.map((p) => p.category).filter(Boolean) as string[])))
+    ];
 
     const filteredProjects =
         selectedTag === "All"
             ? projects
-            : projects.filter((project) => project.tags.includes(selectedTag));
+            : projects.filter(
+                (project) =>
+                    project.category?.toLowerCase() === selectedTag.toLowerCase() ||
+                    project.tags.some((tag) => tag.toLowerCase() === selectedTag.toLowerCase())
+            );
 
     return (
         <>
@@ -145,7 +163,7 @@ export const CertificatesAndProjectsSection: React.FC<CertificatesAndProjectsSec
 
                     {/* Filter Pills */}
                     <div className="flex flex-wrap justify-center gap-2 mb-10">
-                        {allTags.map((tag) => (
+                        {categoryOptions.map((tag) => (
                             <button
                                 key={tag}
                                 onClick={() => setSelectedTag(tag)}
@@ -159,71 +177,83 @@ export const CertificatesAndProjectsSection: React.FC<CertificatesAndProjectsSec
                         ))}
                     </div>
 
-                    {/* Projects Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                        {filteredProjects.map((project: Project) => (
-                            <div
-                                key={project.id}
-                                className="group bg-[#14060a]/90 border border-rose-900/30 hover:border-rose-600/60 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-rose-950/40 transition-all flex flex-col"
-                            >
-                                {/* Project Image Preview */}
-                                <div className="relative h-36 w-full overflow-hidden bg-zinc-900">
-                                    <img
-                                        src={project.imageUrl}
-                                        alt={project.title}
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-[#14060a] via-transparent to-transparent opacity-70"></div>
-                                </div>
-
-                                {/* Project Body */}
-                                <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
-                                    <div>
-                                        <h3 className="text-base font-bold text-white group-hover:text-rose-400 transition-colors">
-                                            {project.title}
-                                        </h3>
-                                        <p className="text-zinc-300 text-xs mt-1.5 line-clamp-2 leading-relaxed">
-                                            {project.description}
-                                        </p>
-                                    </div>
-
-                                    <div>
-                                        {/* Tags */}
-                                        <div className="flex flex-wrap gap-1 mb-3">
-                                            {project.tags.map((tag) => (
-                                                <span
-                                                    key={tag}
-                                                    className="px-2 py-0.5 rounded-md bg-rose-950/60 border border-rose-800/40 text-[10px] font-medium text-rose-300"
-                                                >
-                                                    {tag}
-                                                </span>
-                                            ))}
-                                        </div>
-
-                                        {/* Action Links */}
-                                        <div className="flex items-center gap-2.5 pt-2 border-t border-rose-950/60">
-                                            {project.demoUrl && (
-                                                <a
-                                                    href={project.demoUrl}
-                                                    className="flex-1 text-center py-1.5 px-2.5 rounded-lg bg-rose-600/80 hover:bg-rose-600 text-white text-[11px] font-semibold flex items-center justify-center gap-1 transition-colors"
-                                                >
-                                                    <ExternalLink className="w-3 h-3" /> Demo
-                                                </a>
-                                            )}
-                                            {project.codeUrl && (
-                                                <a
-                                                    href={project.codeUrl}
-                                                    className="flex-1 text-center py-1.5 px-2.5 rounded-lg bg-[#200a10] hover:bg-[#2e0e17] border border-rose-800/40 text-zinc-300 hover:text-white text-[11px] font-semibold flex items-center justify-center gap-1 transition-colors"
-                                                >
-                                                    <Code2 className="w-3 h-3" /> Source
-                                                </a>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
+                    {/* Projects Grid or Empty State */}
+                    {filteredProjects.length === 0 ? (
+                        <div className="py-16 text-center bg-[#14060a]/50 border border-rose-900/30 rounded-2xl p-8 max-w-xl mx-auto backdrop-blur-sm shadow-xl">
+                            <div className="w-16 h-16 rounded-full bg-rose-950/80 border border-rose-800/40 flex items-center justify-center text-rose-400 mx-auto mb-4">
+                                <Briefcase className="w-8 h-8 opacity-60" />
                             </div>
-                        ))}
-                    </div>
+                            <h3 className="text-xl font-bold text-white mb-2">Belum Ada Proyek</h3>
+                            <p className="text-zinc-400 text-sm leading-relaxed max-w-md mx-auto">
+                                Belum ada proyek yang terdaftar dalam kategori <span className="text-rose-400 font-semibold">&quot;{selectedTag}&quot;</span>. Silakan pilih kategori lain atau periksa kembali nanti.
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                            {filteredProjects.map((project: Project) => (
+                                <div
+                                    key={project.id}
+                                    className="group bg-[#14060a]/90 border border-rose-900/30 hover:border-rose-600/60 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-rose-950/40 transition-all flex flex-col"
+                                >
+                                    {/* Project Image Preview */}
+                                    <div className="relative h-36 w-full overflow-hidden bg-zinc-900">
+                                        <img
+                                            src={project.imageUrl}
+                                            alt={project.title}
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-[#14060a] via-transparent to-transparent opacity-70"></div>
+                                    </div>
+
+                                    {/* Project Body */}
+                                    <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
+                                        <div>
+                                            <h3 className="text-base font-bold text-white group-hover:text-rose-400 transition-colors">
+                                                {project.title}
+                                            </h3>
+                                            <p className="text-zinc-300 text-xs mt-1.5 line-clamp-2 leading-relaxed">
+                                                {project.description}
+                                            </p>
+                                        </div>
+
+                                        <div>
+                                            {/* Tags */}
+                                            <div className="flex flex-wrap gap-1 mb-3">
+                                                {project.tags.map((tag) => (
+                                                    <span
+                                                        key={tag}
+                                                        className="px-2 py-0.5 rounded-md bg-rose-950/60 border border-rose-800/40 text-[10px] font-medium text-rose-300"
+                                                    >
+                                                        {tag}
+                                                    </span>
+                                                ))}
+                                            </div>
+
+                                            {/* Action Links */}
+                                            <div className="flex items-center gap-2.5 pt-2 border-t border-rose-950/60">
+                                                {project.demoUrl && (
+                                                    <a
+                                                        href={project.demoUrl}
+                                                        className="flex-1 text-center py-1.5 px-2.5 rounded-lg bg-rose-600/80 hover:bg-rose-600 text-white text-[11px] font-semibold flex items-center justify-center gap-1 transition-colors"
+                                                    >
+                                                        <ExternalLink className="w-3 h-3" /> Demo
+                                                    </a>
+                                                )}
+                                                {project.codeUrl && (
+                                                    <a
+                                                        href={project.codeUrl}
+                                                        className="flex-1 text-center py-1.5 px-2.5 rounded-lg bg-[#200a10] hover:bg-[#2e0e17] border border-rose-800/40 text-zinc-300 hover:text-white text-[11px] font-semibold flex items-center justify-center gap-1 transition-colors"
+                                                    >
+                                                        <Code2 className="w-3 h-3" /> Source
+                                                    </a>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </section>
         </>

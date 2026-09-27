@@ -13,14 +13,29 @@ export const AdminTelemetryWidget: React.FC<Props> = ({
     isAvailable,
     onToggleAvailability,
 }) => {
-    const { telemetry } = portfolioData;
-    const [latency, setLatency] = useState(24);
+    const [telemetryData, setTelemetryData] = useState({
+        dbPing: 12,
+        memoryUsagePercent: 45,
+        databaseNode: "MySQL 8.x (Laragon)",
+        framework: "Next.js 16 (React 19)",
+        stylingToken: "Tailwind CSS v4",
+    });
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            const jitter = Math.floor(Math.random() * 5) - 2; // -2 to +2
-            setLatency(Math.max(18, Math.min(32, 24 + jitter)));
-        }, 2000);
+        const fetchTelemetry = async () => {
+            try {
+                const res = await fetch("/api/telemetry");
+                if (res.ok) {
+                    const data = await res.json();
+                    setTelemetryData(data);
+                }
+            } catch (err) {
+                console.error("Telemetry fetch error", err);
+            }
+        };
+
+        fetchTelemetry();
+        const interval = setInterval(fetchTelemetry, 3000);
         return () => clearInterval(interval);
     }, []);
 
@@ -47,7 +62,7 @@ export const AdminTelemetryWidget: React.FC<Props> = ({
                             <span>DB Ping</span>
                             <Zap className="w-3.5 h-3.5 text-cyan-400" />
                         </div>
-                        <p className="text-xl font-black text-white font-mono">{latency} ms</p>
+                        <p className="text-xl font-black text-white font-mono">{telemetryData.dbPing} ms</p>
                         <p className="text-[10px] text-emerald-400 font-mono mt-0.5">Optimal Latency</p>
                     </div>
 
@@ -56,11 +71,11 @@ export const AdminTelemetryWidget: React.FC<Props> = ({
                             <span>Memory</span>
                             <HardDrive className="w-3.5 h-3.5 text-rose-400" />
                         </div>
-                        <p className="text-xl font-black text-white font-mono">{telemetry.memoryUsagePercent}%</p>
+                        <p className="text-xl font-black text-white font-mono">{telemetryData.memoryUsagePercent}%</p>
                         <div className="w-full bg-[#1b1b23] h-1 rounded-full overflow-hidden mt-1.5">
                             <div
-                                className="bg-rose-500 h-full rounded-full"
-                                style={{ width: `${telemetry.memoryUsagePercent}%` }}
+                                className="bg-rose-500 h-full rounded-full transition-all duration-300"
+                                style={{ width: `${telemetryData.memoryUsagePercent}%` }}
                             ></div>
                         </div>
                     </div>
@@ -70,15 +85,15 @@ export const AdminTelemetryWidget: React.FC<Props> = ({
                 <div className="mt-4 p-3 rounded-xl bg-[#13131b]/60 border border-white/[0.04] space-y-2 text-xs">
                     <div className="flex justify-between text-zinc-400">
                         <span>Framework</span>
-                        <span className="text-zinc-200 font-mono">Next.js 16 (React 19)</span>
+                        <span className="text-zinc-200 font-mono">{telemetryData.framework}</span>
                     </div>
                     <div className="flex justify-between text-zinc-400">
                         <span>Styling Token</span>
-                        <span className="text-zinc-200 font-mono">Tailwind CSS v4</span>
+                        <span className="text-zinc-200 font-mono">{telemetryData.stylingToken}</span>
                     </div>
                     <div className="flex justify-between text-zinc-400">
                         <span>Database Node</span>
-                        <span className="text-zinc-200 font-mono">PostgreSQL / Edge</span>
+                        <span className="text-zinc-200 font-mono">{telemetryData.databaseNode}</span>
                     </div>
                 </div>
             </div>

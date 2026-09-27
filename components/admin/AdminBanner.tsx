@@ -6,13 +6,16 @@ import { Database, Plus, CheckCircle, Loader2 } from "lucide-react";
 interface AdminBannerProps {
     onOpenAddModal: () => void;
     onTriggerBackup: () => void;
+    profile?: { name?: string; brandName?: string };
 }
 
 export const AdminBanner: React.FC<AdminBannerProps> = ({
     onOpenAddModal,
     onTriggerBackup,
+    profile,
 }) => {
     const [isBackingUp, setIsBackingUp] = useState(false);
+    const displayName = profile?.brandName || profile?.name || "Admin";
 
     const handleBackupClick = () => {
         setIsBackingUp(true);
@@ -41,7 +44,7 @@ export const AdminBanner: React.FC<AdminBannerProps> = ({
                     </div>
 
                     <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                        Selamat datang kembali, <span className="text-rose-400 font-black">fLINK!</span>
+                        Selamat datang kembali, <span className="text-rose-400 font-black">{displayName}!</span>
                     </h1>
 
                     <p className="text-zinc-300 text-sm leading-relaxed">
@@ -62,14 +65,6 @@ export const AdminBanner: React.FC<AdminBannerProps> = ({
                             <Database className="w-4 h-4 text-cyan-400" />
                         )}
                         <span>{isBackingUp ? "Membuat Backup..." : "Trigger Backup DB"}</span>
-                    </button>
-
-                    <button
-                        onClick={onOpenAddModal}
-                        className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-xs font-bold text-white transition-all flex items-center gap-2 shadow-lg shadow-rose-600/30 active:scale-95"
-                    >
-                        <Plus className="w-4 h-4" />
-                        <span>+ Tambah Proyek</span>
                     </button>
                 </div>
             </div>

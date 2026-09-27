@@ -46,7 +46,10 @@ export const AdminKpiCards: React.FC<AdminKpiCardsProps> = ({
                     <span className="text-xs font-medium text-rose-400">{featuredCount} Featured</span>
                 </div>
                 <div className="w-full bg-[#13131b] h-1.5 rounded-full overflow-hidden mt-3">
-                    <div className="bg-rose-500 h-full rounded-full w-[78%]"></div>
+                    <div
+                        className="bg-rose-500 h-full rounded-full transition-all duration-500"
+                        style={{ width: projectsCount > 0 ? `${Math.min(100, Math.max(15, (projectsCount / 10) * 100))}%` : "0%" }}
+                    ></div>
                 </div>
             </div>
 
@@ -63,10 +66,13 @@ export const AdminKpiCards: React.FC<AdminKpiCardsProps> = ({
                 </div>
                 <div className="flex items-baseline gap-2 mb-1">
                     <span className="text-3xl font-black text-white font-mono">{skillsCount}</span>
-                    <span className="text-xs font-medium text-cyan-400">FE • BE • Mobile</span>
+                    <span className="text-xs font-medium text-cyan-400">Tech Stack</span>
                 </div>
                 <div className="w-full bg-[#13131b] h-1.5 rounded-full overflow-hidden mt-3">
-                    <div className="bg-cyan-400 h-full rounded-full w-[90%]"></div>
+                    <div
+                        className="bg-cyan-400 h-full rounded-full transition-all duration-500"
+                        style={{ width: skillsCount > 0 ? `${Math.min(100, Math.max(15, (skillsCount / 10) * 100))}%` : "0%" }}
+                    ></div>
                 </div>
             </div>
 
@@ -83,10 +89,13 @@ export const AdminKpiCards: React.FC<AdminKpiCardsProps> = ({
                 </div>
                 <div className="flex items-baseline gap-2 mb-1">
                     <span className="text-3xl font-black text-white font-mono">{certificatesCount}</span>
-                    <span className="text-xs font-medium text-emerald-400">BNSP & Global</span>
+                    <span className="text-xs font-medium text-emerald-400">Kredensial</span>
                 </div>
                 <div className="w-full bg-[#13131b] h-1.5 rounded-full overflow-hidden mt-3">
-                    <div className="bg-emerald-400 h-full rounded-full w-full"></div>
+                    <div
+                        className="bg-emerald-400 h-full rounded-full transition-all duration-500"
+                        style={{ width: certificatesCount > 0 ? `${Math.min(100, Math.max(15, (certificatesCount / 10) * 100))}%` : "0%" }}
+                    ></div>
                 </div>
             </div>
 

@@ -354,6 +354,28 @@ export const AdminProfileEditor: React.FC<Props> = ({ profile, onSaveProfile, to
                             </div>
                         </div>
 
+                        {/* Status Ketersediaan Switch */}
+                        <div className="p-4 rounded-xl bg-[#1a1a24] border border-white/[0.06] flex items-center justify-between">
+                            <div>
+                                <label className="text-zinc-200 font-semibold block">Status Ketersediaan Kerja (Ready to Hire)</label>
+                                <p className="text-[11px] text-zinc-400 mt-0.5">
+                                    Mengontrol indikator badge status ketersediaan di halaman publik & dashboard.
+                                </p>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => setFormData({ ...formData, isAvailable: !(formData.isAvailable ?? true) })}
+                                className={`px-4 py-2 rounded-xl text-xs font-bold font-mono transition-all flex items-center gap-2 border ${
+                                    (formData.isAvailable ?? true)
+                                        ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/40 hover:bg-emerald-500/30"
+                                        : "bg-amber-500/20 text-amber-400 border-amber-500/40 hover:bg-amber-500/30"
+                                }`}
+                            >
+                                <span className={`w-2 h-2 rounded-full ${(formData.isAvailable ?? true) ? "bg-emerald-400 animate-pulse" : "bg-amber-400"}`}></span>
+                                <span>{(formData.isAvailable ?? true) ? "READY TO HIRE" : "BUSY / SIBUK"}</span>
+                            </button>
+                        </div>
+
                         {/* Multi-roles Typing Animation */}
                         <div className="p-4 rounded-xl bg-[#1a1a24] border border-white/[0.06] space-y-3">
                             <div className="flex items-center justify-between">

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Search, Plus, Edit3, Trash2, ExternalLink, Code2, FolderGit2, Star, Lock, AlertTriangle, Eye, Tag, Loader2 } from "lucide-react";
+import { Search, Plus, Edit3, Trash2, ExternalLink, Code2, FolderGit2, Star, Lock, AlertTriangle, Eye, Tag, Loader2, Download } from "lucide-react";
 import { Project } from "@/data/portfolio";
 import { AdminProjectModal } from "./AdminProjectModal";
 import { AdminProjectDetailModal } from "./AdminProjectDetailModal";
@@ -27,6 +27,7 @@ interface Props {
     onCloseModal: () => void;
     onOpenAddModal: () => void;
     showToast?: (text: string, type?: ToastType, title?: string) => void;
+    onExportCSV?: () => void;
 }
 
 export const AdminProjectsManager: React.FC<Props> = ({
@@ -37,6 +38,7 @@ export const AdminProjectsManager: React.FC<Props> = ({
     onCloseModal,
     onOpenAddModal,
     showToast,
+    onExportCSV,
 }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("Semua");
@@ -230,6 +232,17 @@ export const AdminProjectsManager: React.FC<Props> = ({
                             className="w-44 sm:w-56 pl-9 pr-3 py-1.5 rounded-xl bg-[#13131b] border border-white/[0.08] text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-rose-500"
                         />
                     </div>
+
+                    {onExportCSV && (
+                        <button
+                            onClick={onExportCSV}
+                            className="px-3.5 py-1.5 rounded-xl bg-[#13131b] hover:bg-[#1f1f27] border border-white/[0.08] text-xs font-semibold text-zinc-200 hover:text-white flex items-center gap-1.5 transition-all"
+                            title="Unduh daftar proyek ke file CSV (Excel)"
+                        >
+                            <Download className="w-3.5 h-3.5 text-rose-400" />
+                            <span>Ekspor CSV</span>
+                        </button>
+                    )}
 
                     <button
                         onClick={onOpenAddModal}

@@ -235,20 +235,47 @@ export default function AdminDashboardPage() {
         }
     };
 
-    const handleToggleAvailability = (available: boolean) => {
+    const handleToggleAvailability = async (available: boolean) => {
         setIsAvailable(available);
-        showToast(
-            available
-                ? "Status diubah ke: Ready to Hire (Terbuka untuk tawaran)"
-                : "Status diubah ke: Sedang Sibuk",
-            available ? "success" : "info"
-        );
+        const updatedProfile = { ...profile, isAvailable: available };
+        setProfile(updatedProfile);
+
+        try {
+            const res = await fetch("/api/profile", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(updatedProfile),
+            });
+            if (res.ok) {
+                showToast(
+                    available
+                        ? "Status diubah ke: Ready to Hire (Terbuka untuk tawaran)"
+                        : "Status diubah ke: Sedang Sibuk",
+                    available ? "success" : "info"
+                );
+            } else {
+                showToast("Gagal memperbarui status ketersediaan di database.", "error");
+            }
+        } catch {
+            showToast("Terjadi kesalahan jaringan saat menyimpan status.", "error");
+        }
     };
 
-    const handleTriggerBackup = () => {
-        setTimeout(() => {
-            showToast("Database dump 'portfolio_backup.sql.gz' berhasil dibuat!", "success");
-        }, 1200);
+    const handleTriggerBackup = async () => {
+        try {
+            const res = await fetch("/api/backup");
+            if (!res.ok) throw new Error("Backup failed");
+            const blob = await res.blob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `portfolio_backup_${new Date().toISOString().split("T")[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast("Database dump JSON berhasil diunduh!", "success", "Backup Berhasil");
+        } catch {
+            showToast("Gagal membuat backup database.", "error");
+        }
     };
 
     const handleExportCSV = () => {
@@ -273,14 +300,18 @@ export default function AdminDashboardPage() {
 
     return (
         <div className="flex flex-col min-h-screen">
-            <AdminHeader onTabChange={(tab) => {
-                if (tab === "overview" || tab === "projects" || tab === "inbox" || tab === "profile" || tab === "skills" || tab === "certificates") {
-                    setActiveTab(tab);
-                }
-            }} />
+            <AdminHeader
+                profile={profile}
+                onTabChange={(tab) => {
+                    if (tab === "overview" || tab === "projects" || tab === "inbox" || tab === "profile" || tab === "skills" || tab === "certificates") {
+                        setActiveTab(tab);
+                    }
+                }}
+            />
 
             <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8">
                 <AdminBanner
+                    profile={profile}
                     onOpenAddModal={() => setIsAddModalOpen(true)}
                     onTriggerBackup={handleTriggerBackup}
                 />
@@ -399,6 +430,7 @@ export default function AdminDashboardPage() {
                                 onCloseModal={() => setIsAddModalOpen(false)}
                                 onOpenAddModal={() => setIsAddModalOpen(true)}
                                 showToast={showToast}
+                                onExportCSV={handleExportCSV}
                             />
                         </div>
                         <div className="lg:col-span-4 space-y-6">
